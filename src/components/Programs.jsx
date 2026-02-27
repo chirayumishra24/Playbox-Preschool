@@ -82,82 +82,84 @@ export default function Programs() {
           </motion.p>
         </div>
 
-        <motion.div
-          className="carousel-container"
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          {programs.map((program, i) => {
-            const isCenter = i === currentIndex;
-            const isRight = i === (currentIndex + 1) % programs.length;
-            const isLeft = i === (currentIndex - 1 + programs.length) % programs.length;
+        <div className="carousel-wrapper" style={{ position: 'relative' }}>
+          <motion.div
+            className="carousel-container"
+            initial={{ opacity: 0, y: 50 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            {programs.map((program, i) => {
+              const isCenter = i === currentIndex;
+              const isRight = i === (currentIndex + 1) % programs.length;
+              const isLeft = i === (currentIndex - 1 + programs.length) % programs.length;
 
-            let xPosition = 0;
-            let zPosition = -400;
-            let yRotation = 0;
-            let cardOpacity = 0;
-            let cardZIndex = 0;
-            let blur = 'blur(10px)';
+              let xPosition = 0;
+              let zPosition = -400;
+              let yRotation = 0;
+              let cardOpacity = 0;
+              let cardZIndex = 0;
+              let blur = 'blur(10px)';
 
-            if (isCenter) {
-              xPosition = 0; zPosition = 0; yRotation = 0; cardOpacity = 1; cardZIndex = 5; blur = 'blur(0px)';
-            } else if (isRight) {
-              xPosition = '85%'; zPosition = -200; yRotation = -35; cardOpacity = 0.8; cardZIndex = 4; blur = 'blur(2px)';
-            } else if (isLeft) {
-              xPosition = '-85%'; zPosition = -200; yRotation = 35; cardOpacity = 0.8; cardZIndex = 4; blur = 'blur(2px)';
-            } else {
-              xPosition = 0; zPosition = -400; yRotation = 0; cardOpacity = 0; cardZIndex = 3; blur = 'blur(10px)';
-            }
+              if (isCenter) {
+                xPosition = 0; zPosition = 0; yRotation = 0; cardOpacity = 1; cardZIndex = 5; blur = 'blur(0px)';
+              } else if (isRight) {
+                xPosition = '85%'; zPosition = -200; yRotation = -35; cardOpacity = 0.8; cardZIndex = 4; blur = 'blur(2px)';
+              } else if (isLeft) {
+                xPosition = '-85%'; zPosition = -200; yRotation = 35; cardOpacity = 0.8; cardZIndex = 4; blur = 'blur(2px)';
+              } else {
+                xPosition = 0; zPosition = -400; yRotation = 0; cardOpacity = 0; cardZIndex = 3; blur = 'blur(10px)';
+              }
 
-            return (
-              <motion.div
-                key={program.title}
-                className="clay-card program-card-3d"
-                animate={{
-                  x: xPosition,
-                  z: zPosition,
-                  rotateY: yRotation,
-                  opacity: cardOpacity,
-                  zIndex: cardZIndex,
-                  filter: blur
-                }}
-                transition={{ duration: 0.8, type: 'spring', bounce: 0.3 }}
-                style={{
-                  borderColor: program.accent,
-                  cursor: isCenter ? 'default' : 'pointer',
-                }}
-                onClick={() => {
-                  if (!isCenter) {
-                    playPopSound();
-                    setCurrentIndex(i);
-                  }
-                }}
-              >
-                <div
-                  className="program-img-wrapper"
-                  style={{ background: program.gradient }}
+              return (
+                <motion.div
+                  key={program.title}
+                  className="clay-card program-card-3d"
+                  animate={{
+                    x: xPosition,
+                    z: zPosition,
+                    rotateY: yRotation,
+                    opacity: cardOpacity,
+                    zIndex: cardZIndex,
+                    filter: blur
+                  }}
+                  transition={{ duration: 0.8, type: 'spring', bounce: 0.3 }}
+                  style={{
+                    borderColor: program.accent,
+                    cursor: isCenter ? 'default' : 'pointer',
+                  }}
+                  onClick={() => {
+                    if (!isCenter) {
+                      playPopSound();
+                      setCurrentIndex(i);
+                    }
+                  }}
                 >
-                  <div className="program-glow-3d" style={{ background: program.accent }}></div>
-                  <img src={program.image} alt={program.title} />
-                </div>
-
-                <div className="program-content">
-                  <span className="program-age" style={{ color: program.accent }}>{program.age}</span>
-                  <h3 style={{ color: program.accent }}>{program.title}</h3>
-                  <p>{program.description}</p>
-
-                  <div className="program-tags">
-                    {program.tags.map((tag, i) => (
-                      <span key={i} className="program-tag">{tag}</span>
-                    ))}
+                  <div
+                    className="program-img-wrapper"
+                    style={{ background: program.gradient }}
+                  >
+                    <div className="program-glow-3d" style={{ background: program.accent }}></div>
+                    <img src={program.image} alt={program.title} />
                   </div>
-                </div>
-              </motion.div>
-            )
-          })}
+
+                  <div className="program-content">
+                    <span className="program-age" style={{ color: program.accent }}>{program.age}</span>
+                    <h3 style={{ color: program.accent }}>{program.title}</h3>
+                    <p>{program.description}</p>
+
+                    <div className="program-tags">
+                      {program.tags.map((tag, i) => (
+                        <span key={i} className="program-tag">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </motion.div>
           {/* Controls */}
           <motion.div
             className="carousel-controls"
@@ -172,7 +174,7 @@ export default function Programs() {
               <FiChevronRight size={28} />
             </button>
           </motion.div>
-        </motion.div>
+        </div>
 
       </div>
     </section>

@@ -172,6 +172,25 @@ a {
   margin: 0 auto;
 }
 
+.cta-title {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: #a41632;
+  line-height: 1.2;
+}
+
+.cta-text {
+  font-size: 1.2rem;
+  margin-bottom: 2.5rem;
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+.cta-btn {
+  font-size: 1.2rem;
+  padding: 1.2rem 3rem;
+}
+
 /* ================== NAVBAR ================== */
 .navbar {
   position: fixed;
@@ -1670,12 +1689,19 @@ a {
     padding: 3rem 1.5rem !important;
   }
 
-  #cta h2 {
+  .cta-title {
     font-size: 2rem !important;
   }
 
-  #cta p {
+  .cta-text {
     font-size: 1rem !important;
+    margin-bottom: 1.5rem;
+  }
+
+  .cta-btn {
+    font-size: 1rem !important;
+    padding: 1rem 1.5rem;
+    width: 100%;
   }
 
   /* Grids */

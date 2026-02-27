@@ -13,10 +13,10 @@ export default function CTA() {
                     animate={inView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ type: 'spring', bounce: 0.5 }}
                 >
-                    <h2 style={{ fontSize: '3rem', marginBottom: '1.5rem', color: '#a41632' }}>
+                    <h2 className="cta-title">
                         Ready to Give Your Child the Best Start?
                     </h2>
-                    <p style={{ fontSize: '1.2rem', marginBottom: '2.5rem', color: 'var(--text-dark)' }}>
+                    <p className="cta-text">
                         Join the Playbox family today! Limited seats available for the
                         2025-26 academic session. Don't miss out on this wonderful
                         learning journey for your little one.
@@ -25,8 +25,7 @@ export default function CTA() {
                         href="https://forms.zohopublic.in/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="clay-btn clay-btn-primary"
-                        style={{ fontSize: '1.2rem', padding: '1.2rem 3rem' }}
+                        className="clay-btn clay-btn-primary cta-btn"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
