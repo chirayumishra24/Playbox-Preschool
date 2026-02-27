@@ -184,7 +184,7 @@ export default function Testimonials() {
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
     const [showAll, setShowAll] = useState(false)
 
-    const displayed = showAll ? testimonials : testimonials.slice(0, 3)
+    const displayed = showAll ? testimonials : testimonials.slice(0, 4)
 
     return (
         <section className="section" id="testimonials" ref={ref}>
@@ -220,7 +220,7 @@ export default function Testimonials() {
                     </div>
                 </div>
 
-                {testimonials.length > 3 && (
+                {testimonials.length > 4 && (
                     <motion.div
                         className="reviews-toggle"
                         initial={{ opacity: 0 }}
