@@ -182,15 +182,6 @@ export default function Navbar() {
                                     🎒 Enroll Now
                                 </motion.a>
                             </div>
-
-                            {/* Close button inside overlay */}
-                            <button
-                                className="mobile-menu-close"
-                                onClick={() => setMenuOpen(false)}
-                                aria-label="Close menu"
-                            >
-                                <FiX size={28} />
-                            </button>
                         </motion.div>
                     )}
                 </AnimatePresence>
