@@ -457,16 +457,26 @@ a {
   width: 500px;
   height: 500px;
   background: var(--color-secondary);
-  position: absolute;
-  z-index: -1;
+  position: relative;
+  z-index: 1;
   animation: blob-bounce 6s infinite alternate ease-in-out;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 15px 35px rgba(163, 177, 198, 0.4), inset -5px -5px 15px rgba(0, 0, 0, 0.05);
+  border: 4px solid white;
 }
 
 .hero-main-img {
   width: 100%;
-  max-width: 550px;
-  z-index: 2;
-  filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 0.1));
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.hero-clay-blob:hover .hero-main-img {
+  transform: scale(1.05);
 }
 
 .hero-floating-icon {

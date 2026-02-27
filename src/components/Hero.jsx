@@ -66,12 +66,13 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: 'spring', bounce: 0.6, duration: 1, delay: 0.2 }}
         >
-          <div className="hero-clay-blob"></div>
-          <img
-            src="/assets/hero-banner.png"
-            alt="Happy children playing at Playbox Preschool"
-            className="hero-main-img"
-          />
+          <div className="hero-clay-blob">
+            <img
+              src="/assets/hero-banner.png"
+              alt="Happy children playing at Playbox Preschool"
+              className="hero-main-img"
+            />
+          </div>
 
           <motion.div
             className="hero-floating-icon icon-1"
