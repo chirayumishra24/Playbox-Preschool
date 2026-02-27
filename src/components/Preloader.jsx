@@ -6,16 +6,16 @@ export default function Preloader({ onComplete }) {
     const [progress, setProgress] = useState(0)
 
     useEffect(() => {
-        // Gentle, smooth progress — feels premium
+        // Gentle, slow progress — feels premium and polished
         const interval = setInterval(() => {
             setProgress((prev) => {
                 if (prev >= 100) {
                     clearInterval(interval)
                     return 100
                 }
-                return Math.min(prev + Math.round(Math.random() * 12 + 3), 100)
+                return Math.min(prev + Math.round(Math.random() * 8 + 2), 100)
             })
-        }, 120)
+        }, 150)
 
         // Wait for fonts + images + layout
         const handleReady = () => {
@@ -24,9 +24,9 @@ export default function Preloader({ onComplete }) {
         }
 
         if (document.readyState === 'complete') {
-            setTimeout(handleReady, 600)
+            setTimeout(handleReady, 1000)
         } else {
-            window.addEventListener('load', () => setTimeout(handleReady, 600))
+            window.addEventListener('load', () => setTimeout(handleReady, 1000))
         }
 
         return () => {

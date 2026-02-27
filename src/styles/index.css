@@ -243,6 +243,8 @@ a {
   display: flex;
   gap: 1.5rem;
   align-items: center;
+  transition: none;
+  /* Prevent delayed responsive switching */
 }
 
 .navbar.scrolled .navbar-inner {
@@ -296,6 +298,23 @@ a {
   cursor: pointer;
   z-index: 1002;
   position: relative;
+  transition: none;
+  /* Prevent delayed responsive switching */
+}
+
+/* Tablet breakpoint — hide nav links, show hamburger early */
+@media (max-width: 1024px) {
+  .navbar-links {
+    display: none !important;
+  }
+
+  .mobile-toggle {
+    display: flex !important;
+  }
+
+  .navbar-inner {
+    padding: 0.6rem 1.2rem;
+  }
 }
 
 /* Mobile Menu Overlay */
