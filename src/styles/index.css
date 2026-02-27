@@ -200,6 +200,10 @@ a {
   width: 90%;
   max-width: 1200px;
   z-index: 1000;
+  will-change: transform;
+  /* GPU-promote for instant resize */
+  transition: none;
+  /* Never animate resize changes */
 }
 
 .navbar-inner {
@@ -207,11 +211,14 @@ a {
   justify-content: space-between;
   align-items: center;
   padding: 0.8rem 2rem;
-  background: rgba(230, 238, 245, 0.8);
+  background: rgba(230, 238, 245, 0.92);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-out), var(--shadow-in);
   border: 2px solid rgba(255, 255, 255, 0.5);
+  transition: none;
+  /* Never animate resize changes */
 }
 
 .navbar-brand {
@@ -314,6 +321,10 @@ a {
 
   .navbar-inner {
     padding: 0.6rem 1.2rem;
+    /* Remove expensive blur on smaller screens for performance */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(230, 238, 245, 0.97);
   }
 }
 

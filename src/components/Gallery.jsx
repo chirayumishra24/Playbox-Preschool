@@ -25,60 +25,76 @@ const videos = [
 const isMobileDevice = () =>
   typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches
 
+// Track if user has interacted with the page (required by browser autoplay policy)
+let userHasInteracted = false
+if (typeof window !== 'undefined') {
+  const markInteracted = () => {
+    userHasInteracted = true
+    window.removeEventListener('click', markInteracted)
+    window.removeEventListener('touchstart', markInteracted)
+    window.removeEventListener('scroll', markInteracted)
+  }
+  window.addEventListener('click', markInteracted, { passive: true })
+  window.addEventListener('touchstart', markInteracted, { passive: true })
+  window.addEventListener('scroll', markInteracted, { passive: true })
+}
+
 function VideoCard({ video, index, sectionInView }) {
   const videoRef = useRef(null)
   const cardRef = useRef(null)
   const [isMuted, setIsMuted] = useState(true)
   const fadeAnim = useRef(null)
 
-  // Keep video always playing — re-trigger play if browser pauses it
+  // Keep video always playing muted
   useEffect(() => {
     const vid = videoRef.current
     if (!vid) return
-
-    const ensurePlaying = () => {
-      if (vid.paused) {
-        vid.play().catch(() => { })
-      }
-    }
-
-    // Re-trigger play on pause events (browser autoplay policy can pause)
-    vid.addEventListener('pause', ensurePlaying)
-    // Also try to play on mount
-    ensurePlaying()
-
-    return () => vid.removeEventListener('pause', ensurePlaying)
+    vid.muted = true
+    vid.play().catch(() => { })
   }, [])
 
-  // Helper: set muted state on the DOM element directly (avoids React re-render pausing video)
-  const setMutedState = (mute) => {
-    setIsMuted(mute)
-    if (videoRef.current) {
-      videoRef.current.muted = mute
+  // Safe unmute — only if user has interacted
+  const safeUnmute = (vid) => {
+    if (!userHasInteracted || !vid) return false
+    try {
+      vid.muted = false
+      setIsMuted(false)
+      // If browser paused it due to policy, re-mute and resume
+      if (vid.paused) {
+        vid.muted = true
+        setIsMuted(true)
+        vid.play().catch(() => { })
+        return false
+      }
+      return true
+    } catch (_) {
+      return false
     }
   }
 
-  // On mobile: use IntersectionObserver to auto-unmute when in view
+  const safeMute = (vid) => {
+    if (!vid) return
+    vid.muted = true
+    setIsMuted(true)
+    // Ensure still playing
+    if (vid.paused) vid.play().catch(() => { })
+  }
+
+  // On mobile: use IntersectionObserver to auto-unmute when in view (only after user interaction)
   useEffect(() => {
     if (!isMobileDevice()) return
     if (!cardRef.current || !videoRef.current) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!videoRef.current) return
+        const vid = videoRef.current
+        if (!vid) return
         if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-          // Fade in audio
-          videoRef.current.muted = false
-          setIsMuted(false)
-          fadeVolume(videoRef.current, 0, 1, 600)
+          if (userHasInteracted) {
+            safeUnmute(vid)
+          }
         } else {
-          // Fade out audio
-          fadeVolume(videoRef.current, videoRef.current.volume, 0, 400, () => {
-            if (videoRef.current) {
-              videoRef.current.muted = true
-            }
-            setIsMuted(true)
-          })
+          safeMute(vid)
         }
       },
       { threshold: [0, 0.5, 1.0] }
@@ -88,37 +104,25 @@ function VideoCard({ video, index, sectionInView }) {
     return () => observer.disconnect()
   }, [sectionInView])
 
-  // Smooth volume fade utility
-  const fadeVolume = (videoEl, fromVol, toVol, duration, onDone) => {
-    cancelAnimationFrame(fadeAnim.current)
-    const startTime = performance.now()
-    const tick = (now) => {
-      const elapsed = now - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const current = fromVol + (toVol - fromVol) * progress
-      try { videoEl.volume = Math.max(0, Math.min(1, current)) } catch (_) { }
-      if (progress < 1) {
-        fadeAnim.current = requestAnimationFrame(tick)
-      } else {
-        onDone && onDone()
-      }
-    }
-    fadeAnim.current = requestAnimationFrame(tick)
-  }
-
-  // Desktop: hover to unmute (directly on DOM, no React re-render)
+  // Desktop: hover to unmute
   const handleMouseEnter = () => {
     if (isMobileDevice()) return
-    setMutedState(false)
+    safeUnmute(videoRef.current)
   }
 
   const handleMouseLeave = () => {
     if (isMobileDevice()) return
-    setMutedState(true)
+    safeMute(videoRef.current)
   }
 
   const toggleMute = () => {
-    setMutedState(!isMuted)
+    const vid = videoRef.current
+    if (!vid) return
+    if (isMuted) {
+      safeUnmute(vid)
+    } else {
+      safeMute(vid)
+    }
   }
 
   return (
@@ -133,7 +137,6 @@ function VideoCard({ video, index, sectionInView }) {
       onMouseLeave={handleMouseLeave}
     >
       <div style={{ flex: 1, overflow: 'hidden', borderRadius: 'var(--radius-md)' }}>
-        {/* Video always starts muted via HTML attribute — we control muted via JS only */}
         <video
           ref={videoRef}
           src={video.src}
