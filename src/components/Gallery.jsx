@@ -1,7 +1,7 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { FiPlay, FiPause, FiVolume2, FiVolumeX } from 'react-icons/fi'
+import { FiVolume2, FiVolumeX } from 'react-icons/fi'
 
 const videos = [
   {
@@ -21,27 +21,78 @@ const videos = [
   },
 ]
 
-function VideoCard({ video, index, inView }) {
-  const videoRef = useRef(null)
-  const [muted, setMuted] = useState(true)
+// Detect touch/mobile device
+const isMobileDevice = () =>
+  typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches
 
+function VideoCard({ video, index, sectionInView }) {
+  const videoRef = useRef(null)
+  const cardRef = useRef(null)
+  const [muted, setMuted] = useState(true)
+  const [volume, setVolume] = useState(0)
+  const fadeAnim = useRef(null)
+
+  // On mobile: use IntersectionObserver to auto-unmute when in view
+  useEffect(() => {
+    if (!isMobileDevice()) return
+    if (!cardRef.current || !videoRef.current) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!videoRef.current) return
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          // Fade in audio
+          setMuted(false)
+          fadeVolume(videoRef.current, 0, 1, 600)
+        } else {
+          // Fade out audio
+          fadeVolume(videoRef.current, videoRef.current.volume, 0, 400, () => {
+            setMuted(true)
+          })
+        }
+      },
+      { threshold: [0, 0.5, 1.0] }
+    )
+
+    observer.observe(cardRef.current)
+    return () => observer.disconnect()
+  }, [sectionInView])
+
+  // Smooth volume fade utility
+  const fadeVolume = (videoEl, fromVol, toVol, duration, onDone) => {
+    cancelAnimationFrame(fadeAnim.current)
+    const startTime = performance.now()
+    const tick = (now) => {
+      const elapsed = now - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const current = fromVol + (toVol - fromVol) * progress
+      try { videoEl.volume = Math.max(0, Math.min(1, current)) } catch (_) { }
+      if (progress < 1) {
+        fadeAnim.current = requestAnimationFrame(tick)
+      } else {
+        onDone && onDone()
+      }
+    }
+    fadeAnim.current = requestAnimationFrame(tick)
+  }
+
+  // Desktop: hover to unmute
   const handleMouseEnter = () => {
+    if (isMobileDevice()) return
     setMuted(false)
   }
-
   const handleMouseLeave = () => {
+    if (isMobileDevice()) return
     setMuted(true)
   }
-
-  const toggleMute = () => {
-    setMuted(!muted)
-  }
+  const toggleMute = () => setMuted((m) => !m)
 
   return (
     <motion.div
+      ref={cardRef}
       className="clay-card gallery-item"
       initial={{ opacity: 0, scale: 0.8 }}
-      animate={inView ? { opacity: 1, scale: 1 } : {}}
+      animate={sectionInView ? { opacity: 1, scale: 1 } : {}}
       transition={{ delay: index * 0.2, type: 'spring', bounce: 0.5 }}
       style={{ padding: '0.5rem', display: 'flex', flexDirection: 'column' }}
       onMouseEnter={handleMouseEnter}
@@ -60,28 +111,18 @@ function VideoCard({ video, index, inView }) {
         />
       </div>
 
-      <div style={{ padding: '1rem 0.5rem 0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--clay-bg)' }}>
+      <div className="gallery-card-footer">
         <div>
-          <h4 style={{ fontFamily: 'var(--font-heading)', color: 'var(--text-dark)', marginBottom: '0.2rem' }}>
-            {video.title}
-          </h4>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-            {video.description}
-          </p>
+          <h4 className="gallery-card-title">{video.title}</h4>
+          <p className="gallery-card-desc">{video.description}</p>
         </div>
-
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button
-            className="clay-btn"
-            style={{ padding: '0.5rem', borderRadius: '50%', minWidth: '40px', height: '40px' }}
-            onClick={(e) => {
-              e.stopPropagation()
-              toggleMute()
-            }}
-          >
-            {muted ? <FiVolumeX /> : <FiVolume2 />}
-          </button>
-        </div>
+        <button
+          className="clay-btn gallery-mute-btn"
+          onClick={(e) => { e.stopPropagation(); toggleMute() }}
+          aria-label={muted ? 'Unmute' : 'Mute'}
+        >
+          {muted ? <FiVolumeX size={18} /> : <FiVolume2 size={18} />}
+        </button>
       </div>
     </motion.div>
   )
@@ -114,7 +155,7 @@ export default function Gallery() {
 
         <div className="gallery-grid">
           {videos.map((video, index) => (
-            <VideoCard key={index} video={video} index={index} inView={inView} />
+            <VideoCard key={index} video={video} index={index} sectionInView={inView} />
           ))}
         </div>
       </div>

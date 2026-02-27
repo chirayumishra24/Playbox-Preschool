@@ -881,6 +881,36 @@ a {
   object-fit: cover;
 }
 
+.gallery-card-footer {
+  padding: 0.8rem 0.5rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--clay-bg);
+  flex-shrink: 0;
+}
+
+.gallery-card-title {
+  font-family: var(--font-heading);
+  color: var(--text-dark);
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+}
+
+.gallery-card-desc {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.gallery-mute-btn {
+  padding: 0.5rem !important;
+  border-radius: 50% !important;
+  min-width: 40px !important;
+  height: 40px !important;
+  flex-shrink: 0;
+}
+
 /* ================== MENTORS 3D INTERACTIVE ================== */
 .mentor-card {
   text-align: center;
@@ -1700,8 +1730,8 @@ a {
 
   .cta-btn {
     font-size: 1rem !important;
-    padding: 1rem 1.5rem;
-    width: 100%;
+    padding: 0.9rem 2rem;
+    width: auto;
   }
 
   /* Grids */
