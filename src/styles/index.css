@@ -722,7 +722,8 @@ a {
   justify-content: center;
   border: 4px solid white;
   overflow: hidden;
-  padding: 14px;
+  padding: 8px;
+  /* Reduced from 14px to make image larger */
   flex-shrink: 0;
 }
 
@@ -1855,11 +1856,11 @@ a {
   .timeline-dot {
     width: 60px;
     height: 60px;
+    padding: 6px;
+    /* Reduced padding on mobile too */
   }
 
-  .timeline-dot img {
-    width: 30px;
-  }
+  /* .timeline-dot img mobile override removed to use 100% width/height */
 
   .timeline-content {
     width: calc(100% - 80px);
