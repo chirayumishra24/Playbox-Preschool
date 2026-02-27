@@ -791,15 +791,24 @@ a {
 }
 
 .carousel-controls {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
   display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 1rem;
+  justify-content: space-between;
+  padding: 0 1rem;
+  z-index: 20;
+  pointer-events: none;
+  /* Let clicks pass through empty space */
 }
 
 .carousel-controls button {
-  width: 60px;
-  height: 60px;
+  pointer-events: auto;
+  /* Re-enable clicks on buttons */
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
   border: 4px solid white;
   display: flex;
@@ -808,13 +817,14 @@ a {
   color: var(--color-primary);
   background: var(--clay-bg);
   transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(163, 177, 198, 0.4), var(--shadow-in);
 }
 
 .carousel-controls button:hover {
   transform: scale(1.1);
   color: white;
   background: var(--color-primary);
-  box-shadow: 0 10px 20px rgba(255, 126, 179, 0.4);
+  box-shadow: 0 15px 30px rgba(255, 126, 179, 0.4);
 }
 
 /* ================== GALLERY ================== */
@@ -1580,7 +1590,7 @@ a {
   }
 
   .carousel-controls {
-    gap: 1.5rem;
+    padding: 0;
   }
 
   .carousel-controls button {

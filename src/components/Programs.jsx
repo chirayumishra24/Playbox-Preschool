@@ -158,21 +158,20 @@ export default function Programs() {
               </motion.div>
             )
           })}
-        </motion.div>
-
-        {/* Controls */}
-        <motion.div
-          className="carousel-controls"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.6 }}
-        >
-          <button className="clay-btn" onClick={prev} onMouseEnter={playHoverSound}>
-            <FiChevronLeft size={24} />
-          </button>
-          <button className="clay-btn" onClick={next} onMouseEnter={playHoverSound}>
-            <FiChevronRight size={24} />
-          </button>
+          {/* Controls */}
+          <motion.div
+            className="carousel-controls"
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.6 }}
+          >
+            <button className="clay-btn carousel-left-btn" onClick={prev} onMouseEnter={playHoverSound}>
+              <FiChevronLeft size={28} />
+            </button>
+            <button className="clay-btn carousel-right-btn" onClick={next} onMouseEnter={playHoverSound}>
+              <FiChevronRight size={28} />
+            </button>
+          </motion.div>
         </motion.div>
 
       </div>
