@@ -13,39 +13,10 @@ const navLinks = [
 ]
 
 export default function Navbar() {
-    const [scrolled, setScrolled] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
-    const [activeSection, setActiveSection] = useState('home')
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 50)
-        }
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
-
-    // Track active section on scroll
-    useEffect(() => {
-        const sectionIds = navLinks.map(l => l.href.replace('#', ''))
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveSection(entry.target.id)
-                    }
-                })
-            },
-            { threshold: 0.3, rootMargin: '-80px 0px -40% 0px' }
-        )
-
-        sectionIds.forEach(id => {
-            const el = document.getElementById(id)
-            if (el) observer.observe(el)
-        })
-
-        return () => observer.disconnect()
-    }, [])
+    // Removed scroll listener and intersection observer to prevent re-renders on scroll
+    // which was causing the "reload problem and scroll trigger problem" on mobile
 
     // Lock body scroll when menu is open
     useEffect(() => {
@@ -89,7 +60,7 @@ export default function Navbar() {
     }
 
     return (
-        <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="navbar">
+        <nav className="navbar scrolled" id="navbar">
             <div className="navbar-inner">
                 <a href="#home" className="navbar-brand" onClick={(e) => smoothScroll(e, '#home')}>
                     <img src="/assets/logo.svg" alt="Playbox Preschool Logo" />
@@ -105,7 +76,6 @@ export default function Navbar() {
                         <a
                             key={link.href}
                             href={link.href}
-                            className={activeSection === link.href.replace('#', '') ? 'active' : ''}
                             onClick={(e) => smoothScroll(e, link.href)}
                         >
                             {link.label}
@@ -156,7 +126,7 @@ export default function Navbar() {
                                         <motion.a
                                             key={link.href}
                                             href={link.href}
-                                            className={`mobile-nav-link ${activeSection === link.href.replace('#', '') ? 'active' : ''}`}
+                                            className="mobile-nav-link"
                                             custom={i}
                                             variants={linkVariants}
                                             initial="closed"
