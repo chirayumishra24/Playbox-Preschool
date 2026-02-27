@@ -4,8 +4,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function CustomCursor() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [particles, setParticles] = useState([]);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
+        // Check if device is touch capable or screen is small
+        const checkMobile = () => {
+            const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            const smallScreen = window.innerWidth <= 768;
+            setIsMobile(hasTouch || smallScreen);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    useEffect(() => {
+        if (isMobile) return; // Don't track mouse on mobile
+
         let particleId = 0;
 
         const updateMousePosition = (e) => {
@@ -35,6 +52,8 @@ export default function CustomCursor() {
             window.removeEventListener('mousemove', updateMousePosition);
         };
     }, []);
+
+    if (isMobile) return null;
 
     return (
         <>
