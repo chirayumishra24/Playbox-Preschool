@@ -8,8 +8,7 @@ export default function CTA() {
         <section className="section" id="cta" ref={ref} style={{ background: 'var(--color-primary)' }}>
             <div className="container" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '4rem 0' }}>
                 <motion.div
-                    className="clay-blob"
-                    style={{ padding: '4rem 2rem', maxWidth: '800px', width: '100%' }}
+                    className="clay-blob cta-blob"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={inView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ type: 'spring', bounce: 0.5 }}

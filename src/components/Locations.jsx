@@ -68,9 +68,9 @@ export default function Locations() {
                     </motion.p>
                 </div>
 
-                <div className="locations-interactive-layout" style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+                <div className="locations-interactive-layout">
                     {/* LEFT LIST */}
-                    <div style={{ flex: '1 1 300px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <div className="loc-list-wrapper">
                         {locations.map((loc, index) => {
                             const isActive = activeLoc.id === loc.id;
 
@@ -93,13 +93,8 @@ export default function Locations() {
                                     }}
                                     whileHover={{ scale: 1.05 }}
                                 >
-                                    <div style={{
-                                        width: '60px', height: '60px', borderRadius: '50%',
-                                        background: isActive ? loc.color : 'var(--clay-bg)',
-                                        display: 'flex', justifyContent: 'center', alignItems: 'center',
-                                        padding: '10px', transition: 'all 0.3s ease'
-                                    }}>
-                                        <img src={loc.image} alt={loc.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                    <div className="loc-list-icon-wrapper" style={{ background: isActive ? loc.color : 'var(--clay-bg)' }}>
+                                        <img src={loc.image} alt={loc.name} />
                                     </div>
                                     <div>
                                         <h3 style={{ fontSize: '1.2rem', marginBottom: '0.2rem', color: 'var(--text-dark)' }}>{loc.name}</h3>
@@ -111,7 +106,7 @@ export default function Locations() {
                     </div>
 
                     {/* RIGHT PREVIEW */}
-                    <div style={{ flex: '2 1 500px' }}>
+                    <div className="loc-preview-wrapper">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={activeLoc.id}
@@ -138,12 +133,8 @@ export default function Locations() {
                                             <FiMapPin color={activeLoc.color} /> {activeLoc.address}
                                         </p>
                                     </div>
-                                    <div style={{
-                                        width: '100px', height: '100px', borderRadius: '50%',
-                                        background: 'white', padding: '15px',
-                                        boxShadow: 'var(--shadow-out)'
-                                    }}>
-                                        <img src={activeLoc.image} alt={activeLoc.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                    <div className="loc-preview-icon-wrapper">
+                                        <img src={activeLoc.image} alt={activeLoc.name} />
                                     </div>
                                 </div>
 
