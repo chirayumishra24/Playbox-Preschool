@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import Preloader from './components/Preloader'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
@@ -37,21 +39,28 @@ function ParallaxBackground() {
 }
 
 function App() {
+  const [loaded, setLoaded] = useState(false)
+
   return (
     <>
-      <CustomCursor />
-      <ParallaxBackground />
-      <Navbar />
-      <Hero />
-      <Marquee />
-      <Features />
-      <Programs />
-      <Gallery />
-      <Mentors />
-      <Testimonials />
-      <Locations />
-      <CTA />
-      <Footer />
+      <Preloader onComplete={() => setLoaded(true)} />
+      {loaded && (
+        <>
+          <CustomCursor />
+          <ParallaxBackground />
+          <Navbar />
+          <Hero />
+          <Marquee />
+          <Features />
+          <Programs />
+          <Gallery />
+          <Mentors />
+          <Testimonials />
+          <Locations />
+          <CTA />
+          <Footer />
+        </>
+      )}
     </>
   )
 }
