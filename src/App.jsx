@@ -39,28 +39,29 @@ function ParallaxBackground() {
 }
 
 function App() {
-  const [loaded, setLoaded] = useState(false)
+  const [preloaderDone, setPreloaderDone] = useState(false)
 
   return (
     <>
-      <Preloader onComplete={() => setLoaded(true)} />
-      {loaded && (
-        <>
-          <CustomCursor />
-          <ParallaxBackground />
-          <Navbar />
-          <Hero />
-          <Marquee />
-          <Features />
-          <Programs />
-          <Gallery />
-          <Mentors />
-          <Testimonials />
-          <Locations />
-          <CTA />
-          <Footer />
-        </>
-      )}
+      {/* Preloader overlays on top — content renders underneath immediately */}
+      <Preloader onComplete={() => setPreloaderDone(true)} />
+
+      {/* All content renders from the start so CSS media queries compute instantly */}
+      <div style={{ visibility: preloaderDone ? 'visible' : 'hidden' }}>
+        <CustomCursor />
+        <ParallaxBackground />
+        <Navbar />
+        <Hero />
+        <Marquee />
+        <Features />
+        <Programs />
+        <Gallery />
+        <Mentors />
+        <Testimonials />
+        <Locations />
+        <CTA />
+        <Footer />
+      </div>
     </>
   )
 }
