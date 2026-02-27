@@ -1,0 +1,1 @@
+import{j as t}from"./index-BvwB6RzM.js";const s="/assets/SixthContentImage-DfUVKsJ1.svg";function n(){return t.jsx("img",{src:s,alt:"SixthContentImage",className:"p-3",style:{width:"100%"}})}export{n as default};

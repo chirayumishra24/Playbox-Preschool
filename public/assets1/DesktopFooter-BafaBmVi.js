@@ -1,0 +1,1 @@
+import{j as t}from"./index-BvwB6RzM.js";const o="/assets/DesktopFooterImg-Bo0OP_H5.svg";function e(){return t.jsx("div",{id:"footer",children:t.jsx("img",{src:o,alt:"",style:{width:"100%"}})})}export{e as default};

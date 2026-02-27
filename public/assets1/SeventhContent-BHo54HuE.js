@@ -1,0 +1,1 @@
+import{j as t}from"./index-BvwB6RzM.js";const e="/assets/Desktop7img-x1oP4Qcn.png";function s(){return t.jsx("img",{src:e,alt:"SeventhContentImage",className:"p-3",style:{width:"100%"}})}export{s as default};

@@ -1,0 +1,1 @@
+import{j as s}from"./index-BvwB6RzM.js";const t="/assets/Desktop11img-SZQl-bAE.svg";function i(){return s.jsx("div",{id:"courses",children:s.jsx("img",{src:t,alt:"",className:"p-3",style:{width:"100%"}})})}export{i as default};

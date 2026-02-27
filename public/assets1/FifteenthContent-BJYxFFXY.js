@@ -1,0 +1,1 @@
+import{j as t,P as s}from"./index-BvwB6RzM.js";const n="/assets/FifteenthContentImage-CLpbHkSx.svg";function i({style:e}){return t.jsx("div",{style:e,children:t.jsx("img",{src:n,alt:"FifteenthContentImage",className:"p-3",style:{width:"100%"}})})}i.propTypes={style:s.object.isRequired};export{i as default};

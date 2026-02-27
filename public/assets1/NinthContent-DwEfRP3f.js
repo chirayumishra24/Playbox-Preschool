@@ -1,0 +1,1 @@
+import{j as t}from"./index-BvwB6RzM.js";const n="/assets/NinthContentImage-DoKvk1aY.svg";function s(){return t.jsx("img",{src:n,alt:"NinthContentImage",className:"p-3",style:{width:"100%",position:"relative",marginTop:"-65%"}})}export{s as default};

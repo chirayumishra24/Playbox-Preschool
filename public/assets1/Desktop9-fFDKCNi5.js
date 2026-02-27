@@ -1,0 +1,1 @@
+import{j as s}from"./index-BvwB6RzM.js";const t="/assets/Desktop9img-CvEkq9Ur.svg";function o(){return s.jsx("div",{style:{overflow:"hidden"},children:s.jsx("img",{src:t,alt:"",className:"p-3",style:{width:"100%",marginTop:"-300px"}})})}export{o as default};

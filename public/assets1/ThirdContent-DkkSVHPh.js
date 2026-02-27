@@ -1,0 +1,1 @@
+import{j as t}from"./index-BvwB6RzM.js";const e="/assets/ThirdContentImage-CWX8Zqp4.svg";function n(){return t.jsx("img",{src:e,alt:"ThirdContentImage",className:"p-4",style:{width:"100%"}})}export{n as default};
