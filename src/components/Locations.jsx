@@ -10,7 +10,7 @@ const locations = [
         address: 'Near Dwarkadas Circle, Jaipur',
         phone: '+91 9876543210',
         mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.1!2d75.8!3d26.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDU0JzAwLjAiTiA3NcKwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1611111111111',
-        image: '/assets1/Button-DwarkadasMobile-B-nPaI1b.svg',
+        image: '/assets/icon1.png',
         color: '#ff7eb3'
     },
     {
@@ -19,7 +19,7 @@ const locations = [
         address: 'Ram Vihar Colony, Jaipur',
         phone: '+91 9876543211',
         mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.1!2d75.8!3d26.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDQ4JzAwLjAiTiA3NcKwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1611111111112',
-        image: '/assets1/Button-RamViharMobile-CPfPbd7m.svg',
+        image: '/assets/icon2.png',
         color: '#758cff'
     },
     {
@@ -28,7 +28,7 @@ const locations = [
         address: 'Shyam Nagar, Jaipur',
         phone: '+91 9876543212',
         mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.5!2d75.7!3d26.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDU0JzAwLjAiTiA3NcKwNDInMDAuMCJF!5e0!3m2!1sen!2sin!4v1611111111113',
-        image: '/assets1/Button-ShyamNagarMobile-DQDCzZo4.svg',
+        image: '/assets/icon3.png',
         color: '#ffb347'
     },
     {
@@ -37,7 +37,7 @@ const locations = [
         address: 'Tonk Road, Jaipur',
         phone: '+91 9876543213',
         mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.1!2d75.8!3d26.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDQ4JzAwLjAiTiA3NcKwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1611111111114',
-        image: '/assets1/Button-TonkRoadMobile-DC7a5eoC.svg',
+        image: '/assets/icon4.png',
         color: '#47ffb3'
     },
 ]

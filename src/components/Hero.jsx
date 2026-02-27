@@ -46,6 +46,14 @@ export default function Hero() {
               className="clay-btn"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={(e) => {
+                e.preventDefault()
+                const target = document.querySelector('#programs')
+                if (target) {
+                  const top = target.getBoundingClientRect().top + window.scrollY - 100
+                  window.scrollTo({ top, behavior: 'smooth' })
+                }
+              }}
             >
               Explore Programs
             </motion.a>
@@ -60,7 +68,7 @@ export default function Hero() {
         >
           <div className="hero-clay-blob"></div>
           <img
-            src="/assets1/Desktop1img-CM_Qx_Vk.svg"
+            src="/assets/hero-banner.png"
             alt="Happy children playing at Playbox Preschool"
             className="hero-main-img"
           />
@@ -69,19 +77,19 @@ export default function Hero() {
             className="hero-floating-icon icon-1"
             whileHover={{ scale: 1.1, rotate: 10 }}
           >
-            <img src="/assets1/Bus-fuaEdFvh.svg" alt="Bus" />
+            <img src="/assets/bus.svg" alt="Bus" />
           </motion.div>
           <motion.div
             className="hero-floating-icon icon-2"
             whileHover={{ scale: 1.1, rotate: -10 }}
           >
-            <img src="/assets1/Rocket-C2fMEe1p.svg" alt="Rocket" />
+            <img src="/assets/rocket.svg" alt="Rocket" />
           </motion.div>
           <motion.div
             className="hero-floating-icon icon-3"
             whileHover={{ scale: 1.1, rotate: 10 }}
           >
-            <img src="/assets1/Tree-DW9bhG9B.svg" alt="Tree" />
+            <img src="/assets/tree.svg" alt="Tree" />
           </motion.div>
         </motion.div>
       </div>

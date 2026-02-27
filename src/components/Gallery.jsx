@@ -5,17 +5,17 @@ import { FiPlay, FiPause, FiVolume2, FiVolumeX } from 'react-icons/fi'
 
 const videos = [
   {
-    src: '/assets1/One-CPzijfeB.mp4',
+    src: '/assets/video1.mp4',
     title: 'Fun Learning Activities',
     description: 'Watch our kids enjoy creative learning sessions',
   },
   {
-    src: '/assets1/Two-DmXmrq6i.mp4',
+    src: '/assets/video2.mp4',
     title: 'Outdoor Adventures',
     description: 'Exploring nature and building teamwork skills',
   },
   {
-    src: '/assets1/Three-CiLOk_ii.mp4',
+    src: '/assets/video3.mp4',
     title: 'Creative Expression',
     description: 'Art, music, and dance bring joy to every day',
   },

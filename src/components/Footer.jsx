@@ -7,62 +7,130 @@ import {
     FiMail,
     FiMapPin,
     FiHeart,
+    FiArrowUp,
 } from 'react-icons/fi'
+
+const socialLinks = [
+    { icon: FiFacebook, label: 'Facebook', href: '#', color: '#1877F2' },
+    { icon: FiInstagram, label: 'Instagram', href: '#', color: '#E4405F' },
+    { icon: FiLinkedin, label: 'LinkedIn', href: '#', color: '#0A66C2' },
+    { icon: FiYoutube, label: 'YouTube', href: '#', color: '#FF0000' },
+]
+
+const quickLinks = [
+    { label: 'Home', href: '#home' },
+    { label: 'Why Choose Us', href: '#features' },
+    { label: 'Our Programs', href: '#programs' },
+    { label: 'Gallery', href: '#gallery' },
+    { label: 'Mentors', href: '#mentors' },
+    { label: 'Reviews', href: '#testimonials' },
+    { label: 'Locations', href: '#locations' },
+]
+
+const programs = [
+    { label: 'Play Group', href: '#programs' },
+    { label: 'Nursery', href: '#programs' },
+    { label: 'Junior KG', href: '#programs' },
+    { label: 'Senior KG', href: '#programs' },
+]
+
+function smoothScroll(e, href) {
+    e.preventDefault()
+    const target = document.querySelector(href)
+    if (target) {
+        const navHeight = 100
+        const top = target.getBoundingClientRect().top + window.scrollY - navHeight
+        window.scrollTo({ top, behavior: 'smooth' })
+    }
+}
+
+function scrollToTop(e) {
+    e.preventDefault()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 export default function Footer() {
     return (
         <footer className="footer" id="footer">
             <div className="container">
+                {/* Back to Top */}
+                <div className="footer-top-btn-wrapper">
+                    <button className="footer-top-btn clay-btn" onClick={scrollToTop} aria-label="Back to top">
+                        <FiArrowUp size={20} />
+                    </button>
+                </div>
+
                 <div className="footer-grid">
+                    {/* About Column */}
                     <div className="footer-about">
-                        <div className="footer-brand" style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-                            <img src="/assets1/Logo-8C3-REcS.svg" alt="Playbox Preschool" style={{ height: '50px', borderRadius: '50%', background: 'white', padding: '5px' }} />
+                        <div className="footer-brand">
+                            <img src="/assets/logo.svg" alt="Playbox Preschool" />
                             <div>
-                                <h3 style={{ fontSize: '1.2rem', color: 'var(--text-dark)' }}>Playbox Preschool</h3>
-                                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>by Cambridge Court</p>
+                                <h3>Playbox Preschool</h3>
+                                <p className="footer-brand-sub">by Cambridge Court</p>
                             </div>
                         </div>
-                        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6', marginBottom: '1.5rem' }}>
+                        <p className="footer-desc">
                             Playbox Preschool provides a nurturing, creative, and joyful
-                            early learning experience. We believe every child is unique.
+                            early learning experience. We believe every child is unique and
+                            deserves the best start in life.
                         </p>
                         <div className="footer-socials">
-                            <a href="#" className="social-icon" aria-label="Facebook"><FiFacebook /></a>
-                            <a href="#" className="social-icon" aria-label="Instagram"><FiInstagram /></a>
-                            <a href="#" className="social-icon" aria-label="LinkedIn"><FiLinkedin /></a>
-                            <a href="#" className="social-icon" aria-label="YouTube"><FiYoutube /></a>
+                            {socialLinks.map((social) => (
+                                <a
+                                    key={social.label}
+                                    href={social.href}
+                                    className="social-icon"
+                                    aria-label={social.label}
+                                    style={{ '--social-hover-color': social.color }}
+                                >
+                                    <social.icon size={18} />
+                                </a>
+                            ))}
                         </div>
                     </div>
 
+                    {/* Quick Links */}
                     <div className="footer-column">
                         <h4>Quick Links</h4>
-                        <a href="#home">Home</a>
-                        <a href="#features">Why Choose Us</a>
-                        <a href="#programs">Our Programs</a>
-                        <a href="#gallery">Gallery</a>
-                        <a href="#mentors">Mentors</a>
-                        <a href="#locations">Locations</a>
+                        <div className="footer-links-list">
+                            {quickLinks.map((link) => (
+                                <a key={link.label} href={link.href} onClick={(e) => smoothScroll(e, link.href)}>
+                                    {link.label}
+                                </a>
+                            ))}
+                        </div>
                     </div>
 
+                    {/* Programs */}
                     <div className="footer-column">
                         <h4>Programs</h4>
-                        <a href="#programs">Play Group</a>
-                        <a href="#programs">Nursery</a>
-                        <a href="#programs">Junior KG</a>
-                        <a href="#programs">Senior KG</a>
+                        <div className="footer-links-list">
+                            {programs.map((link) => (
+                                <a key={link.label} href={link.href} onClick={(e) => smoothScroll(e, link.href)}>
+                                    {link.label}
+                                </a>
+                            ))}
+                        </div>
                     </div>
 
+                    {/* Contact */}
                     <div className="footer-column">
                         <h4>Contact Us</h4>
-                        <a href="tel:+919876543210" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <FiPhone /> +91 98765 43210
-                        </a>
-                        <a href="mailto:info@playboxpreschool.com" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <FiMail /> info@playboxpreschool.com
-                        </a>
-                        <a href="#locations" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                            <FiMapPin /> Multiple locations in Jaipur
-                        </a>
+                        <div className="footer-links-list">
+                            <a href="tel:+919876543210" className="footer-contact-item">
+                                <FiPhone size={16} />
+                                <span>+91 98765 43210</span>
+                            </a>
+                            <a href="mailto:info@playboxpreschool.com" className="footer-contact-item">
+                                <FiMail size={16} />
+                                <span>info@playboxpreschool.com</span>
+                            </a>
+                            <a href="#locations" className="footer-contact-item" onClick={(e) => smoothScroll(e, '#locations')}>
+                                <FiMapPin size={16} />
+                                <span>Multiple locations in Jaipur</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -70,7 +138,7 @@ export default function Footer() {
                     <p>
                         © {new Date().getFullYear()} Playbox Preschool by Cambridge Court Group of Schools. All rights reserved.
                     </p>
-                    <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', marginTop: '0.5rem' }}>
+                    <p className="footer-made-with">
                         Made with <FiHeart size={14} color="var(--color-primary)" /> for little learners
                     </p>
                 </div>

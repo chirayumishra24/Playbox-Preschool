@@ -1,10 +1,21 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { FiMenu, FiX } from 'react-icons/fi'
+
+const navLinks = [
+    { label: 'Home', href: '#home' },
+    { label: 'Why Us', href: '#features' },
+    { label: 'Programs', href: '#programs' },
+    { label: 'Gallery', href: '#gallery' },
+    { label: 'Mentors', href: '#mentors' },
+    { label: 'Reviews', href: '#testimonials' },
+    { label: 'Locations', href: '#locations' },
+]
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)
+    const [activeSection, setActiveSection] = useState('home')
 
     useEffect(() => {
         const handleScroll = () => {
@@ -14,80 +25,175 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    const closeMenu = () => setMenuOpen(false)
+    // Track active section on scroll
+    useEffect(() => {
+        const sectionIds = navLinks.map(l => l.href.replace('#', ''))
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id)
+                    }
+                })
+            },
+            { threshold: 0.3, rootMargin: '-80px 0px -40% 0px' }
+        )
+
+        sectionIds.forEach(id => {
+            const el = document.getElementById(id)
+            if (el) observer.observe(el)
+        })
+
+        return () => observer.disconnect()
+    }, [])
+
+    // Lock body scroll when menu is open
+    useEffect(() => {
+        if (menuOpen) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = ''
+        }
+        return () => { document.body.style.overflow = '' }
+    }, [menuOpen])
+
+    const smoothScroll = useCallback((e, href) => {
+        e.preventDefault()
+        setMenuOpen(false)
+        const target = document.querySelector(href)
+        if (target) {
+            const navHeight = 100
+            const top = target.getBoundingClientRect().top + window.scrollY - navHeight
+            window.scrollTo({ top, behavior: 'smooth' })
+        }
+    }, [])
+
+    const menuVariants = {
+        closed: {
+            clipPath: 'circle(0% at calc(100% - 3rem) 3rem)',
+            transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] }
+        },
+        open: {
+            clipPath: 'circle(150% at calc(100% - 3rem) 3rem)',
+            transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] }
+        }
+    }
+
+    const linkVariants = {
+        closed: { opacity: 0, x: 50 },
+        open: (i) => ({
+            opacity: 1,
+            x: 0,
+            transition: { delay: 0.15 + i * 0.06, duration: 0.4, ease: [0.4, 0, 0.2, 1] }
+        })
+    }
 
     return (
         <nav className={`navbar ${scrolled ? 'scrolled' : ''}`} id="navbar">
             <div className="navbar-inner">
-                <a href="#home" className="navbar-brand" onClick={closeMenu}>
-                    <img src="/assets1/Logo-8C3-REcS.svg" alt="Playbox Preschool Logo" />
+                <a href="#home" className="navbar-brand" onClick={(e) => smoothScroll(e, '#home')}>
+                    <img src="/assets/logo.svg" alt="Playbox Preschool Logo" />
                     <div className="navbar-brand-text">
                         <h1>Playbox Preschool</h1>
                         <p>by Cambridge Court</p>
                     </div>
                 </a>
 
+                {/* Desktop Links */}
                 <div className="navbar-links">
-                    <a href="#home">Home</a>
-                    <a href="#features">Why Us</a>
-                    <a href="#programs">Programs</a>
-                    <a href="#gallery">Gallery</a>
-                    <a href="#mentors">Mentors</a>
-                    <a href="#locations">Locations</a>
+                    {navLinks.map((link) => (
+                        <a
+                            key={link.href}
+                            href={link.href}
+                            className={activeSection === link.href.replace('#', '') ? 'active' : ''}
+                            onClick={(e) => smoothScroll(e, link.href)}
+                        >
+                            {link.label}
+                        </a>
+                    ))}
                     <a
                         href="https://forms.zohopublic.in/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="clay-btn clay-btn-primary"
-                        style={{ padding: '0.6rem 1.2rem', fontSize: '1rem' }}
+                        className="clay-btn clay-btn-primary nav-enroll-btn"
                     >
                         Enroll Now
                     </a>
                 </div>
 
+                {/* Mobile Hamburger Toggle */}
                 <button
-                    className="mobile-toggle clay-btn"
-                    style={{ padding: '0.5rem', display: 'none' }}
+                    className="mobile-toggle"
                     onClick={() => setMenuOpen(!menuOpen)}
                     aria-label="Toggle menu"
                 >
-                    {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+                    <motion.div
+                        animate={{ rotate: menuOpen ? 90 : 0 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {menuOpen ? <FiX size={26} /> : <FiMenu size={26} />}
+                    </motion.div>
                 </button>
 
                 {/* Mobile Menu Overlay */}
-                <div
-                    style={{
-                        position: 'fixed',
-                        top: 0, left: 0, width: '100%', height: '100vh',
-                        background: 'var(--clay-bg)', zIndex: 999,
-                        display: menuOpen ? 'flex' : 'none',
-                        flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                        gap: '2rem'
-                    }}
-                >
-                    <button
-                        className="clay-btn"
-                        style={{ position: 'absolute', top: '2rem', right: '2rem', padding: '0.5rem' }}
-                        onClick={closeMenu}
-                    >
-                        <FiX size={24} />
-                    </button>
-                    <a href="#home" onClick={closeMenu} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Home</a>
-                    <a href="#features" onClick={closeMenu} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Why Us</a>
-                    <a href="#programs" onClick={closeMenu} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Programs</a>
-                    <a href="#gallery" onClick={closeMenu} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Gallery</a>
-                    <a href="#mentors" onClick={closeMenu} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Mentors</a>
-                    <a href="#locations" onClick={closeMenu} style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Locations</a>
-                    <a
-                        href="https://forms.zohopublic.in/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="clay-btn clay-btn-primary"
-                        onClick={closeMenu}
-                    >
-                        Enroll Now
-                    </a>
-                </div>
+                <AnimatePresence>
+                    {menuOpen && (
+                        <motion.div
+                            className="mobile-menu-overlay"
+                            variants={menuVariants}
+                            initial="closed"
+                            animate="open"
+                            exit="closed"
+                        >
+                            <div className="mobile-menu-content">
+                                <div className="mobile-menu-header">
+                                    <img src="/assets/logo.svg" alt="Playbox" className="mobile-menu-logo" />
+                                    <h2>Playbox Preschool</h2>
+                                </div>
+
+                                <div className="mobile-menu-links">
+                                    {navLinks.map((link, i) => (
+                                        <motion.a
+                                            key={link.href}
+                                            href={link.href}
+                                            className={`mobile-nav-link ${activeSection === link.href.replace('#', '') ? 'active' : ''}`}
+                                            custom={i}
+                                            variants={linkVariants}
+                                            initial="closed"
+                                            animate="open"
+                                            onClick={(e) => smoothScroll(e, link.href)}
+                                        >
+                                            <span className="mobile-link-dot" />
+                                            {link.label}
+                                        </motion.a>
+                                    ))}
+                                </div>
+
+                                <motion.a
+                                    href="https://forms.zohopublic.in/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="clay-btn clay-btn-primary mobile-enroll-btn"
+                                    initial={{ opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.5 }}
+                                    onClick={() => setMenuOpen(false)}
+                                >
+                                    🎒 Enroll Now
+                                </motion.a>
+                            </div>
+
+                            {/* Close button inside overlay */}
+                            <button
+                                className="mobile-menu-close"
+                                onClick={() => setMenuOpen(false)}
+                                aria-label="Close menu"
+                            >
+                                <FiX size={28} />
+                            </button>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </nav>
     )

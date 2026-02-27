@@ -5,17 +5,17 @@ const mentors = [
   {
     name: 'Ms. Sunita Rao',
     role: 'Center Head & Child Psychologist',
-    image: '/assets1/FaceBlue-DP9Y799V.svg',
+    image: '/assets/mentor_1.png',
   },
   {
     name: 'Ms. Meera Kapoor',
     role: 'Lead Early Years Educator',
-    image: '/assets1/PurpleFace-CdTWcjFy.svg',
+    image: '/assets/mentor_2.png',
   },
   {
     name: 'Ms. Anjali Verma',
     role: 'Creative Arts & Expression Lead',
-    image: '/assets1/FourthContentImage-C1seC8NL.png',
+    image: '/assets/mentor_3.png',
   }
 ]
 
