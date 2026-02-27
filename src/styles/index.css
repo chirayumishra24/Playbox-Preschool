@@ -254,7 +254,8 @@ a {
   /* Prevent delayed responsive switching */
 }
 
-.navbar.scrolled .navbar-inner {
+/* Navbar is now permanently in the visual 'scrolled' style */
+.navbar .navbar-inner {
   background: rgba(255, 255, 255, 0.95);
   border-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 10px 30px rgba(163, 177, 198, 0.4);
@@ -459,6 +460,8 @@ a {
 .hero-content {
   flex: 1;
   max-width: 600px;
+  word-break: break-word;
+  /* Prevent long text overflow */
 }
 
 .hero-badge {
@@ -691,6 +694,9 @@ a {
   transition: all 0.4s ease;
   position: relative;
   border-bottom: 8px solid;
+  max-width: 100%;
+  word-break: break-word;
+  /* Prevent text overflow */
 }
 
 .timeline-content:hover {
@@ -1786,9 +1792,21 @@ a {
     padding: 0.4rem 1rem;
   }
 
+  .hero .container {
+    flex-direction: column;
+    /* Stack image below text on mobile */
+    text-align: center;
+  }
+
+  .hero-content {
+    align-items: center;
+    text-align: center;
+  }
+
   .hero-actions {
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 0.8rem;
   }
 
@@ -1799,7 +1817,7 @@ a {
 
   .hero-image-wrapper {
     max-width: 100%;
-    margin: 0 auto;
+    margin: 2rem auto 0;
   }
 
   .hero-clay-blob {
