@@ -28,9 +28,35 @@ const isMobileDevice = () =>
 function VideoCard({ video, index, sectionInView }) {
   const videoRef = useRef(null)
   const cardRef = useRef(null)
-  const [muted, setMuted] = useState(true)
-  const [volume, setVolume] = useState(0)
+  const [isMuted, setIsMuted] = useState(true)
   const fadeAnim = useRef(null)
+
+  // Keep video always playing — re-trigger play if browser pauses it
+  useEffect(() => {
+    const vid = videoRef.current
+    if (!vid) return
+
+    const ensurePlaying = () => {
+      if (vid.paused) {
+        vid.play().catch(() => { })
+      }
+    }
+
+    // Re-trigger play on pause events (browser autoplay policy can pause)
+    vid.addEventListener('pause', ensurePlaying)
+    // Also try to play on mount
+    ensurePlaying()
+
+    return () => vid.removeEventListener('pause', ensurePlaying)
+  }, [])
+
+  // Helper: set muted state on the DOM element directly (avoids React re-render pausing video)
+  const setMutedState = (mute) => {
+    setIsMuted(mute)
+    if (videoRef.current) {
+      videoRef.current.muted = mute
+    }
+  }
 
   // On mobile: use IntersectionObserver to auto-unmute when in view
   useEffect(() => {
@@ -42,12 +68,16 @@ function VideoCard({ video, index, sectionInView }) {
         if (!videoRef.current) return
         if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
           // Fade in audio
-          setMuted(false)
+          videoRef.current.muted = false
+          setIsMuted(false)
           fadeVolume(videoRef.current, 0, 1, 600)
         } else {
           // Fade out audio
           fadeVolume(videoRef.current, videoRef.current.volume, 0, 400, () => {
-            setMuted(true)
+            if (videoRef.current) {
+              videoRef.current.muted = true
+            }
+            setIsMuted(true)
           })
         }
       },
@@ -76,16 +106,20 @@ function VideoCard({ video, index, sectionInView }) {
     fadeAnim.current = requestAnimationFrame(tick)
   }
 
-  // Desktop: hover to unmute
+  // Desktop: hover to unmute (directly on DOM, no React re-render)
   const handleMouseEnter = () => {
     if (isMobileDevice()) return
-    setMuted(false)
+    setMutedState(false)
   }
+
   const handleMouseLeave = () => {
     if (isMobileDevice()) return
-    setMuted(true)
+    setMutedState(true)
   }
-  const toggleMute = () => setMuted((m) => !m)
+
+  const toggleMute = () => {
+    setMutedState(!isMuted)
+  }
 
   return (
     <motion.div
@@ -99,10 +133,11 @@ function VideoCard({ video, index, sectionInView }) {
       onMouseLeave={handleMouseLeave}
     >
       <div style={{ flex: 1, overflow: 'hidden', borderRadius: 'var(--radius-md)' }}>
+        {/* Video always starts muted via HTML attribute — we control muted via JS only */}
         <video
           ref={videoRef}
           src={video.src}
-          muted={muted}
+          muted
           autoPlay
           loop
           playsInline
@@ -119,9 +154,9 @@ function VideoCard({ video, index, sectionInView }) {
         <button
           className="clay-btn gallery-mute-btn"
           onClick={(e) => { e.stopPropagation(); toggleMute() }}
-          aria-label={muted ? 'Unmute' : 'Mute'}
+          aria-label={isMuted ? 'Unmute' : 'Mute'}
         >
-          {muted ? <FiVolumeX size={18} /> : <FiVolume2 size={18} />}
+          {isMuted ? <FiVolumeX size={18} /> : <FiVolume2 size={18} />}
         </button>
       </div>
     </motion.div>
