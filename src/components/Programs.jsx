@@ -130,17 +130,16 @@ export default function Programs() {
               let yRotation = 0;
               let cardOpacity = 0;
               let cardZIndex = 0;
-              let blur = 'blur(10px)';
               let cardScale = 0.8;
 
               if (isCenter) {
-                xPosition = 0; zPosition = 0; yRotation = 0; cardOpacity = 1; cardZIndex = 5; blur = 'blur(0px)'; cardScale = 1;
+                xPosition = 0; zPosition = 0; yRotation = 0; cardOpacity = 1; cardZIndex = 5; cardScale = 1;
               } else if (isRight) {
-                xPosition = '85%'; zPosition = -200; yRotation = -35; cardOpacity = 0.8; cardZIndex = 4; blur = 'blur(4px)'; cardScale = 0.85;
+                xPosition = '85%'; zPosition = -200; yRotation = -35; cardOpacity = 0.8; cardZIndex = 4; cardScale = 0.85;
               } else if (isLeft) {
-                xPosition = '-85%'; zPosition = -200; yRotation = 35; cardOpacity = 0.8; cardZIndex = 4; blur = 'blur(4px)'; cardScale = 0.85;
+                xPosition = '-85%'; zPosition = -200; yRotation = 35; cardOpacity = 0.8; cardZIndex = 4; cardScale = 0.85;
               } else {
-                xPosition = 0; zPosition = -400; yRotation = 0; cardOpacity = 0; cardZIndex = 3; blur = 'blur(10px)'; cardScale = 0.7;
+                xPosition = 0; zPosition = -400; yRotation = 0; cardOpacity = 0; cardZIndex = 3; cardScale = 0.7;
               }
 
               return (
@@ -153,7 +152,6 @@ export default function Programs() {
                     rotateY: yRotation,
                     opacity: cardOpacity,
                     zIndex: cardZIndex,
-                    filter: blur,
                     scale: cardScale
                   }}
                   transition={{ duration: 0.8, type: 'spring', bounce: 0.3 }}
