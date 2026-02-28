@@ -81,8 +81,29 @@ function VideoCard({ video, index, sectionInView }) {
   }
 
   // Mobile: Videos simply play continuously in the background loop silently.
-  // We no longer attempt to auto-unmute on scroll, as modern mobile browsers 
-  // explicitly block this via Media Engagement Index (MEI) policies and throw warnings.
+  // We no longer attempt to auto-unmute on scroll due to browser policies.
+  // However, we DO want to safely mute the audio if the user unmuted it and then scrolled away.
+  useEffect(() => {
+    if (!isMobileDevice()) return
+    if (!cardRef.current || !videoRef.current) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const vid = videoRef.current
+        if (!vid) return
+
+        // If the video leaves the viewport bounds, mute it.
+        if (!entry.isIntersecting) {
+          safeMute(vid)
+        }
+      },
+      // Trigger when even 1% of the item goes out of view / comes in
+      { threshold: 0.1 }
+    )
+
+    observer.observe(cardRef.current)
+    return () => observer.disconnect()
+  }, [])
 
   // Desktop: hover to unmute
   const handleMouseEnter = () => {
