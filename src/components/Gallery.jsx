@@ -80,29 +80,9 @@ function VideoCard({ video, index, sectionInView }) {
     if (vid.paused) vid.play().catch(() => { })
   }
 
-  // On mobile: use IntersectionObserver to auto-unmute when in view (only after user interaction)
-  useEffect(() => {
-    if (!isMobileDevice()) return
-    if (!cardRef.current || !videoRef.current) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        const vid = videoRef.current
-        if (!vid) return
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-          if (userHasInteracted) {
-            safeUnmute(vid)
-          }
-        } else {
-          safeMute(vid)
-        }
-      },
-      { threshold: [0, 0.5, 1.0] }
-    )
-
-    observer.observe(cardRef.current)
-    return () => observer.disconnect()
-  }, [sectionInView])
+  // Mobile: Videos simply play continuously in the background loop silently.
+  // We no longer attempt to auto-unmute on scroll, as modern mobile browsers 
+  // explicitly block this via Media Engagement Index (MEI) policies and throw warnings.
 
   // Desktop: hover to unmute
   const handleMouseEnter = () => {
