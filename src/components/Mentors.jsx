@@ -3,17 +3,17 @@ import { useInView } from 'react-intersection-observer'
 
 const mentors = [
   {
-    name: 'Ms. Sunita Rao',
+    name: 'Mrs. Priyanshi Rawat',
     role: 'Center Head & Child Psychologist',
     image: '/assets/mentor_1.png',
   },
   {
-    name: 'Ms. Meera Kapoor',
+    name: 'Mrs. Lata Rawat',
     role: 'Lead Early Years Educator',
     image: '/assets/mentor_2.png',
   },
   {
-    name: 'Ms. Anjali Verma',
+    name: 'Ms. Aarna Rawat',
     role: 'Creative Arts & Expression Lead',
     image: '/assets/mentor_3.png',
   }
