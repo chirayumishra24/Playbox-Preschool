@@ -44,12 +44,17 @@ export default function Navbar() {
     const smoothScroll = useCallback((e, href) => {
         e.preventDefault()
         setMenuOpen(false)
-        const target = document.querySelector(href)
-        if (target) {
-            const navHeight = 100
-            const top = target.getBoundingClientRect().top + window.scrollY - navHeight
-            window.scrollTo({ top, behavior: 'smooth' })
-        }
+
+        // Wait for the mobile menu state to update and body to un-fix 
+        // before calculating the scroll position, otherwise bounds are wrong.
+        setTimeout(() => {
+            const target = document.querySelector(href)
+            if (target) {
+                const navHeight = 90
+                const top = target.getBoundingClientRect().top + window.scrollY - navHeight
+                window.scrollTo({ top, behavior: 'smooth' })
+            }
+        }, 100)
     }, [])
 
     const menuVariants = {
