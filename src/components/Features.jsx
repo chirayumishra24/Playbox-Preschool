@@ -44,7 +44,7 @@ export default function Features() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1, rootMargin: "-100px 0px" })
 
   return (
-    <section className="section" id="features" ref={ref}>
+    <section className="section" id="features" ref={ref} style={{ overflowX: 'hidden' }}>
       <div className="container">
         <div className="section-header">
           <motion.h2
