@@ -1741,7 +1741,7 @@ a {
 
   .program-card-3d {
     width: 300px;
-    height: 520px;
+    height: 560px;
     /* Increased to accommodate content without clipping tags */
   }
 
@@ -1927,7 +1927,7 @@ a {
 
   /* Programs Carousel */
   .carousel-container {
-    height: 520px;
+    height: 560px;
     /* Expand container so the cards don't clip the bottom */
     width: 100%;
   }
@@ -1935,7 +1935,7 @@ a {
   .program-card-3d {
     width: 80vw;
     max-width: 300px;
-    height: 520px;
+    height: 560px;
     /* Increased height so tags aren't pushed out by larger images */
   }
 
