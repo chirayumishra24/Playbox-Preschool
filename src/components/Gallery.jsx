@@ -32,10 +32,14 @@ if (typeof window !== 'undefined') {
     userHasInteracted = true
     window.removeEventListener('click', markInteracted)
     window.removeEventListener('touchstart', markInteracted)
+    window.removeEventListener('touchend', markInteracted)
+    window.removeEventListener('pointerdown', markInteracted)
     window.removeEventListener('keydown', markInteracted)
   }
   window.addEventListener('click', markInteracted, { passive: true })
   window.addEventListener('touchstart', markInteracted, { passive: true })
+  window.addEventListener('touchend', markInteracted, { passive: true })
+  window.addEventListener('pointerdown', markInteracted, { passive: true })
   window.addEventListener('keydown', markInteracted, { passive: true })
 }
 
@@ -80,9 +84,7 @@ function VideoCard({ video, index, sectionInView }) {
     if (vid.paused) vid.play().catch(() => { })
   }
 
-  // Mobile: Videos simply play continuously in the background loop silently.
-  // We no longer attempt to auto-unmute on scroll due to browser policies.
-  // However, we DO want to safely mute the audio if the user unmuted it and then scrolled away.
+  // Mobile: Observer to handle auto-unmute on enter and auto-mute on leave
   useEffect(() => {
     if (!isMobileDevice()) return
     if (!cardRef.current || !videoRef.current) return
@@ -92,13 +94,17 @@ function VideoCard({ video, index, sectionInView }) {
         const vid = videoRef.current
         if (!vid) return
 
-        // If the video leaves the viewport bounds, mute it.
-        if (!entry.isIntersecting) {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          // Try to unmute if in view and user has interacted with document
+          if (userHasInteracted) {
+            safeUnmute(vid)
+          }
+        } else {
+          // If the video leaves the viewport bounds, mute it.
           safeMute(vid)
         }
       },
-      // Trigger when even 1% of the item goes out of view / comes in
-      { threshold: 0.1 }
+      { threshold: [0, 0.5, 1.0] }
     )
 
     observer.observe(cardRef.current)
