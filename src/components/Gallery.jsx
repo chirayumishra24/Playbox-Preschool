@@ -49,13 +49,22 @@ function VideoCard({ video, index, sectionInView }) {
   const [isMuted, setIsMuted] = useState(true)
   const fadeAnim = useRef(null)
 
-  // Keep video always playing muted
+  // Keep video always playing muted on load, and listen for other videos unmuting
   useEffect(() => {
     const vid = videoRef.current
     if (!vid) return
     vid.muted = true
     vid.play().catch(() => { })
-  }, [])
+
+    // Listen for other videos unmuting to enforce mutually exclusive audio
+    const handleMuteOthers = (e) => {
+      if (e.detail.src !== video.src) {
+        safeMute(videoRef.current)
+      }
+    }
+    window.addEventListener('singleAudioToggle', handleMuteOthers)
+    return () => window.removeEventListener('singleAudioToggle', handleMuteOthers)
+  }, [video.src])
 
   // Safe unmute — only if user has interacted
   const safeUnmute = (vid) => {
@@ -63,6 +72,9 @@ function VideoCard({ video, index, sectionInView }) {
     try {
       vid.muted = false
       setIsMuted(false)
+      // Broadcast to other videos to mute themselves
+      window.dispatchEvent(new CustomEvent('singleAudioToggle', { detail: { src: video.src } }))
+
       // If browser paused it due to policy, re-mute and resume
       if (vid.paused) {
         vid.muted = true
