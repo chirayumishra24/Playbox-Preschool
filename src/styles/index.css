@@ -2049,9 +2049,17 @@ a {
   }
 
   .cta-btn {
-    font-size: 1rem !important;
-    padding: 0.9rem 2rem;
-    width: auto;
+    font-size: 0.95rem !important;
+    padding: 0.9rem 1.5rem !important;
+    width: 100%;
+    max-width: 320px;
+    white-space: normal;
+    height: auto;
+    line-height: 1.4;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
   }
 
   /* Grids */
