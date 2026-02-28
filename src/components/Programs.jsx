@@ -36,7 +36,7 @@ const programs = [
     title: 'Senior KG',
     age: '4.5 - 5.5 Years',
     description: 'Preparing children for formal schooling with phonics, writing practice, and problem-solving.',
-    tags: ['Phonics', 'Writing', 'Problem Solving', 'Leadership'],
+    tags: ['Problem Solving', 'Phonics', 'Writing', 'Leadership'],
     image: '/assets/program_senior_kg.png',
     gradient: 'linear-gradient(135deg, #FEF3C7, #FEF08A)',
     accent: '#F59E0B',
