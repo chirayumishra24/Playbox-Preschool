@@ -29,7 +29,7 @@ export default function CTA() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        Enroll Now — Free Trial Class
+                        Enroll Now
                     </motion.a>
                 </motion.div>
             </div>
