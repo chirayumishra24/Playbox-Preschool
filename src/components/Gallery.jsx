@@ -32,11 +32,11 @@ if (typeof window !== 'undefined') {
     userHasInteracted = true
     window.removeEventListener('click', markInteracted)
     window.removeEventListener('touchstart', markInteracted)
-    window.removeEventListener('scroll', markInteracted)
+    window.removeEventListener('keydown', markInteracted)
   }
   window.addEventListener('click', markInteracted, { passive: true })
   window.addEventListener('touchstart', markInteracted, { passive: true })
-  window.addEventListener('scroll', markInteracted, { passive: true })
+  window.addEventListener('keydown', markInteracted, { passive: true })
 }
 
 function VideoCard({ video, index, sectionInView }) {
