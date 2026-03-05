@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { playPopSound, playHoverSound } from '../utils/sounds.js'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import playGroupImage from '../../img/play_group_indian_1772698626406.png'
+import nurseryImage from '../../img/nursery_indian_1772698642980.png'
+import juniorKgImage from '../../img/junior_kg_indian_1772698662448.png'
+import seniorKgImage from '../../img/senior_kg_indian_1772698677579.png'
 
 const programs = [
   {
@@ -10,7 +13,7 @@ const programs = [
     age: '1.5 - 2.5 Years',
     description: 'A gentle introduction to learning through sensory play, rhymes, and motor skill activities in a nurturing setting.',
     tags: ['Sensory Play', 'Motor Skills', 'Rhymes', 'Social'],
-    image: '/assets/program_playgroup.png',
+    image: playGroupImage,
     gradient: 'linear-gradient(135deg, #FFE4E6, #FEE2E2)',
     accent: '#F43F5E',
   },
@@ -19,7 +22,7 @@ const programs = [
     age: '2.5 - 3.5 Years',
     description: 'Building curiosity through structured play, early literacy, numeracy foundations, and creative arts.',
     tags: ['Early Literacy', 'Numbers', 'Art & Craft', 'Music'],
-    image: '/assets/program_nursery.png',
+    image: nurseryImage,
     gradient: 'linear-gradient(135deg, #E0E7FF, #DBEAFE)',
     accent: '#3B82F6',
   },
@@ -28,7 +31,7 @@ const programs = [
     age: '3.5 - 4.5 Years',
     description: 'Developing reading readiness, mathematical thinking, scientific curiosity, and communication skills.',
     tags: ['Reading Ready', 'Math Fun', 'Science', 'Communication'],
-    image: '/assets/program_junior_kg.png',
+    image: juniorKgImage,
     gradient: 'linear-gradient(135deg, #DCFCE7, #D1FAE5)',
     accent: '#10B981',
   },
@@ -37,7 +40,7 @@ const programs = [
     age: '4.5 - 5.5 Years',
     description: 'Preparing children for formal schooling with phonics, writing practice, and problem-solving.',
     tags: ['Problem Solving', 'Phonics', 'Writing', 'Leadership'],
-    image: '/assets/program_senior_kg.png',
+    image: seniorKgImage,
     gradient: 'linear-gradient(135deg, #FEF3C7, #FEF08A)',
     accent: '#F59E0B',
   },
@@ -196,11 +199,21 @@ export default function Programs() {
             animate={inView ? { opacity: 1 } : {}}
             transition={{ delay: 0.6 }}
           >
-            <button className="clay-btn carousel-left-btn" onClick={prev} onMouseEnter={playHoverSound}>
-              <FiChevronLeft size={28} />
+            <button
+              className="clay-btn carousel-left-btn"
+              onClick={prev}
+              onMouseEnter={playHoverSound}
+              aria-label="Previous program"
+            >
+              <span className="carousel-arrow" aria-hidden="true">←</span>
             </button>
-            <button className="clay-btn carousel-right-btn" onClick={next} onMouseEnter={playHoverSound}>
-              <FiChevronRight size={28} />
+            <button
+              className="clay-btn carousel-right-btn"
+              onClick={next}
+              onMouseEnter={playHoverSound}
+              aria-label="Next program"
+            >
+              <span className="carousel-arrow" aria-hidden="true">→</span>
             </button>
           </motion.div>
         </div>

@@ -1,21 +1,24 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import priyanshiImage from '../../img/priyanshi-mam.png'
+import lataImage from '../../img/lata-mam.png'
+import aarnaImage from '../../img/aarna-mam.png'
 
 const mentors = [
   {
-    name: 'Mrs. Priyanshi Rawat',
-    role: 'Center Head & Child Psychologist',
-    image: '/assets/mentor_1.png',
+    name: 'Mrs. Priyanshi S. Rawat',
+    role: 'CEO',
+    image: priyanshiImage,
   },
   {
     name: 'Mrs. Lata Rawat',
-    role: 'Lead Early Years Educator',
-    image: '/assets/mentor_2.png',
+    role: 'Founder & Director',
+    image: lataImage,
   },
   {
-    name: 'Ms. Aarna Rawat',
-    role: 'Creative Arts & Expression Lead',
-    image: '/assets/mentor_3.png',
+    name: 'Ms. Aarna Singh',
+    role: 'Creative Director',
+    image: aarnaImage,
   }
 ]
 

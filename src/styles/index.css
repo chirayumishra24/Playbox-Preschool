@@ -541,8 +541,38 @@ a {
   transition: transform 0.8s ease;
 }
 
+.hero-carousel-img {
+  position: absolute;
+  inset: 0;
+}
+
 .hero-clay-blob:hover .hero-main-img {
   transform: scale(1.05);
+}
+
+.hero-carousel-dots {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.45rem;
+  z-index: 4;
+}
+
+.hero-carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+}
+
+.hero-carousel-dot.active {
+  width: 24px;
+  background: #ffffff;
 }
 
 .hero-floating-icon {
@@ -789,8 +819,8 @@ a {
   align-items: center;
   justify-content: center;
   border-bottom: 4px solid rgba(163, 177, 198, 0.2);
-  padding: 0.5rem;
-  /* Reduced from 1.5rem to give the image maximum space */
+  padding: 0;
+  /* Removed padding to ensure no borders left */
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
@@ -799,16 +829,15 @@ a {
 .program-img-wrapper img {
   height: 100%;
   width: 100%;
-  object-fit: contain;
-  transform: scale(1.15);
-  /* Boost base size to fill horizontal edges safely */
+  object-fit: cover;
+  transform: scale(1);
   transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 2;
   position: relative;
 }
 
 .program-card-3d:hover .program-img-wrapper img {
-  transform: scale(1.25) translateY(-5px);
+  transform: scale(1.08) translateY(-4px);
 }
 
 .program-glow-3d {
@@ -909,6 +938,14 @@ a {
   background: var(--clay-bg);
   transition: all 0.3s ease;
   box-shadow: 0 10px 20px rgba(163, 177, 198, 0.4), var(--shadow-in);
+}
+
+.carousel-arrow {
+  display: block;
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 800;
+  transform: translateY(-1px);
 }
 
 .carousel-controls button:hover {
