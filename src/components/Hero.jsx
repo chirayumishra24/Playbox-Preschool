@@ -1,29 +1,39 @@
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import heroBlobImage1 from '../../img/Copy of IMG_9899.JPG'
-import heroBlobImage2 from '../../img/Copy of IMG_9996.JPG'
-import heroBlobImage3 from '../../img/IMG_9198.JPG'
-import heroBlobImage4 from '../../img/Copy of IMG_9950.JPG'
-import heroBlobImage5 from '../../img/Copy of IMG_9817.JPG'
+import { motion } from 'framer-motion'
+import heroBlobImage1 from '../../img/build/20230809_124004.jpg'
+import heroBlobImage2 from '../../img/build/20240313_161507.jpg'
+import heroBlobImage3 from '../../img/build/20240313_161626.jpg'
+import heroBlobImage4 from '../../img/build/4449e70f-f8f8-4a8e-a1b7-a09bd649c47b.jpg'
+import heroBlobImage5 from '../../img/build/Copy of 20230809_122955.jpg'
+import heroBlobImage6 from '../../img/build/Copy of 20240313_161507.jpg'
 
 const heroSlides = [
-  { src: heroBlobImage1, alt: 'Children enjoying guided play activity at Playbox Preschool' },
-  { src: heroBlobImage2, alt: 'Children exploring outdoor play equipment' },
-  { src: heroBlobImage3, alt: 'Kids participating in a group activity session' },
-  { src: heroBlobImage4, alt: 'Child-focused motor skill and movement activity' },
-  { src: heroBlobImage5, alt: 'Colorful preschool activity area setup' },
+  { src: heroBlobImage1, alt: 'Playbox preschool building front view' },
+  { src: heroBlobImage2, alt: 'Bright and colorful Playbox preschool campus' },
+  { src: heroBlobImage3, alt: 'Fun learning spaces at Playbox Preschool' },
+  { src: heroBlobImage4, alt: 'Playbox preschool activity area' },
+  { src: heroBlobImage5, alt: 'Engaging outdoor setup at Playbox' },
+  { src: heroBlobImage6, alt: 'Playbox preschool welcoming entrance' },
 ]
 
 export default function Hero() {
   const [activeSlide, setActiveSlide] = useState(0)
   const [isBlobHovered, setIsBlobHovered] = useState(false)
 
+  // Preload all images on mount so transitions are instant
+  useEffect(() => {
+    heroSlides.forEach((slide) => {
+      const img = new Image()
+      img.src = slide.src
+    })
+  }, [])
+
   useEffect(() => {
     if (isBlobHovered) return
 
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % heroSlides.length)
-    }, 3500)
+    }, 3000)
 
     return () => clearInterval(interval)
   }, [isBlobHovered])
@@ -98,18 +108,20 @@ export default function Hero() {
             onMouseEnter={() => setIsBlobHovered(true)}
             onMouseLeave={() => setIsBlobHovered(false)}
           >
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={heroSlides[activeSlide].src}
-                src={heroSlides[activeSlide].src}
-                alt={heroSlides[activeSlide].alt}
+            {/* All images stacked — active one crossfades in, no blank gap */}
+            {heroSlides.map((slide, index) => (
+              <img
+                key={slide.src}
+                src={slide.src}
+                alt={slide.alt}
                 className="hero-main-img hero-carousel-img"
-                initial={{ opacity: 0, scale: 1.04 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.6, ease: 'easeInOut' }}
+                style={{
+                  opacity: index === activeSlide ? 1 : 0,
+                  transition: 'opacity 0.8s ease-in-out',
+                  zIndex: index === activeSlide ? 2 : 1,
+                }}
               />
-            </AnimatePresence>
+            ))}
 
             <div className="hero-carousel-dots">
               {heroSlides.map((slide, index) => (

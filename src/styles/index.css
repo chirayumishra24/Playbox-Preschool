@@ -173,7 +173,7 @@ a {
 }
 
 .cta-title {
-  font-size: 3rem;
+  font-size: clamp(1.8rem, 4vw + 1rem, 3rem);
   margin-bottom: 1.5rem;
   color: #a41632;
   line-height: 1.2;
@@ -1014,6 +1014,163 @@ a {
   flex-shrink: 0;
 }
 
+/* ================== AUTO-SCROLLING 3-COL GALLERY ================== */
+.gallery-scroll-stage {
+  display: flex;
+  gap: 1rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 clamp(0.5rem, 2vw, 1.5rem);
+  height: 680px;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      black 6%,
+      black 94%,
+      transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      black 6%,
+      black 94%,
+      transparent 100%);
+}
+
+.gallery-scroll-col {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-scroll-track {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.gallery-scroll-track.gallery-scroll-up {
+  animation: gallery-scroll-up 40s linear infinite;
+}
+
+.gallery-scroll-track.gallery-scroll-down {
+  animation: gallery-scroll-down 40s linear infinite;
+}
+
+.gallery-scroll-stage:hover .gallery-scroll-track {
+  animation-play-state: paused;
+}
+
+@keyframes gallery-scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes gallery-scroll-down {
+  0% {
+    transform: translateY(-50%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.gallery-scroll-item {
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--clay-bg);
+  border: 4px solid rgba(255, 255, 255, 0.75);
+  box-shadow: var(--shadow-out), var(--shadow-in);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.4s ease;
+  flex-shrink: 0;
+}
+
+.gallery-scroll-item:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 16px 36px rgba(163, 177, 198, 0.45), var(--shadow-in);
+  z-index: 2;
+}
+
+.gallery-scroll-item img {
+  width: 100%;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gallery-scroll-item:hover img {
+  transform: scale(1.06);
+}
+
+/* ================== MODERN IMAGE GALLERY CAROUSEL ================== */
+.modern-gallery-stage {
+  position: relative;
+  height: 760px;
+  width: 100%;
+  max-width: 980px;
+  perspective: 1300px;
+  transform-style: preserve-3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+}
+
+.modern-gallery-frame {
+  position: absolute;
+  width: min(62vw, 560px);
+  padding: 0.9rem;
+  border-radius: 30px;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.95), rgba(230, 238, 245, 0.98));
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 20px 40px rgba(163, 177, 198, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.modern-gallery-image-wrap {
+  width: 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  aspect-ratio: 4/3;
+  background: #fff;
+}
+
+.modern-gallery-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.modern-gallery-frame:hover .modern-gallery-image-wrap img {
+  transform: scale(1.05);
+}
+
+.modern-gallery-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.modern-gallery-btn {
+  width: 58px;
+  height: 58px;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  min-width: 0 !important;
+  font-size: 2rem !important;
+  font-weight: 800;
+  line-height: 1;
+}
+
 /* ================== MENTORS 3D INTERACTIVE ================== */
 .mentor-card {
   text-align: center;
@@ -1078,6 +1235,8 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1.03);
+  /* Zooms by roughly 2px to hide any image edges */
   transition: transform 0.4s ease;
   filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
 }
@@ -1705,6 +1864,467 @@ a {
   font-size: 0.85rem;
 }
 
+/* ================== DIFFERENCE V2 — SLIDER REVEAL ================== */
+.diff2-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.diff2-bg-shape {
+  position: absolute;
+  border-radius: var(--radius-blob);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.diff2-bg-1 {
+  width: 500px;
+  height: 500px;
+  background: var(--color-primary);
+  top: -10%;
+  right: -6%;
+  animation: blob-bounce 8s infinite alternate ease-in-out;
+}
+
+.diff2-bg-2 {
+  width: 400px;
+  height: 400px;
+  background: var(--color-quinary);
+  bottom: -5%;
+  left: -5%;
+  animation: blob-bounce 10s infinite alternate-reverse ease-in-out;
+}
+
+.diff2-pill {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-quinary));
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  color: #5a1a50;
+  box-shadow: var(--shadow-out), var(--shadow-in);
+  margin-bottom: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.diff2-highlight {
+  background: linear-gradient(135deg, #ff7eb3, #a855f7, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.25em;
+  font-weight: 800;
+  display: inline-block;
+  animation: diff2-pulse 2.5s infinite ease-in-out;
+}
+
+@keyframes diff2-pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+/* Grid */
+.diff2-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 2rem;
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Card */
+.diff2-card {
+  background: var(--clay-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-out), var(--shadow-in);
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  width: 100%;
+  max-width: 410px;
+  justify-self: center;
+}
+
+.diff2-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Reveal Box */
+.diff2-reveal-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5/4;
+  min-height: 310px;
+  overflow: hidden;
+  cursor: default;
+  user-select: none;
+}
+
+.diff2-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.diff2-before-clip {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.diff2-img-before {
+  filter: grayscale(100%) contrast(0.85);
+}
+
+.diff2-grayscale-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 41, 59, 0.15);
+  pointer-events: none;
+}
+
+/* Slider Line + Knob */
+.diff2-slider-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: white;
+  z-index: 5;
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.diff2-slider-knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+.diff2-knob-arrow {
+  font-size: 0.55rem;
+  color: #64748b;
+  line-height: 1;
+}
+
+/* Corner Badges */
+.diff2-badge {
+  position: absolute;
+  top: 8px;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 6;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.diff2-badge-before {
+  left: 8px;
+  background: #64748b;
+}
+
+.diff2-badge-after {
+  right: 8px;
+}
+
+/* Info Row */
+.diff2-info {
+  padding: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: center;
+}
+
+.diff2-info-before,
+.diff2-info-after {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.diff2-emoji {
+  font-size: 1.3rem;
+  line-height: 1;
+  margin-bottom: 0.15rem;
+}
+
+.diff2-label-text {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.2;
+}
+
+.diff2-label-after {
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+.diff2-arrow-divider {
+  font-size: 1rem;
+  color: var(--text-muted);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+/* Stats Row */
+.diff2-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.diff2-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-out), var(--shadow-in);
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  min-width: 150px;
+  transition: transform 0.3s ease;
+}
+
+.diff2-stat:hover {
+  transform: translateY(-4px) scale(1.03);
+}
+
+.diff2-stat-num {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff7eb3, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+}
+
+.diff2-stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-top: 0.2rem;
+}
+
+.diff2-tagline {
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: var(--text-dark);
+  margin-top: 2rem;
+  line-height: 1.4;
+}
+
+.diff2-tagline strong {
+  background: linear-gradient(135deg, #ff7eb3, #a855f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ================== GALLERY MOMENTS — SCRAPBOOK ================== */
+.gm-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.gm-bg-doodle {
+  position: absolute;
+  border-radius: var(--radius-blob);
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gm-doodle-1 {
+  width: 350px;
+  height: 350px;
+  background: var(--color-quaternary);
+  top: 5%;
+  left: -5%;
+}
+
+.gm-doodle-2 {
+  width: 300px;
+  height: 300px;
+  background: var(--color-secondary);
+  bottom: 10%;
+  right: -4%;
+}
+
+.gm-subtitle-pill {
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  background: linear-gradient(135deg, var(--color-quaternary), var(--color-secondary));
+  border-radius: var(--radius-pill);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #1a5242;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-out), var(--shadow-in);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Masonry / Scrapbook Grid */
+.gm-masonry {
+  columns: 4;
+  column-gap: 1.2rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Polaroid Card */
+.gm-polaroid {
+  break-inside: avoid;
+  margin-bottom: 1.2rem;
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 0.6rem 0.6rem 0;
+  box-shadow: var(--shadow-out);
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.gm-polaroid:hover {
+  transform: translateY(-8px) rotate(0deg) scale(1.03);
+  box-shadow: 0 20px 40px rgba(163, 177, 198, 0.45), var(--shadow-in);
+  z-index: 10;
+}
+
+/* Slight random rotations for scrapbook effect */
+.gm-polaroid:nth-child(3n+1) {
+  transform: rotate(-1.5deg);
+}
+
+.gm-polaroid:nth-child(3n+2) {
+  transform: rotate(1deg);
+}
+
+.gm-polaroid:nth-child(3n+3) {
+  transform: rotate(-0.5deg);
+}
+
+.gm-polaroid:nth-child(5n) {
+  transform: rotate(2deg);
+}
+
+.gm-polaroid:hover {
+  transform: translateY(-8px) rotate(0deg) scale(1.03) !important;
+}
+
+.gm-polaroid-img {
+  width: 100%;
+  display: block;
+  border-radius: calc(var(--radius-md) - 4px);
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gm-polaroid:hover .gm-polaroid-img {
+  transform: scale(1.05);
+}
+
+.gm-polaroid-caption {
+  padding: 0.5rem 0.3rem 0.6rem;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Tape deco on some polaroids */
+.gm-tape {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 50px;
+  height: 18px;
+  background: rgba(255, 236, 179, 0.85);
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  z-index: 3;
+}
+
+.gm-tape-alt {
+  transform: translateX(-50%) rotate(4deg);
+  background: rgba(178, 223, 219, 0.85);
+}
+
+/* Pin deco */
+.gm-pin {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 40% 40%, #ef5350, #b71c1c);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  z-index: 3;
+}
+
+.gm-pin::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+}
+
+
+
 /* ================== ANIMATIONS ================== */
 @keyframes float {
 
@@ -1786,6 +2406,44 @@ a {
   .program-img-wrapper {
     height: 200px;
     /* Scale down proportionally */
+  }
+
+  /* Difference V2 – Tablet */
+  .diff2-grid {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .diff2-stat {
+    min-width: 130px;
+    padding: 1rem 1.5rem;
+  }
+
+  .diff2-stat-num {
+    font-size: 1.8rem;
+  }
+
+  /* Gallery Moments = Tablet */
+  .gm-masonry {
+    columns: 3;
+  }
+
+  .gallery-scroll-stage {
+    height: 560px;
+    gap: 0.8rem;
+  }
+
+  .gallery-scroll-item {
+    border-radius: 18px;
+  }
+
+  .modern-gallery-stage {
+    height: 640px;
+    max-width: 840px;
+  }
+
+  .modern-gallery-frame {
+    width: min(70vw, 500px);
   }
 
   .program-content h3 {
@@ -2001,6 +2659,32 @@ a {
     aspect-ratio: 9/14;
   }
 
+  .gallery-scroll-stage {
+    height: 480px;
+    gap: 0.6rem;
+  }
+
+  .gallery-scroll-item {
+    border-radius: 14px;
+    border-width: 3px;
+  }
+
+  .modern-gallery-stage {
+    height: 520px;
+    max-width: 640px;
+  }
+
+  .modern-gallery-frame {
+    width: min(84vw, 430px);
+    padding: 0.7rem;
+  }
+
+  .modern-gallery-btn {
+    width: 52px;
+    height: 52px;
+    font-size: 1.7rem !important;
+  }
+
   /* Mentors */
   .mentors-grid {
     grid-template-columns: 1fr;
@@ -2014,6 +2698,68 @@ a {
   .mentor-img-wrapper {
     width: 140px;
     height: 140px;
+  }
+
+  /* Difference V2 – Mobile */
+  .diff2-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .diff2-card {
+    min-height: 480px;
+  }
+
+  .diff2-reveal-box {
+    min-height: 320px;
+  }
+
+  .diff2-emoji {
+    font-size: 1.1rem;
+  }
+
+  .diff2-label-text {
+    font-size: 0.65rem;
+  }
+
+  .diff2-badge {
+    font-size: 0.55rem;
+    padding: 0.15rem 0.5rem;
+  }
+
+  .diff2-stats-row {
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .diff2-stat {
+    min-width: 100px;
+    padding: 0.8rem 1.2rem;
+  }
+
+  .diff2-stat-num {
+    font-size: 1.5rem;
+  }
+
+  .diff2-stat-label {
+    font-size: 0.75rem;
+  }
+
+  .diff2-tagline {
+    font-size: 1.1rem;
+  }
+
+  /* Gallery Moments - Mobile */
+  .gm-masonry {
+    columns: 2;
+  }
+
+  .gm-polaroid {
+    margin-bottom: 1rem;
+  }
+
+  .gm-subtitle-pill {
+    font-size: 0.85rem;
   }
 
   /* Testimonials / Reviews */
@@ -2189,6 +2935,47 @@ a {
 
   .section-title {
     font-size: 1.7rem;
+  }
+
+  /* Difference V2 – Small Mobile */
+  .diff2-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .diff2-reveal-box {
+    aspect-ratio: 5/4;
+    min-height: 260px;
+  }
+
+  .diff2-pill {
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+  }
+
+  /* Gallery Moments - Small Mobile */
+  .gm-masonry {
+    columns: 1;
+  }
+
+  .gallery-scroll-stage {
+    height: 400px;
+    gap: 0.4rem;
+  }
+
+  .gallery-scroll-item {
+    border-radius: 12px;
+    border-width: 3px;
+  }
+
+  .modern-gallery-stage {
+    height: 430px;
+    max-width: 420px;
+  }
+
+  .modern-gallery-frame {
+    width: min(88vw, 360px);
+    border-radius: 24px;
   }
 
   .section-subtitle {

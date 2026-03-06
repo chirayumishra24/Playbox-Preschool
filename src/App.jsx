@@ -6,7 +6,9 @@ import Hero from './components/Hero'
 import Marquee from './components/Marquee'
 import Features from './components/Features'
 import Programs from './components/Programs'
-import Gallery from './components/Gallery'
+import Testimonies from './components/Gallery'
+import ImageGallery from './components/ImageGallery'
+import Difference from './components/Difference'
 import Mentors from './components/Mentors'
 import Testimonials from './components/Testimonials'
 import Locations from './components/Locations'
@@ -55,7 +57,9 @@ function App() {
         <Marquee />
         <Features />
         <Programs />
-        <Gallery />
+        <Testimonies />
+        <ImageGallery />
+        <Difference />
         <Mentors />
         <Testimonials />
         <Locations />

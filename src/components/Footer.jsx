@@ -21,6 +21,7 @@ const quickLinks = [
     { label: 'Home', href: '#home' },
     { label: 'Why Choose Us', href: '#features' },
     { label: 'Our Programs', href: '#programs' },
+    { label: 'Testimonies', href: '#testimonies' },
     { label: 'Gallery', href: '#gallery' },
     { label: 'Mentors', href: '#mentors' },
     { label: 'Reviews', href: '#testimonials' },

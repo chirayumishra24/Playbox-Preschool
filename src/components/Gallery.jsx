@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { FiVolume2, FiVolumeX } from 'react-icons/fi'
@@ -47,14 +47,42 @@ function VideoCard({ video, index, sectionInView }) {
   const videoRef = useRef(null)
   const cardRef = useRef(null)
   const [isMuted, setIsMuted] = useState(true)
-  const fadeAnim = useRef(null)
+
+  const safeMute = useCallback((vid) => {
+    if (!vid) return
+    vid.muted = true
+    setIsMuted(true)
+    if (vid.paused) vid.play().catch(() => {})
+  }, [])
+
+  const safeUnmute = useCallback(
+    (vid) => {
+      if (!userHasInteracted || !vid) return false
+      try {
+        vid.muted = false
+        setIsMuted(false)
+        window.dispatchEvent(new CustomEvent('singleAudioToggle', { detail: { src: video.src } }))
+
+        if (vid.paused) {
+          vid.muted = true
+          setIsMuted(true)
+          vid.play().catch(() => {})
+          return false
+        }
+        return true
+      } catch {
+        return false
+      }
+    },
+    [video.src],
+  )
 
   // Keep video always playing muted on load, and listen for other videos unmuting
   useEffect(() => {
     const vid = videoRef.current
     if (!vid) return
     vid.muted = true
-    vid.play().catch(() => { })
+    vid.play().catch(() => {})
 
     // Listen for other videos unmuting to enforce mutually exclusive audio
     const handleMuteOthers = (e) => {
@@ -64,37 +92,7 @@ function VideoCard({ video, index, sectionInView }) {
     }
     window.addEventListener('singleAudioToggle', handleMuteOthers)
     return () => window.removeEventListener('singleAudioToggle', handleMuteOthers)
-  }, [video.src])
-
-  // Safe unmute — only if user has interacted
-  const safeUnmute = (vid) => {
-    if (!userHasInteracted || !vid) return false
-    try {
-      vid.muted = false
-      setIsMuted(false)
-      // Broadcast to other videos to mute themselves
-      window.dispatchEvent(new CustomEvent('singleAudioToggle', { detail: { src: video.src } }))
-
-      // If browser paused it due to policy, re-mute and resume
-      if (vid.paused) {
-        vid.muted = true
-        setIsMuted(true)
-        vid.play().catch(() => { })
-        return false
-      }
-      return true
-    } catch (_) {
-      return false
-    }
-  }
-
-  const safeMute = (vid) => {
-    if (!vid) return
-    vid.muted = true
-    setIsMuted(true)
-    // Ensure still playing
-    if (vid.paused) vid.play().catch(() => { })
-  }
+  }, [video.src, safeMute])
 
   // Mobile: Observer to handle auto-unmute on enter and auto-mute on leave
   useEffect(() => {
@@ -121,7 +119,7 @@ function VideoCard({ video, index, sectionInView }) {
 
     observer.observe(cardRef.current)
     return () => observer.disconnect()
-  }, [])
+  }, [safeMute, safeUnmute])
 
   // Desktop: hover to unmute
   const handleMouseEnter = () => {
@@ -189,7 +187,7 @@ export default function Gallery() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
   return (
-    <section className="section" id="gallery" ref={ref}>
+    <section className="section" id="testimonies" ref={ref}>
       <div className="container">
         <div className="section-header">
           <motion.h2
@@ -198,7 +196,7 @@ export default function Gallery() {
             animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ type: 'spring', bounce: 0.5 }}
           >
-            Gallery Moments
+            Testimonies
           </motion.h2>
           <motion.p
             className="section-subtitle"
@@ -206,7 +204,7 @@ export default function Gallery() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
           >
-            See the joy of learning in action.
+            Real classroom and playtime moments shared through videos.
           </motion.p>
         </div>
 
