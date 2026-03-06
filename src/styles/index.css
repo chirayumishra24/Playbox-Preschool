@@ -2865,7 +2865,7 @@ a {
 
   /* Media Coverage – Mobile L */
   .media-grid {
-    columns: 2;
+    columns: 3;
     column-gap: 0.4rem;
   }
 
@@ -3180,7 +3180,7 @@ a {
 
   /* Media Coverage – Mobile S */
   .media-grid {
-    columns: 1;
+    columns: 3;
     column-gap: 0;
   }
 
