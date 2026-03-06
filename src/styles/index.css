@@ -1019,41 +1019,57 @@ a {
   padding-bottom: 3rem;
 }
 
-/* ── Brand Logos Static Grid ── */
-.media-logos-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 1.2rem;
+/* ── Brand Logos Marquee Carousel ── */
+.media-logos-marquee {
+  width: 100%;
+  overflow: hidden;
   padding: 1rem 0 2.5rem;
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.media-logos-track {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  width: max-content;
+  animation: logos-scroll 20s linear infinite;
+}
+
+.media-logos-marquee:hover .media-logos-track {
+  animation-play-state: paused;
+}
+
+@keyframes logos-scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .media-logo-item {
   flex-shrink: 0;
-  width: 240px;
-  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
-  border-radius: var(--radius-md);
-  padding: 1rem 1.5rem;
-  box-shadow: var(--shadow-out), var(--shadow-in);
-  border: 3px solid rgba(255, 255, 255, 0.6);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 180px;
+  padding: 0;
+  transition: transform 0.3s ease;
 }
 
 .media-logo-item:hover {
-  transform: translateY(-4px) scale(1.06);
-  box-shadow: 0 12px 28px rgba(163, 177, 198, 0.45), var(--shadow-in);
+  transform: scale(1.12);
 }
 
 .media-logo-item img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: auto;
+  max-height: 80px;
   object-fit: contain;
-  filter: grayscale(30%);
+  filter: grayscale(20%);
   transition: filter 0.3s ease;
 }
 

@@ -50,8 +50,8 @@ export default function MediaCoverage() {
     document.body.style.overflow = ''
   }, [])
 
-  // Double logos for seamless loop
-  const doubledLogos = [...brandLogos, ...brandLogos]
+
+
 
   return (
     <section className="section media-coverage-section" id="media-coverage">
@@ -78,21 +78,14 @@ export default function MediaCoverage() {
         </div>
       </div>
 
-      {/* ── Brand Logos (Static) ── */}
+      {/* ── Brand Logos Auto-Scrolling Carousel ── */}
       {brandLogos.length > 0 && (
-        <div className="container">
-          <div className="media-logos-grid">
-            {brandLogos.map((logo, i) => (
-              <motion.div
-                className="media-logo-item"
-                key={logo.alt}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ delay: i * 0.08, duration: 0.4 }}
-              >
+        <div className="media-logos-marquee">
+          <div className="media-logos-track">
+            {[...brandLogos, ...brandLogos].map((logo, i) => (
+              <div className="media-logo-item" key={`${logo.alt}-${i}`}>
                 <img src={logo.src} alt={logo.alt} draggable={false} />
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
