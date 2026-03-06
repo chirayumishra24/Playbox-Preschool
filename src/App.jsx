@@ -10,6 +10,7 @@ import Testimonies from './components/Gallery'
 import ImageGallery from './components/ImageGallery'
 import Difference from './components/Difference'
 import Mentors from './components/Mentors'
+import MediaCoverage from './components/MediaCoverage'
 import Testimonials from './components/Testimonials'
 import Locations from './components/Locations'
 import CTA from './components/CTA'
@@ -61,6 +62,7 @@ function App() {
         <ImageGallery />
         <Difference />
         <Mentors />
+        <MediaCoverage />
         <Testimonials />
         <Locations />
         <CTA />
