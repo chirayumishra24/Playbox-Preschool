@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { FiPhone, FiMapPin, FiNavigation, FiStar, FiBook, FiSun, FiHeart } from 'react-icons/fi'
+import { FiPhone, FiMapPin, FiStar, FiBook, FiSun, FiHeart } from 'react-icons/fi'
 
 const locations = [
     {
@@ -10,6 +10,7 @@ const locations = [
         address: 'Near Dwarkadas Circle, Jaipur',
         phone: '+91 9876543210',
         mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.1!2d75.8!3d26.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDU0JzAwLjAiTiA3NcKwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1611111111111',
+        mapLink: 'https://www.google.com/maps/search/?api=1&query=Playbox%20Preschool%20Dwarkadas%20Circle%2C%20Jaipur',
         icon: FiStar,
         color: '#ff7eb3'
     },
@@ -18,7 +19,8 @@ const locations = [
         name: 'Ram Vihar',
         address: 'Ram Vihar Colony, Jaipur',
         phone: '+91 9876543211',
-        mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.1!2d75.8!3d26.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDQ4JzAwLjAiTiA3NcKwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1611111111112',
+        mapSrc: 'https://www.google.com/maps?q=26.8702383,75.7376607&z=16&output=embed',
+        mapLink: 'https://maps.app.goo.gl/43P7Dw6VRdcjdca67',
         icon: FiBook,
         color: '#758cff'
     },
@@ -27,7 +29,8 @@ const locations = [
         name: 'Shyam Nagar',
         address: 'Shyam Nagar, Jaipur',
         phone: '+91 9876543212',
-        mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.5!2d75.7!3d26.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDU0JzAwLjAiTiA3NcKwNDInMDAuMCJF!5e0!3m2!1sen!2sin!4v1611111111113',
+        mapSrc: 'https://www.google.com/maps?q=26.8929422,75.7731688&z=16&output=embed',
+        mapLink: 'https://maps.app.goo.gl/aF4SE9TCSBjZUcfv9',
         icon: FiSun,
         color: '#ffb347'
     },
@@ -36,15 +39,23 @@ const locations = [
         name: 'Tonk Road',
         address: 'Tonk Road, Jaipur',
         phone: '+91 9876543213',
-        mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.1!2d75.8!3d26.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjbCsDQ4JzAwLjAiTiA3NcKwNDgnMDAuMCJF!5e0!3m2!1sen!2sin!4v1611111111114',
+        mapSrc: 'https://www.google.com/maps?q=26.8562331,75.7948937&z=16&output=embed',
+        mapLink: 'https://maps.app.goo.gl/iFZ6t1K8ndk9PD7QA',
         icon: FiHeart,
         color: '#47ffb3'
     },
 ]
 
+function buildGoogleMapsUrl(location) {
+    if (location.mapLink) return location.mapLink
+    const query = encodeURIComponent(`${location.name}, ${location.address}`)
+    return `https://www.google.com/maps/search/?api=1&query=${query}`
+}
+
 export default function Locations() {
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
     const [activeLoc, setActiveLoc] = useState(locations[0])
+    const activeMapLink = buildGoogleMapsUrl(activeLoc)
 
     return (
         <section className="section" id="locations" ref={ref}>
@@ -135,19 +146,10 @@ export default function Locations() {
                                     </div>
                                 </div>
 
-                                {/* ACTION BUTTONS — fixed layout */}
+                                {/* ACTION BUTTON */}
                                 <div className="loc-action-buttons">
                                     <a href={`tel:${activeLoc.phone}`} className="clay-btn loc-action-btn">
                                         <FiPhone size={18} /> <span>{activeLoc.phone}</span>
-                                    </a>
-                                    <a
-                                        href={activeLoc.mapSrc}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="clay-btn clay-btn-primary loc-action-btn"
-                                        style={{ background: activeLoc.color }}
-                                    >
-                                        <FiNavigation size={18} /> <span>Get Directions</span>
                                     </a>
                                 </div>
 
@@ -163,6 +165,15 @@ export default function Locations() {
                                         referrerPolicy="no-referrer-when-downgrade"
                                         title={`Map of ${activeLoc.name}`}
                                     ></iframe>
+                                    <a
+                                        href={activeMapLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="loc-map-overlay"
+                                        aria-label={`Open ${activeLoc.name} in Google Maps`}
+                                    >
+                                        <span className="loc-map-overlay-badge">Open in Google Maps</span>
+                                    </a>
                                 </div>
                             </motion.div>
                         </AnimatePresence>
