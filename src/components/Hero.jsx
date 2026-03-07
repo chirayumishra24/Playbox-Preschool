@@ -69,7 +69,7 @@ export default function Hero() {
 
           <div className="hero-actions">
             <motion.a
-              href="https://forms.zohopublic.in/"
+              href="https://forms.zohopublic.in/skillizeecambridgecourtgroup1/form/PLAYBOXPRESCHOOL/formperma/wFHW4FGSaBDZ7zJftITO1SELaO1h6OtlQJ960NlCIIA"
               target="_blank"
               rel="noopener noreferrer"
               className="clay-btn clay-btn-primary"
