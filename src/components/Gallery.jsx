@@ -21,9 +21,11 @@ const videos = [
   },
 ]
 
-// Detect touch/mobile device
+const MOBILE_MEDIA_QUERY = '(hover: none), (pointer: coarse)'
+const MOBILE_AUDIO_THRESHOLD = 0.18
+
 const isMobileDevice = () =>
-  typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches
+  typeof window !== 'undefined' && window.matchMedia(MOBILE_MEDIA_QUERY).matches
 
 // Track if user has interacted with the page (required by browser autoplay policy)
 let userHasInteracted = false
@@ -43,103 +45,112 @@ if (typeof window !== 'undefined') {
   window.addEventListener('keydown', markInteracted, { passive: true })
 }
 
-function VideoCard({ video, index, sectionInView }) {
+function VideoCard({
+  video,
+  index,
+  sectionInView,
+  isMobileView,
+  hasAudioFocus,
+  onRequestAudio,
+  onReleaseAudio,
+  onMobileVisibilityChange,
+}) {
   const videoRef = useRef(null)
   const cardRef = useRef(null)
   const [isMuted, setIsMuted] = useState(true)
 
-  const safeMute = useCallback((vid) => {
+  const ensurePlayback = useCallback((vid) => {
     if (!vid) return
-    vid.muted = true
-    setIsMuted(true)
-    if (vid.paused) vid.play().catch(() => {})
+    vid.loop = true
+    if (vid.paused) {
+      vid.play().catch(() => {})
+    }
   }, [])
 
-  const safeUnmute = useCallback(
+  const safeMute = useCallback(
     (vid) => {
-      if (!userHasInteracted || !vid) return false
+      if (!vid) return
+      vid.muted = true
+      setIsMuted(true)
+      ensurePlayback(vid)
+    },
+    [ensurePlayback],
+  )
+
+  const safeUnmute = useCallback(
+    (vid, { allowWithoutInteraction = false } = {}) => {
+      if (!vid) return false
+
+      ensurePlayback(vid)
+
+      if (!allowWithoutInteraction && !userHasInteracted) {
+        safeMute(vid)
+        return false
+      }
+
       try {
         vid.muted = false
         setIsMuted(false)
-        window.dispatchEvent(new CustomEvent('singleAudioToggle', { detail: { src: video.src } }))
-
-        if (vid.paused) {
-          vid.muted = true
-          setIsMuted(true)
-          vid.play().catch(() => {})
-          return false
-        }
         return true
       } catch {
+        safeMute(vid)
         return false
       }
     },
-    [video.src],
+    [ensurePlayback, safeMute],
   )
 
-  // Keep video always playing muted on load, and listen for other videos unmuting
   useEffect(() => {
     const vid = videoRef.current
     if (!vid) return
     vid.muted = true
-    vid.play().catch(() => {})
+    ensurePlayback(vid)
+  }, [ensurePlayback])
 
-    // Listen for other videos unmuting to enforce mutually exclusive audio
-    const handleMuteOthers = (e) => {
-      if (e.detail.src !== video.src) {
-        safeMute(videoRef.current)
-      }
-    }
-    window.addEventListener('singleAudioToggle', handleMuteOthers)
-    return () => window.removeEventListener('singleAudioToggle', handleMuteOthers)
-  }, [video.src, safeMute])
-
-  // Mobile: Observer to handle auto-unmute on enter and auto-mute on leave
   useEffect(() => {
-    if (!isMobileDevice()) return
+    if (!isMobileView) return
     if (!cardRef.current || !videoRef.current) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        const vid = videoRef.current
-        if (!vid) return
-
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-          // Try to unmute if in view and user has interacted with document
-          if (userHasInteracted) {
-            safeUnmute(vid)
-          }
-        } else {
-          // If the video leaves the viewport bounds, mute it.
-          safeMute(vid)
-        }
+        onMobileVisibilityChange(index, entry)
       },
-      { threshold: [0, 0.5, 1.0] }
+      { threshold: [0, MOBILE_AUDIO_THRESHOLD, 0.5, 1] },
     )
 
     observer.observe(cardRef.current)
     return () => observer.disconnect()
-  }, [safeMute, safeUnmute])
+  }, [index, isMobileView, onMobileVisibilityChange])
 
-  // Desktop: hover to unmute
+  useEffect(() => {
+    const vid = videoRef.current
+    if (!vid) return
+
+    if (hasAudioFocus) {
+      safeUnmute(vid, { allowWithoutInteraction: !isMobileView })
+      return
+    }
+
+    safeMute(vid)
+  }, [hasAudioFocus, isMobileView, safeMute, safeUnmute])
+
   const handleMouseEnter = () => {
-    if (isMobileDevice()) return
-    safeUnmute(videoRef.current)
+    if (isMobileView) return
+    onRequestAudio(index)
   }
 
   const handleMouseLeave = () => {
-    if (isMobileDevice()) return
-    safeMute(videoRef.current)
+    if (isMobileView) return
+    onReleaseAudio(index)
   }
 
   const toggleMute = () => {
-    const vid = videoRef.current
-    if (!vid) return
-    if (isMuted) {
-      safeUnmute(vid)
-    } else {
-      safeMute(vid)
+    if (hasAudioFocus) {
+      onReleaseAudio(index)
+      return
     }
+
+    onRequestAudio(index)
   }
 
   return (
@@ -173,8 +184,12 @@ function VideoCard({ video, index, sectionInView }) {
         </div>
         <button
           className="clay-btn gallery-mute-btn"
-          onClick={(e) => { e.stopPropagation(); toggleMute() }}
+          onClick={(e) => {
+            e.stopPropagation()
+            toggleMute()
+          }}
           aria-label={isMuted ? 'Unmute' : 'Mute'}
+          aria-pressed={!isMuted}
         >
           {isMuted ? <FiVolumeX size={18} /> : <FiVolume2 size={18} />}
         </button>
@@ -185,6 +200,62 @@ function VideoCard({ video, index, sectionInView }) {
 
 export default function Gallery() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const [isMobileView, setIsMobileView] = useState(() => isMobileDevice())
+  const [activeAudioIndex, setActiveAudioIndex] = useState(null)
+  const visibleCardsRef = useRef(new Map())
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined
+
+    const mediaQuery = window.matchMedia(MOBILE_MEDIA_QUERY)
+    const syncDeviceMode = () => {
+      setIsMobileView(mediaQuery.matches)
+      visibleCardsRef.current.clear()
+      setActiveAudioIndex(null)
+    }
+
+    syncDeviceMode()
+    mediaQuery.addEventListener('change', syncDeviceMode)
+    return () => mediaQuery.removeEventListener('change', syncDeviceMode)
+  }, [])
+
+  const requestAudio = useCallback((index) => {
+    setActiveAudioIndex(index)
+  }, [])
+
+  const releaseAudio = useCallback((index) => {
+    setActiveAudioIndex((current) => (current === index ? null : current))
+  }, [])
+
+  const handleMobileVisibilityChange = useCallback(
+    (index, entry) => {
+      if (!isMobileView) return
+
+      const isVisible = entry.isIntersecting && entry.intersectionRatio >= MOBILE_AUDIO_THRESHOLD
+      const wasVisible = visibleCardsRef.current.has(index)
+
+      if (isVisible) {
+        visibleCardsRef.current.set(index, true)
+
+        if (!wasVisible) {
+          setActiveAudioIndex(index)
+        }
+
+        return
+      }
+
+      if (!wasVisible) return
+
+      visibleCardsRef.current.delete(index)
+      setActiveAudioIndex((current) => {
+        if (current !== index) return current
+
+        const remainingVisible = Array.from(visibleCardsRef.current.keys())
+        return remainingVisible.length ? remainingVisible[remainingVisible.length - 1] : null
+      })
+    },
+    [isMobileView],
+  )
 
   return (
     <section className="section" id="testimonies" ref={ref}>
@@ -210,7 +281,17 @@ export default function Gallery() {
 
         <div className="gallery-grid">
           {videos.map((video, index) => (
-            <VideoCard key={index} video={video} index={index} sectionInView={inView} />
+            <VideoCard
+              key={video.src}
+              video={video}
+              index={index}
+              sectionInView={inView}
+              isMobileView={isMobileView}
+              hasAudioFocus={activeAudioIndex === index}
+              onRequestAudio={requestAudio}
+              onReleaseAudio={releaseAudio}
+              onMobileVisibilityChange={handleMobileVisibilityChange}
+            />
           ))}
         </div>
       </div>

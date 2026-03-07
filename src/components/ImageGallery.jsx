@@ -1,8 +1,9 @@
-import { useMemo } from 'react'
+import { startTransition, useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
 
-/* ── Load every image from img/gm ── */
-const imageModules = import.meta.glob('../../img/gm/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', {
+/* ── Load optimized gallery images only ── */
+const imageModules = import.meta.glob('../../img/gm-optimized/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', {
   eager: true,
   import: 'default',
 })
@@ -20,6 +21,7 @@ const galleryImages = Object.entries(imageModules)
   }))
 
 const NUM_COLS = 3
+const PLACEHOLDER_ROWS = 4
 
 /* ── Distribute images across 3 columns (round-robin) ── */
 function distributeImages(images) {
@@ -34,12 +36,26 @@ function scrollDirection(colIdx) {
 }
 
 export default function ImageGallery() {
+  const [sectionRef, inView] = useInView({ triggerOnce: true, rootMargin: '320px 0px', threshold: 0.05 })
+  const [shouldRenderStage, setShouldRenderStage] = useState(false)
   const columns = useMemo(() => distributeImages(galleryImages), [])
+  const placeholderColumns = useMemo(
+    () => columns.map((colImages) => Math.min(Math.max(colImages.length, 1), PLACEHOLDER_ROWS)),
+    [columns],
+  )
+
+  useEffect(() => {
+    if (!inView || shouldRenderStage) return
+
+    startTransition(() => {
+      setShouldRenderStage(true)
+    })
+  }, [inView, shouldRenderStage])
 
   if (!galleryImages.length) return null
 
   return (
-    <section className="section" id="gallery">
+    <section className="section" id="gallery" ref={sectionRef}>
       <div className="container">
         <div className="section-header">
           <motion.h2
@@ -63,32 +79,50 @@ export default function ImageGallery() {
         </div>
       </div>
 
-      {/* ── 3-column auto-scrolling grid ── */}
-      <div className="gallery-scroll-stage">
-        {columns.map((colImages, colIdx) => {
-          const dir = scrollDirection(colIdx)
-          // Double the images so the marquee loops seamlessly
-          const doubled = [...colImages, ...colImages]
+      <div className="gallery-scroll-shell">
+        {shouldRenderStage ? (
+          <motion.div
+            className="gallery-scroll-stage"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: 'easeOut' }}
+          >
+            {columns.map((colImages, colIdx) => {
+              const dir = scrollDirection(colIdx)
+              const doubled = [...colImages, ...colImages]
 
-          return (
-            <div className="gallery-scroll-col" key={colIdx}>
-              <div
-                className={`gallery-scroll-track gallery-scroll-${dir}`}
-              >
-                {doubled.map((img, i) => (
-                  <div className="gallery-scroll-item" key={`${img.src}-${i}`}>
-                    <img
-                      src={img.src}
-                      alt={img.alt}
-                      loading="lazy"
-                      draggable={false}
-                    />
+              return (
+                <div className="gallery-scroll-col" key={colIdx}>
+                  <div className={`gallery-scroll-track gallery-scroll-${dir}`}>
+                    {doubled.map((img, i) => (
+                      <div className="gallery-scroll-item" key={`${img.src}-${i}`}>
+                        <img
+                          src={img.src}
+                          alt={img.alt}
+                          loading="lazy"
+                          decoding="async"
+                          draggable={false}
+                        />
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
+              )
+            })}
+          </motion.div>
+        ) : (
+          <div className="gallery-scroll-placeholder" aria-hidden="true">
+            {placeholderColumns.map((itemCount, colIdx) => (
+              <div className="gallery-scroll-col" key={`placeholder-${colIdx}`}>
+                <div className="gallery-scroll-placeholder-track">
+                  {Array.from({ length: itemCount }).map((_, itemIdx) => (
+                    <div className="gallery-scroll-placeholder-item" key={`${colIdx}-${itemIdx}`} />
+                  ))}
+                </div>
               </div>
-            </div>
-          )
-        })}
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
