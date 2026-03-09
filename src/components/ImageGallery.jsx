@@ -37,6 +37,7 @@ function scrollDirection(colIdx) {
 
 export default function ImageGallery() {
   const [sectionRef, inView] = useInView({ triggerOnce: true, rootMargin: '320px 0px', threshold: 0.05 })
+  const [preloadRef, preloadInView] = useInView({ triggerOnce: true, rootMargin: '1200px 0px' })
   const [shouldRenderStage, setShouldRenderStage] = useState(false)
   const columns = useMemo(() => distributeImages(galleryImages), [])
   const placeholderColumns = useMemo(
@@ -44,22 +45,17 @@ export default function ImageGallery() {
     [columns],
   )
 
-  // Preload images silently in the background
+  // Preload images silently in the background when the user gets within 1200px of the section
   useEffect(() => {
-    let loadedCount = 0
+    if (!preloadInView) return
+
     galleryImages.forEach((image) => {
       const img = new Image()
-      img.onload = () => {
-        loadedCount++
-        if (loadedCount === galleryImages.length) {
-          // All images are successfully preloaded and cached by the browser
-        }
-      }
       img.src = image.src
     })
-  }, [])
+  }, [preloadInView])
 
-  // Render the gallery when it comes into view. Because we preloaded them above,
+  // Render the gallery when it comes into the actual viewport. Because we preloaded them above,
   // the browser will fetch them instantly from disk/memory cache.
   useEffect(() => {
     if (!inView || shouldRenderStage) return
@@ -72,7 +68,7 @@ export default function ImageGallery() {
   if (!galleryImages.length) return null
 
   return (
-    <section className="section" id="gallery" ref={sectionRef}>
+    <section className="section" id="gallery" ref={(node) => { sectionRef(node); preloadRef(node); }}>
       <div className="container">
         <div className="section-header">
           <motion.h2
