@@ -44,6 +44,23 @@ export default function ImageGallery() {
     [columns],
   )
 
+  // Preload images silently in the background
+  useEffect(() => {
+    let loadedCount = 0
+    galleryImages.forEach((image) => {
+      const img = new Image()
+      img.onload = () => {
+        loadedCount++
+        if (loadedCount === galleryImages.length) {
+          // All images are successfully preloaded and cached by the browser
+        }
+      }
+      img.src = image.src
+    })
+  }, [])
+
+  // Render the gallery when it comes into view. Because we preloaded them above,
+  // the browser will fetch them instantly from disk/memory cache.
   useEffect(() => {
     if (!inView || shouldRenderStage) return
 
