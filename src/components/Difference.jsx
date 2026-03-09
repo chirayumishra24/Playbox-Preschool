@@ -146,9 +146,21 @@ function Counter({ target, label, sectionInView, delay = 0 }) {
 export default function Difference() {
     const ref = useRef(null)
     const inView = useInView(ref, { once: true, margin: '-80px' })
+    const [preloadRef, preloadInView] = useInView({ triggerOnce: true, rootMargin: '2500px 0px' })
+
+    // Preload both before and after images when 2500px away
+    useEffect(() => {
+        if (!preloadInView) return
+        transformations.forEach((item) => {
+            const beforeImg = new Image()
+            beforeImg.src = item.before.image
+            const afterImg = new Image()
+            afterImg.src = item.after.image
+        })
+    }, [preloadInView])
 
     return (
-        <section className="section diff2-section" id="difference" ref={ref}>
+        <section className="section diff2-section" id="difference" ref={(node) => { ref.current = node; preloadRef(node); }}>
             <div className="diff2-bg-shape diff2-bg-1" />
             <div className="diff2-bg-shape diff2-bg-2" />
 

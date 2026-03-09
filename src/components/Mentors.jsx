@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import priyanshiImage from '../../img/priyanshi-mam.png'
@@ -24,9 +25,19 @@ const mentors = [
 
 export default function Mentors() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 })
+  const [preloadRef, preloadInView] = useInView({ triggerOnce: true, rootMargin: '2500px 0px' })
+
+  // Preload images silently in the background when 2500px away
+  useEffect(() => {
+    if (!preloadInView) return
+    mentors.forEach((mentor) => {
+      const img = new Image()
+      img.src = mentor.image
+    })
+  }, [preloadInView])
 
   return (
-    <section className="section" id="mentors" ref={ref}>
+    <section className="section" id="mentors" ref={(node) => { ref(node); preloadRef(node); }}>
       <div className="container">
         <div className="section-header">
           <motion.h2

@@ -37,7 +37,7 @@ function scrollDirection(colIdx) {
 
 export default function ImageGallery() {
   const [sectionRef, inView] = useInView({ triggerOnce: true, rootMargin: '320px 0px', threshold: 0.05 })
-  const [preloadRef, preloadInView] = useInView({ triggerOnce: true, rootMargin: '1200px 0px' })
+  const [preloadRef, preloadInView] = useInView({ triggerOnce: true, rootMargin: '2500px 0px' })
   const [shouldRenderStage, setShouldRenderStage] = useState(false)
   const columns = useMemo(() => distributeImages(galleryImages), [])
   const placeholderColumns = useMemo(
@@ -45,7 +45,7 @@ export default function ImageGallery() {
     [columns],
   )
 
-  // Preload images silently in the background when the user gets within 1200px of the section
+  // Preload images silently in the background when the user gets within 2500px of the section
   useEffect(() => {
     if (!preloadInView) return
 

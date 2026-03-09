@@ -1,5 +1,6 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
 
 /* ── Load brand logos from img/media/logos ── */
 const logoModules = import.meta.glob('../../img/media/logos/*.{png,PNG,jpg,JPG,jpeg,JPEG,webp,WEBP}', {
@@ -50,11 +51,21 @@ export default function MediaCoverage() {
     document.body.style.overflow = ''
   }, [])
 
+  const [preloadRef, preloadInView] = useInView({ triggerOnce: true, rootMargin: '2500px 0px' })
 
+  // Preload logos and cuttings silently in the background when 2500px away
+  useEffect(() => {
+    if (!preloadInView) return
+    const allImages = [...brandLogos, ...mediaCuttings]
+    allImages.forEach((item) => {
+      const img = new Image()
+      img.src = item.src
+    })
+  }, [preloadInView])
 
 
   return (
-    <section className="section media-coverage-section" id="media-coverage">
+    <section className="section media-coverage-section" id="media-coverage" ref={preloadRef}>
       <div className="container">
         <div className="section-header">
           <motion.h2
