@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { animate, motion, useInView, useMotionValue } from 'framer-motion'
-
+import { useInView as useInViewObserver } from 'react-intersection-observer'
 const transformations = [
     {
         before: { label: 'Separation Anxiety', emoji: '😢', image: '/assets/before_separation_anxiety.png' },
@@ -146,7 +146,7 @@ function Counter({ target, label, sectionInView, delay = 0 }) {
 export default function Difference() {
     const ref = useRef(null)
     const inView = useInView(ref, { once: true, margin: '-80px' })
-    const [preloadRef, preloadInView] = useInView({ triggerOnce: true, rootMargin: '2500px 0px' })
+    const [preloadRef, preloadInView] = useInViewObserver({ triggerOnce: true, rootMargin: '2500px 0px' })
 
     // Preload both before and after images when 2500px away
     useEffect(() => {
