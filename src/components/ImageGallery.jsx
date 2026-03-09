@@ -116,8 +116,6 @@ export default function ImageGallery() {
                         <img
                           src={img.src}
                           alt={img.alt}
-                          loading="lazy"
-                          decoding="async"
                           draggable={false}
                         />
                       </div>
