@@ -29,7 +29,7 @@ const locations = [
         name: 'Shyam Nagar',
         address: 'Shyam Nagar, Jaipur',
         phone: '+91 9216946252',
-        mapSrc: 'https://www.google.com/maps?q=26.8929422,75.7731688&z=16&output=embed',
+        mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.3323061272035!2d75.76829787882873!3d26.89294690077811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db5854355109f%3A0xe4c0e6e1581dc3ab!2sPlaybox%20Preschool%20(%20Shyam%20Nagar%20)%20%7C%20Top%20Best%20Preschool%20in%20Jaipur!5e0!3m2!1sen!2sin!4v1773046342167!5m2!1sen!2sin',
         mapLink: 'https://maps.app.goo.gl/aF4SE9TCSBjZUcfv9',
         icon: FiSun,
         color: '#ffb347'
@@ -39,7 +39,7 @@ const locations = [
         name: 'Tonk Road',
         address: 'Tonk Road, Jaipur',
         phone: '+91 9216946252',
-        mapSrc: 'https://www.google.com/maps?q=26.8562331,75.7948937&z=16&output=embed',
+        mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10677.55794786555!2d75.78564628036742!3d26.856323996510984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db51e7dbb254f%3A0x42fe0bd0446013d1!2sPlaybox%20Preschool%20(%20Sanghi%20Farm%20)%20%7C%20Top%20Best%20Preschool%20in%20Jaipur!5e0!3m2!1sen!2sin!4v1773046400981!5m2!1sen!2sin',
         mapLink: 'https://maps.app.goo.gl/iFZ6t1K8ndk9PD7QA',
         icon: FiHeart,
         color: '#47ffb3'
