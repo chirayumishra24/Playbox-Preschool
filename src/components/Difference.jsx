@@ -1,35 +1,35 @@
 import { useState, useRef, useEffect } from 'react'
 import { animate, motion, useInView, useMotionValue } from 'framer-motion'
-import { useInView as useInViewObserver } from 'react-intersection-observer'
+
 const transformations = [
     {
-        before: { label: 'Separation Anxiety', emoji: '😢', image: '/assets/before_separation_anxiety.png' },
-        after: { label: 'Supportive, Caring Teachers', emoji: '🤗', image: '/assets/after_caring_teachers.png' },
+        before: { label: 'Separation Anxiety', emoji: '😢', image: '/assets/before_separation_anxiety.webp' },
+        after: { label: 'Supportive, Caring Teachers', emoji: '🤗', image: '/assets/after_caring_teachers.webp' },
         accent: 'var(--color-primary)',
     },
     {
-        before: { label: 'Excessive Screen Time', emoji: '📱', image: '/assets/before_screen_time.png' },
-        after: { label: 'Screenless Hands-On Activities', emoji: '🎨', image: '/assets/after_hands_on.png' },
+        before: { label: 'Excessive Screen Time', emoji: '📱', image: '/assets/before_screen_time.webp' },
+        after: { label: 'Screenless Hands-On Activities', emoji: '🎨', image: '/assets/after_hands_on.webp' },
         accent: 'var(--color-secondary)',
     },
     {
-        before: { label: 'Unstructured Routine', emoji: '😴', image: '/assets/before_unstructured.png' },
-        after: { label: 'Productive Utilization of Time', emoji: '⏰', image: '/assets/after_productive_time.png' },
+        before: { label: 'Unstructured Routine', emoji: '😴', image: '/assets/before_unstructured.webp' },
+        after: { label: 'Productive Utilization of Time', emoji: '⏰', image: '/assets/after_productive_time.webp' },
         accent: 'var(--color-quaternary)',
     },
     {
-        before: { label: 'Aggressive Behavior', emoji: '😤', image: '/assets/before_aggressive.jpg' },
-        after: { label: 'Building Emotional Intelligence', emoji: '💛', image: '/assets/after_emotional_eq.jpg' },
+        before: { label: 'Aggressive Behavior', emoji: '😤', image: '/assets/before_aggressive.webp' },
+        after: { label: 'Building Emotional Intelligence', emoji: '💛', image: '/assets/after_emotional_eq.webp' },
         accent: 'var(--color-quinary)',
     },
     {
-        before: { label: 'Slow Language Development', emoji: '🤐', image: '/assets/before_slow_language.jpg' },
-        after: { label: 'Enhanced Social Skills', emoji: '🗣️', image: '/assets/after_social_skills.jpg' },
+        before: { label: 'Slow Language Development', emoji: '🤐', image: '/assets/before_slow_language.webp' },
+        after: { label: 'Enhanced Social Skills', emoji: '🗣️', image: '/assets/after_social_skills.webp' },
         accent: 'var(--color-tertiary)',
     },
     {
-        before: { label: 'Low Group Confidence', emoji: '😟', image: '/assets/before_separation_anxiety.png' },
-        after: { label: 'Confident Classroom Participation', emoji: '🌟', image: '/assets/after_confident.jpg' },
+        before: { label: 'Low Group Confidence', emoji: '😟', image: '/assets/before_separation_anxiety.webp' },
+        after: { label: 'Confident Classroom Participation', emoji: '🌟', image: '/assets/after_confident.webp' },
         accent: 'var(--color-secondary)',
     },
 ]
@@ -70,11 +70,11 @@ function RevealCard({ item, index, sectionInView }) {
                 className="diff2-reveal-box"
             >
                 {/* After image (underneath, full) */}
-                <img src={item.after.image} alt={item.after.label} className="diff2-img diff2-img-after" draggable="false" />
+                <img src={item.after.image} alt={item.after.label} className="diff2-img diff2-img-after" draggable="false" loading="lazy" />
 
                 {/* Before image (clipped by slider) */}
                 <div className="diff2-before-clip" style={{ clipPath: `inset(0 ${100 - revealPercent}% 0 0)` }}>
-                    <img src={item.before.image} alt={item.before.label} className="diff2-img diff2-img-before" draggable="false" />
+                    <img src={item.before.image} alt={item.before.label} className="diff2-img diff2-img-before" draggable="false" loading="lazy" />
                     <div className="diff2-grayscale-overlay" />
                 </div>
 
@@ -146,7 +146,8 @@ function Counter({ target, label, sectionInView, delay = 0 }) {
 export default function Difference() {
     const ref = useRef(null)
     const inView = useInView(ref, { once: true, margin: '-80px' })
-    const [preloadRef, preloadInView] = useInViewObserver({ triggerOnce: true, rootMargin: '2500px 0px' })
+    const preloadRef = useRef(null)
+    const preloadInView = useInView(preloadRef, { once: true, margin: '2500px' })
 
     // Preload both before and after images when 2500px away
     useEffect(() => {
@@ -160,7 +161,7 @@ export default function Difference() {
     }, [preloadInView])
 
     return (
-        <section className="section diff2-section" id="difference" ref={(node) => { ref.current = node; preloadRef(node); }}>
+        <section className="section diff2-section" id="difference" ref={(node) => { ref.current = node; preloadRef.current = node; }}>
             <div className="diff2-bg-shape diff2-bg-1" />
             <div className="diff2-bg-shape diff2-bg-2" />
 

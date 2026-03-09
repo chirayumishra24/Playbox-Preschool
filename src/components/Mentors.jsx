@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import priyanshiImage from '../../img/priyanshi-mam.png'
-import lataImage from '../../img/lata-mam.png'
-import aarnaImage from '../../img/aarna-mam.png'
+import priyanshiImage from '../../img/priyanshi-mam.webp'
+import lataImage from '../../img/lata-mam.webp'
+import aarnaImage from '../../img/aarna-mam.webp'
 
 const mentors = [
   {

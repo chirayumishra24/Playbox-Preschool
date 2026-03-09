@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { playPopSound, playHoverSound } from '../utils/sounds.js'
-import playGroupImage from '../../img/play_group_indian_1772698626406.png'
-import nurseryImage from '../../img/nursery_indian_1772698642980.png'
-import juniorKgImage from '../../img/junior_kg_indian_1772698662448.png'
-import seniorKgImage from '../../img/senior_kg_indian_1772698677579.png'
+import playGroupImage from '../../img/play_group_indian_1772698626406.webp'
+import nurseryImage from '../../img/nursery_indian_1772698642980.webp'
+import juniorKgImage from '../../img/junior_kg_indian_1772698662448.webp'
+import seniorKgImage from '../../img/senior_kg_indian_1772698677579.webp'
 
 const programs = [
   {

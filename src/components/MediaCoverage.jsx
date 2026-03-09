@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
 /* ── Load brand logos from img/media/logos ── */
-const logoModules = import.meta.glob('../../img/media/logos/*.{png,PNG,jpg,JPG,jpeg,JPEG,webp,WEBP}', {
+const logoModules = import.meta.glob('../../img/media/logos/*.webp', {
   eager: true,
   import: 'default',
 })
@@ -21,7 +21,7 @@ const brandLogos = Object.entries(logoModules)
   }))
 
 /* ── Load newspaper cuttings from img/media ── */
-const mediaModules = import.meta.glob('../../img/media/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', {
+const mediaModules = import.meta.glob('../../img/media/*.webp', {
   eager: true,
   import: 'default',
 })
