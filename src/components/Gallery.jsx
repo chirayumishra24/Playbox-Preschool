@@ -23,22 +23,41 @@ const videos = [
 function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAudioIndex }) {
   const cardRef = useRef(null)
   const videoRef = useRef(null)
+  const hasInteracted = useRef(false)
   const isMuted = activeAudioIndex !== index
+
+  // Track first user interaction (click/tap) on the document
+  useEffect(() => {
+    const markInteracted = () => { hasInteracted.current = true }
+    document.addEventListener('click', markInteracted, { once: true })
+    document.addEventListener('touchstart', markInteracted, { once: true })
+    return () => {
+      document.removeEventListener('click', markInteracted)
+      document.removeEventListener('touchstart', markInteracted)
+    }
+  }, [])
 
   useEffect(() => {
     const vid = videoRef.current
-    if (vid) {
-      vid.muted = isMuted
+    if (!vid) return
+    vid.muted = isMuted
+    // If we just unmuted but the browser paused the video, re-play it muted
+    if (!isMuted && vid.paused) {
+      vid.play().catch(() => {
+        vid.muted = true
+        vid.play().catch(() => { })
+      })
     }
   }, [isMuted])
 
-  const toggleMute = useCallback(() => {
-    if (isMuted) {
-      setActiveAudioIndex(index)
-    } else {
-      setActiveAudioIndex(null)
-    }
-  }, [isMuted, index, setActiveAudioIndex])
+  const handleMouseEnter = useCallback(() => {
+    if (!hasInteracted.current) return
+    setActiveAudioIndex(index)
+  }, [index, setActiveAudioIndex])
+
+  const handleMouseLeave = useCallback(() => {
+    setActiveAudioIndex((prev) => (prev === index ? null : prev))
+  }, [index, setActiveAudioIndex])
 
   return (
     <motion.div
@@ -48,10 +67,11 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
       animate={sectionInView ? { opacity: 1, scale: 1 } : {}}
       transition={{ delay: index * 0.2, type: 'spring', bounce: 0.5 }}
       style={{ padding: '1rem', display: 'flex', flexDirection: 'column' }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div
         style={{ flex: 1, overflow: 'hidden', borderRadius: 'var(--radius-md)', cursor: 'pointer', marginBottom: '1rem' }}
-        onClick={toggleMute}
       >
         <video
           ref={videoRef}
@@ -70,9 +90,8 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
           <h4 className="gallery-card-title">{video.title}</h4>
           <p className="gallery-card-desc" style={{ marginBottom: 0 }}>{video.description}</p>
         </div>
-        <button
-          onClick={toggleMute}
-          aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+        <div
+          aria-label={isMuted ? 'Muted' : 'Playing audio'}
           style={{
             width: '3rem',
             height: '3rem',
@@ -80,7 +99,6 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
             border: '2px solid var(--color-primary)',
             background: isMuted ? 'transparent' : 'var(--color-primary)',
             color: isMuted ? 'var(--color-primary)' : '#fff',
-            cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -88,7 +106,6 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
             marginLeft: '1rem',
             transition: 'all 0.25s ease',
             padding: 0,
-            outline: 'none',
           }}
         >
           {isMuted ? (
@@ -104,7 +121,7 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
               <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
             </svg>
           )}
-        </button>
+        </div>
       </div>
     </motion.div>
   )
