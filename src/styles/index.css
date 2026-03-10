@@ -1032,9 +1032,9 @@ a {
 .media-logos-track {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2.5rem;
   width: max-content;
-  animation: logos-scroll 20s linear infinite;
+  animation: logos-scroll 120s linear infinite;
 }
 
 .media-logos-marquee:hover .media-logos-track {
