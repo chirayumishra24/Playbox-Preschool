@@ -3332,3 +3332,37 @@ a {
     transform: none;
   }
 }
+
+/* ================== RESPONSIVE: LARGE SCREENS ================== */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1400px;
+  }
+  .navbar {
+    max-width: 1400px;
+  }
+  .gallery-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .media-grid {
+    columns: 4;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1700px;
+  }
+  .navbar {
+    max-width: 1700px;
+  }
+  .gallery-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .media-grid {
+    columns: 5;
+  }
+  .program-card-3d {
+    width: 600px;
+  }
+}
