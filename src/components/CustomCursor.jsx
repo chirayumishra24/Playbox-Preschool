@@ -60,13 +60,19 @@ export default function CustomCursor() {
             <motion.div
                 className="custom-cursor"
                 animate={{
-                    x: mousePosition.x - 16,
-                    y: mousePosition.y - 16,
+                    x: mousePosition.x - 10,
+                    y: mousePosition.y - 10,
                 }}
                 transition={{ type: 'spring', stiffness: 500, damping: 28, mass: 0.5 }}
-            >
-                🪄
-            </motion.div>
+                style={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    backgroundColor: 'var(--color-primary)',
+                    boxShadow: '0 0 10px var(--color-primary), inset 0 0 5px white',
+                    border: '2px solid white'
+                }}
+            />
 
             <AnimatePresence>
                 {particles.map((p) => (
@@ -82,7 +88,12 @@ export default function CustomCursor() {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        ✨
+                        <div style={{
+                            width: '8px',
+                            height: '8px',
+                            borderRadius: '50%',
+                            backgroundColor: 'var(--color-secondary)'
+                        }} />
                     </motion.div>
                 ))}
             </AnimatePresence>
