@@ -1073,6 +1073,8 @@ a {
   transform: scale(1.05);
   filter: grayscale(20%);
   transition: filter 0.3s ease;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Optional subtle shadow to define the rounded edge nicely if they have white backgrounds on light blue */
 }
 
 .media-logo-item:hover img {
