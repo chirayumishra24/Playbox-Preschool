@@ -1,20 +1,22 @@
-import { useState } from 'react'
+import { useState, Suspense, lazy } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Preloader from './components/Preloader'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
-import Features from './components/Features'
-import Programs from './components/Programs'
-import Testimonies from './components/Gallery'
-import ImageGallery from './components/ImageGallery'
-import Difference from './components/Difference'
-import Mentors from './components/Mentors'
-import MediaCoverage from './components/MediaCoverage'
-import Testimonials from './components/Testimonials'
-import Locations from './components/Locations'
-import CTA from './components/CTA'
-import Footer from './components/Footer'
+
+// Lazy loaded components (below the fold)
+const Features = lazy(() => import('./components/Features'))
+const Programs = lazy(() => import('./components/Programs'))
+const Testimonies = lazy(() => import('./components/Gallery'))
+const ImageGallery = lazy(() => import('./components/ImageGallery'))
+const Difference = lazy(() => import('./components/Difference'))
+const Mentors = lazy(() => import('./components/Mentors'))
+const MediaCoverage = lazy(() => import('./components/MediaCoverage'))
+const Testimonials = lazy(() => import('./components/Testimonials'))
+const Locations = lazy(() => import('./components/Locations'))
+const CTA = lazy(() => import('./components/CTA'))
+const Footer = lazy(() => import('./components/Footer'))
 import CustomCursor from './components/CustomCursor'
 
 function ParallaxBackground() {
@@ -56,17 +58,20 @@ function App() {
         <Navbar />
         <Hero />
         <Marquee />
-        <Features />
-        <Programs />
-        <Testimonies />
-        <ImageGallery />
-        <Difference />
-        <Mentors />
-        <MediaCoverage />
-        <Testimonials />
-        <Locations />
-        <CTA />
-        <Footer />
+        
+        <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>}>
+          <Features />
+          <Programs />
+          <Testimonies />
+          <ImageGallery />
+          <Difference />
+          <Mentors />
+          <MediaCoverage />
+          <Testimonials />
+          <Locations />
+          <CTA />
+          <Footer />
+        </Suspense>
       </div>
     </>
   )

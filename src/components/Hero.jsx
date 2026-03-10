@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import heroBlobImage1 from '../../img/build/20230809_124004.webp'
-import heroBlobImage2 from '../../img/build/20240313_161507.jpg'
-import heroBlobImage3 from '../../img/build/20240313_161626.jpg'
+import heroBlobImage2 from '../../img/build/20240313_161507.webp'
+import heroBlobImage3 from '../../img/build/20240313_161626.webp'
 import heroBlobImage4 from '../../img/build/4449e70f-f8f8-4a8e-a1b7-a09bd649c47b.webp'
-import heroBlobImage5 from '../../img/build/Copy of 20230809_122955.jpg'
-import heroBlobImage6 from '../../img/build/Copy of 20240313_161507.jpg'
+import heroBlobImage5 from '../../img/build/Copy of 20230809_122955.webp'
+import heroBlobImage6 from '../../img/build/Copy of 20240313_161507.webp'
 
 const heroSlides = [
   { src: heroBlobImage1, alt: 'Playbox preschool building front view' },

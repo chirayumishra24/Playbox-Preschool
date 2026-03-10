@@ -1,8 +1,6 @@
 import {
     FiFacebook,
     FiInstagram,
-    FiLinkedin,
-    FiYoutube,
     FiPhone,
     FiMail,
     FiMapPin,
@@ -11,10 +9,8 @@ import {
 } from 'react-icons/fi'
 
 const socialLinks = [
-    { icon: FiFacebook, label: 'Facebook', href: '#', color: '#1877F2' },
-    { icon: FiInstagram, label: 'Instagram', href: '#', color: '#E4405F' },
-    { icon: FiLinkedin, label: 'LinkedIn', href: '#', color: '#0A66C2' },
-    { icon: FiYoutube, label: 'YouTube', href: '#', color: '#FF0000' },
+    { icon: FiFacebook, label: 'Facebook', href: 'https://www.facebook.com/playboxpreschooljaipur/', color: '#1877F2' },
+    { icon: FiInstagram, label: 'Instagram', href: 'https://www.instagram.com/playboxpreschooljaipur/', color: '#E4405F' },
 ]
 
 const quickLinks = [
@@ -121,7 +117,7 @@ export default function Footer() {
                         <div className="footer-links-list">
                             <a href="tel:+919876543210" className="footer-contact-item">
                                 <FiPhone size={16} />
-                                <span>+91 98765 43210</span>
+                                <span>+91 9216946252</span>
                             </a>
                             <a href="mailto:info@playboxpreschool.com" className="footer-contact-item">
                                 <FiMail size={16} />

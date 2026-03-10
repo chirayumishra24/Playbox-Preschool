@@ -3,37 +3,37 @@ import { useInView } from 'react-intersection-observer'
 
 const features = [
   {
-    icon: '/assets/feature_play_learning.png',
+    icon: '/assets/feature_play_learning.webp',
     title: 'Play-Based Learning',
     description: 'Children learn best through play. Our curriculum blends structured activities with free exploration to build foundational skills naturally.',
     color: 'var(--color-primary)'
   },
   {
-    icon: '/assets/feature_safety.png',
+    icon: '/assets/feature_safety.webp',
     title: 'Safe & Secure',
     description: 'CCTV monitored campus, trained staff, hygienic environment, and child-safe infrastructure ensuring complete peace of mind.',
     color: 'var(--color-secondary)'
   },
   {
-    icon: '/assets/feature_holistic.png',
+    icon: '/assets/feature_holistic.webp',
     title: 'Holistic Development',
     description: 'We focus on cognitive, social, emotional, and physical development through music, art, language, math, and creative play.',
     color: 'var(--color-tertiary)'
   },
   {
-    icon: '/assets/feature_teachers.png',
+    icon: '/assets/feature_teachers.webp',
     title: 'Expert Educators',
     description: 'Our passionate teachers are trained in early childhood education with international methodologies to nurture every child.',
     color: 'var(--color-quaternary)'
   },
   {
-    icon: '/assets/feature_transport.png',
+    icon: '/assets/feature_transport.webp',
     title: 'Transport Facility',
     description: 'Safe and comfortable AC bus service with GPS tracking and a dedicated attendant, ensuring a smooth commute.',
     color: 'var(--color-quinary)'
   },
   {
-    icon: '/assets/feature_nutrition.png',
+    icon: '/assets/feature_nutrition.webp',
     title: 'Nutritious Meals',
     description: 'Balanced, freshly prepared vegetarian meals planned by nutritionists to keep children energized and healthy.',
     color: 'var(--color-primary)'
