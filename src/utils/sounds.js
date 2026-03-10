@@ -1,8 +1,23 @@
+let audioCtx = null;
+
+const getAudioContext = () => {
+    if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+            audioCtx = new AudioContext();
+        }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+    }
+    return audioCtx;
+};
+
 export const playPopSound = () => {
     try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-        const ctx = new AudioContext();
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        
         const osc = ctx.createOscillator();
         const gainNode = ctx.createGain();
 
@@ -26,9 +41,9 @@ export const playPopSound = () => {
 
 export const playHoverSound = () => {
     try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-        const ctx = new AudioContext();
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        
         const osc = ctx.createOscillator();
         const gainNode = ctx.createGain();
 
