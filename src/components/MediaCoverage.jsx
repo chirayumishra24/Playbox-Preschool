@@ -93,7 +93,7 @@ export default function MediaCoverage() {
       {brandLogos.length > 0 && (
         <div className="media-logos-marquee">
           <div className="media-logos-track">
-            {[...brandLogos, ...brandLogos].map((logo, i) => (
+            {Array(6).fill(brandLogos).flat().map((logo, i) => (
               <div className="media-logo-item" key={`${logo.alt}-${i}`}>
                 <img src={logo.src} alt={logo.alt} draggable={false} />
               </div>
