@@ -1056,7 +1056,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 215px;
+  height: 95px;
   padding: 0;
   transition: transform 0.3s ease;
 }
@@ -1066,15 +1066,13 @@ a {
 }
 
 .media-logo-item img {
-  width: 100%;
-  height: auto;
-  max-height: 95px;
-  object-fit: contain;
-  transform: scale(1.05);
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); 
   filter: grayscale(20%);
   transition: filter 0.3s ease;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Optional subtle shadow to define the rounded edge nicely if they have white backgrounds on light blue */
 }
 
 .media-logo-item:hover img {
