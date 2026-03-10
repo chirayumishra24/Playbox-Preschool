@@ -91,7 +91,20 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
           <p className="gallery-card-desc" style={{ marginBottom: 0 }}>{video.description}</p>
         </div>
         <div
-          aria-label={isMuted ? 'Muted' : 'Playing audio'}
+          role="button"
+          tabIndex={0}
+          aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
+          onClick={(e) => {
+            e.stopPropagation()
+            setActiveAudioIndex((prev) => (prev === index ? null : index))
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              e.stopPropagation()
+              setActiveAudioIndex((prev) => (prev === index ? null : index))
+            }
+          }}
           style={{
             width: '3rem',
             height: '3rem',
@@ -106,6 +119,7 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
             marginLeft: '1rem',
             transition: 'all 0.25s ease',
             padding: 0,
+            cursor: 'pointer',
           }}
         >
           {isMuted ? (
