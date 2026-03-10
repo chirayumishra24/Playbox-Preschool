@@ -92,9 +92,9 @@ export default function MediaCoverage() {
       {/* ── Brand Logos Auto-Scrolling Carousel ── */}
       {brandLogos.length > 0 && (
         <div className="media-logos-marquee">
-          <div className="media-logos-track" style={{ gap: '2rem' }}>
+          <div className="media-logos-track" style={{ gap: '1rem' }}>
             {[...brandLogos, ...brandLogos].map((logo, i) => (
-              <div className="media-logo-item" key={`${logo.alt}-${i}`} style={{ minWidth: '180px', height: '100px' }}>
+              <div className="media-logo-item" key={`${logo.alt}-${i}`} style={{ minWidth: '250px', height: '140px' }}>
                 <img src={logo.src} alt={logo.alt} draggable={false} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               </div>
             ))}

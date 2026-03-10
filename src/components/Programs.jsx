@@ -2,10 +2,6 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { playPopSound, playHoverSound } from '../utils/sounds.js'
-import playGroupImage from '../../img/play_group_indian_1772698626406.webp'
-import nurseryImage from '../../img/nursery_indian_1772698642980.webp'
-import juniorKgImage from '../../img/junior_kg_indian_1772698662448.webp'
-import seniorKgImage from '../../img/senior_kg_indian_1772698677579.webp'
 
 const programs = [
   {
@@ -13,7 +9,7 @@ const programs = [
     age: '1.5 - 2.5 Years',
     description: 'A gentle introduction to learning through sensory play, rhymes, and motor skill activities in a nurturing setting.',
     tags: ['Sensory Play', 'Motor Skills', 'Rhymes', 'Social'],
-    image: playGroupImage,
+    image: '/assets/program_playgroup.webp',
     gradient: 'linear-gradient(135deg, #FFE4E6, #FEE2E2)',
     accent: '#F43F5E',
   },
@@ -22,7 +18,7 @@ const programs = [
     age: '2.5 - 3.5 Years',
     description: 'Building curiosity through structured play, early literacy, numeracy foundations, and creative arts.',
     tags: ['Early Literacy', 'Numbers', 'Art & Craft', 'Music'],
-    image: nurseryImage,
+    image: '/assets/program_nursery.webp',
     gradient: 'linear-gradient(135deg, #E0E7FF, #DBEAFE)',
     accent: '#3B82F6',
   },
@@ -31,7 +27,7 @@ const programs = [
     age: '3.5 - 4.5 Years',
     description: 'Developing reading readiness, mathematical thinking, scientific curiosity, and communication skills.',
     tags: ['Reading Ready', 'Math Fun', 'Science', 'Communication'],
-    image: juniorKgImage,
+    image: '/assets/program_junior_kg.webp',
     gradient: 'linear-gradient(135deg, #DCFCE7, #D1FAE5)',
     accent: '#10B981',
   },
@@ -40,7 +36,7 @@ const programs = [
     age: '4.5 - 5.5 Years',
     description: 'Preparing children for formal schooling with phonics, writing practice, and problem-solving.',
     tags: ['Problem Solving', 'Phonics', 'Writing', 'Leadership'],
-    image: seniorKgImage,
+    image: '/assets/program_senior_kg.webp',
     gradient: 'linear-gradient(135deg, #FEF3C7, #FEF08A)',
     accent: '#F59E0B',
   },
