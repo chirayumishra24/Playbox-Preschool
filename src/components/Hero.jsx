@@ -7,6 +7,8 @@ import heroBlobImage4 from '../../img/build/4449e70f-f8f8-4a8e-a1b7-a09bd649c47b
 import heroBlobImage5 from '../../img/build/Copy of 20230809_122955.webp'
 import heroBlobImage6 from '../../img/build/Copy of 20240313_161507.webp'
 
+import brochurePdf from '../../img/pdf/playboxpreschool.pdf'
+
 const heroSlides = [
   { src: heroBlobImage1, alt: 'Playbox preschool building front view' },
   { src: heroBlobImage2, alt: 'Bright and colorful Playbox preschool campus' },
@@ -93,6 +95,16 @@ export default function Hero() {
               }}
             >
               Explore Programs
+            </motion.a>
+            <motion.a
+              href={brochurePdf}
+              download="Playbox_Preschool_Brochure.pdf"
+              className="clay-btn"
+              style={{ padding: '1rem 1.5rem', fontSize: '1rem' }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              📥 Download Brochure
             </motion.a>
           </div>
         </motion.div>

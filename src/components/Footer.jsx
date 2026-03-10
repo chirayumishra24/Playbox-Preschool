@@ -8,6 +8,8 @@ import {
     FiArrowUp,
 } from 'react-icons/fi'
 
+import brochurePdf from '../../img/pdf/playboxpreschool.pdf'
+
 const socialLinks = [
     { icon: FiFacebook, label: 'Facebook', href: 'https://www.facebook.com/playboxpreschooljaipur/', color: '#1877F2' },
     { icon: FiInstagram, label: 'Instagram', href: 'https://www.instagram.com/playboxpreschooljaipur/', color: '#E4405F' },
@@ -22,6 +24,7 @@ const quickLinks = [
     { label: 'Mentors', href: '#mentors' },
     { label: 'Reviews', href: '#testimonials' },
     { label: 'Locations', href: '#locations' },
+    { label: 'Download Brochure', href: brochurePdf, isFile: true },
 ]
 
 const programs = [
@@ -31,7 +34,9 @@ const programs = [
     { label: 'Senior KG', href: '#programs' },
 ]
 
-function smoothScroll(e, href) {
+function smoothScroll(e, href, isFile = false) {
+    if (isFile) return // allow normal browser download action
+
     e.preventDefault()
     const target = document.querySelector(href)
     if (target) {
@@ -92,7 +97,12 @@ export default function Footer() {
                         <h4>Quick Links</h4>
                         <div className="footer-links-list">
                             {quickLinks.map((link) => (
-                                <a key={link.label} href={link.href} onClick={(e) => smoothScroll(e, link.href)}>
+                                <a
+                                    key={link.label}
+                                    href={link.href}
+                                    onClick={(e) => smoothScroll(e, link.href, link.isFile)}
+                                    {...(link.isFile ? { download: 'Playbox_Preschool_Brochure.pdf' } : {})}
+                                >
                                     {link.label}
                                 </a>
                             ))}
