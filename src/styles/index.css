@@ -1032,7 +1032,7 @@ a {
 .media-logos-track {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 1.5rem;
   width: max-content;
   animation: logos-scroll 80s linear infinite;
 }
