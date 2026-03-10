@@ -1056,7 +1056,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 250px;
+  width: 215px;
   padding: 0;
   transition: transform 0.3s ease;
 }
@@ -1068,9 +1068,9 @@ a {
 .media-logo-item img {
   width: 100%;
   height: auto;
-  max-height: 120px;
+  max-height: 95px;
   object-fit: contain;
-  transform: scale(1.15);
+  transform: scale(1.05);
   filter: grayscale(20%);
   transition: filter 0.3s ease;
 }
