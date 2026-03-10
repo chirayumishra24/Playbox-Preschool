@@ -51,21 +51,9 @@ export default function MediaCoverage() {
     document.body.style.overflow = ''
   }, [])
 
-  const [preloadRef, preloadInView] = useInView({ triggerOnce: true, rootMargin: '2500px 0px' })
-
-  // Preload logos and cuttings silently in the background when 2500px away
-  useEffect(() => {
-    if (!preloadInView) return
-    const allImages = [...brandLogos, ...mediaCuttings]
-    allImages.forEach((item) => {
-      const img = new Image()
-      img.src = item.src
-    })
-  }, [preloadInView])
-
 
   return (
-    <section className="section media-coverage-section" id="media-coverage" ref={preloadRef}>
+    <section className="section media-coverage-section" id="media-coverage">
       <div className="container">
         <div className="section-header">
           <motion.h2
@@ -95,7 +83,7 @@ export default function MediaCoverage() {
           <div className="media-logos-track">
             {Array(6).fill(brandLogos).flat().map((logo, i) => (
               <div className="media-logo-item" key={`${logo.alt}-${i}`}>
-                <img src={logo.src} alt={logo.alt} draggable={false} />
+                <img src={logo.src} alt={logo.alt} decoding="async" draggable={false} />
               </div>
             ))}
           </div>
@@ -126,6 +114,7 @@ export default function MediaCoverage() {
                 src={img.src}
                 alt={img.alt}
                 loading="lazy"
+                decoding="async"
                 draggable={false}
               />
               <div className="media-grid-overlay">
