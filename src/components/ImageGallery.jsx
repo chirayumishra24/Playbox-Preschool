@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
 /* ── Load optimized gallery images only ── */
-const imageModules = import.meta.glob('../../img/gm-optimized/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', {
+const imageModules = import.meta.glob('../../img/gm-optimized/*.{webp,WEBP}', {
   eager: true,
   import: 'default',
 })
