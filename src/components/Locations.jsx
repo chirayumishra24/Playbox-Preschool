@@ -16,7 +16,7 @@ const locations = [
     },
     {
         id: 'ramvihar',
-        name: 'Ram Vihar',
+        name: 'Shri Ram Vihar (Mansarovar Extension)',
         address: 'Ram Vihar Colony, Jaipur',
         phone: '+91 9216946252',
         mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.038398199224!2d75.73524357518811!3d26.87052110047928!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db5c792dd4479%3A0xf9404d4d04fe07f0!2sPlaybox%20Preschool%20(Swarn%20Branch)!5e0!3m2!1sen!2sin!4v1773046307375!5m2!1sen!2sin',
@@ -26,7 +26,7 @@ const locations = [
     },
     {
         id: 'shyamnagar',
-        name: 'Shyam Nagar',
+        name: 'Shyam Nagar (Mansarovar)',
         address: 'Shyam Nagar, Jaipur',
         phone: '+91 9216946252',
         mapSrc: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.3323061272035!2d75.76829787882873!3d26.89294690077811!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396db5854355109f%3A0xe4c0e6e1581dc3ab!2sPlaybox%20Preschool%20(%20Shyam%20Nagar%20)%20%7C%20Top%20Best%20Preschool%20in%20Jaipur!5e0!3m2!1sen!2sin!4v1773046342167!5m2!1sen!2sin',

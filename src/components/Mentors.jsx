@@ -8,7 +8,7 @@ import aarnaImage from '../../img/aarna-mam.webp'
 const mentors = [
   {
     name: 'Mrs. Priyanshi S. Rawat',
-    role: 'CEO',
+    role: 'CEO & Executive Director',
     image: priyanshiImage,
   },
   {
