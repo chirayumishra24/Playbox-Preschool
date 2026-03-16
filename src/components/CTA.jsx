@@ -30,7 +30,7 @@ export default function CTA() {
                             className="clay-btn clay-btn-primary cta-btn"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            style={{ width: '100%', maxWidth: '300px', whiteSpace: 'nowrap' }}
+                            style={{ width: '70%', maxWidth: '300px', whiteSpace: 'nowrap' }}
                         >
                             Enroll Now
                         </motion.a>
@@ -38,11 +38,11 @@ export default function CTA() {
                             href={brochurePdf}
                             download="Playbox_Preschool_Brochure.pdf"
                             className="clay-btn cta-btn"
-                            style={{ background: 'white', color: 'var(--color-primary)', width: '100%', maxWidth: '300px', whiteSpace: 'nowrap' }}
+                            style={{ backgrounsd: 'white', color: 'var(--color-primary)', width: '70%', maxWidth: '300px', whiteSpace: 'nowrap' }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            📥 Download Brochure
+                            Download Brochure
                         </motion.a>
                     </div>
                 </motion.div>
