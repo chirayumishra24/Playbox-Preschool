@@ -3,7 +3,7 @@ import { animate, motion, useInView, useMotionValue } from 'framer-motion'
 
 const transformations = [
     {
-        before: { label: 'Separation Anxiety', emoji: '😢', image: '/assets/before_separation_anxiety.png' },
+        before: { label: 'Separation Anxiety', emoji: '😢', image: '/assets/before_separation_anxiety_new.png' },
         after: { label: 'Supportive, Caring Teachers', emoji: '🤗', image: '/assets/after_caring_teachers.png' },
         accent: 'var(--color-primary)',
     },
@@ -28,7 +28,7 @@ const transformations = [
         accent: 'var(--color-tertiary)',
     },
     {
-        before: { label: 'Low Group Confidence', emoji: '😟', image: '/assets/before_separation_anxiety.png' },
+        before: { label: 'Low Group Confidence', emoji: '😟', image: '/assets/before_low_confidence_new.png' },
         after: { label: 'Confident Classroom Participation', emoji: '🌟', image: '/assets/after_productive_time.png' },
         accent: 'var(--color-secondary)',
     },
