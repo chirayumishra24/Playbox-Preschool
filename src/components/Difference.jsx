@@ -29,7 +29,7 @@ const transformations = [
     },
     {
         before: { label: 'Low Group Confidence', emoji: '😟', image: '/assets/before_low_confidence_new.png' },
-        after: { label: 'Confident Classroom Participation', emoji: '🌟', image: '/assets/after_productive_time.png' },
+        after: { label: 'Confident Classroom Participation', emoji: '🌟', image: '/assets/after_confident_participation.png' },
         accent: 'var(--color-secondary)',
     },
 ]
