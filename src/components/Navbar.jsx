@@ -7,6 +7,7 @@ const navLinks = [
     { label: 'Why Us', href: '#features' },
     { label: 'Programs', href: '#programs' },
     { label: 'Testimonies', href: '#testimonies' },
+    { label: 'Difference', href: '#difference' },
     { label: 'Gallery', href: '#gallery' },
     { label: 'Mentors', href: '#mentors' },
     { label: 'Reviews', href: '#testimonials' },
@@ -85,7 +86,6 @@ export default function Navbar() {
                     <img src="/assets/logo.svg" alt="Playbox Preschool Logo" />
                     <div className="navbar-brand-text">
                         <h1>Playbox Preschool</h1>
-                        <p>by Cambridge Court</p>
                     </div>
                 </a>
 

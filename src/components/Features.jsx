@@ -28,14 +28,14 @@ const features = [
   },
   {
     icon: '/assets/feature_transport.webp',
-    title: 'Transport Facility',
-    description: 'Safe and comfortable AC bus service with GPS tracking and a dedicated attendant, ensuring a smooth commute.',
+    title: 'Outsourced Transport Facility',
+    description: 'Transport is managed by a trusted outsourced provider, with AC buses, GPS tracking, and dedicated attendants for a safe and comfortable commute.',
     color: 'var(--color-quinary)'
   },
   {
     icon: '/assets/feature_nutrition.webp',
-    title: 'Nutritious Meals',
-    description: 'Balanced, freshly prepared vegetarian meals planned by nutritionists to keep children energized and healthy.',
+    title: 'Diet Chart Guidance',
+    description: 'We share nutritious diet charts and meal guidance with parents to help children build healthy eating habits at home.',
     color: 'var(--color-primary)'
   },
 ]

@@ -12,7 +12,7 @@ import brochurePdf from '../../img/pdf/playboxpreschool.pdf'
 
 const socialLinks = [
     { icon: FiFacebook, label: 'Facebook', href: 'https://www.facebook.com/playboxpreschooljaipur/', color: '#1877F2' },
-    { icon: FiInstagram, label: 'Instagram', href: 'https://www.instagram.com/playboxpreschooljaipur/', color: '#E4405F' },
+    { icon: FiInstagram, label: 'Instagram', href: 'https://www.instagram.com/playboxpreschool?utm_source=qr&igsh=MW5zMXZwczU3MWF2Zg%3D%3D', color: '#E4405F' },
 ]
 
 const quickLinks = [
@@ -20,6 +20,7 @@ const quickLinks = [
     { label: 'Why Choose Us', href: '#features' },
     { label: 'Our Programs', href: '#programs' },
     { label: 'Testimonies', href: '#testimonies' },
+    { label: 'Difference', href: '#difference' },
     { label: 'Gallery', href: '#gallery' },
     { label: 'Mentors', href: '#mentors' },
     { label: 'Reviews', href: '#testimonials' },
@@ -38,12 +39,17 @@ function smoothScroll(e, href, isFile = false) {
     if (isFile) return // allow normal browser download action
 
     e.preventDefault()
-    const target = document.querySelector(href)
-    if (target) {
+    requestAnimationFrame(() => {
+        const target = document.getElementById(href.replace('#', '')) || document.querySelector(href)
+        if (!target) {
+            window.location.hash = href
+            return
+        }
+
         const navHeight = 100
         const top = target.getBoundingClientRect().top + window.scrollY - navHeight
         window.scrollTo({ top, behavior: 'smooth' })
-    }
+    })
 }
 
 function scrollToTop(e) {

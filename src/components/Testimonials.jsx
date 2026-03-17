@@ -34,13 +34,6 @@ const testimonials = [
         rating: 5,
     },
     {
-        text: "As a working parent, I feel fortunate to have enrolled my child in Playbox Preschool. I don't have to worry about their studies or extracurricular activities because everything is taken care of at school.",
-        name: 'Arshna Sharma',
-        role: 'Parent of Prince, LKG',
-        avatar: '/assets/parent_2.webp',
-        rating: 5,
-    },
-    {
         text: "Playbox feels like my child's second home. He doesn't cry or miss me when he goes to school. His motor and cognitive skills are being developed creatively and engagingly.",
         name: 'Sandhya Godara',
         role: 'Parent of Kabir, Nursery',
@@ -61,6 +54,8 @@ const googleReviewData = {
         { stars: 1, percentage: 1 },
     ]
 }
+
+const DEFAULT_VISIBLE_REVIEWS = 4
 
 function GoogleReviewBadge({ inView }) {
     const [animatedRating, setAnimatedRating] = useState(0)
@@ -184,7 +179,7 @@ export default function Testimonials() {
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
     const [showAll, setShowAll] = useState(false)
 
-    const displayed = showAll ? testimonials : testimonials.slice(0, 4)
+    const displayed = showAll ? testimonials : testimonials.slice(0, DEFAULT_VISIBLE_REVIEWS)
 
     return (
         <section className="section" id="testimonials" ref={ref}>
@@ -220,7 +215,7 @@ export default function Testimonials() {
                     </div>
                 </div>
 
-                {testimonials.length > 4 && (
+                {testimonials.length > DEFAULT_VISIBLE_REVIEWS && (
                     <motion.div
                         className="reviews-toggle"
                         initial={{ opacity: 0 }}

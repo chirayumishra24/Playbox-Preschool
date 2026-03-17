@@ -7,16 +7,25 @@ const videos = [
     src: '/assets/video1.mp4',
     title: 'Fun Learning Activities',
     description: 'Watch our kids enjoy creative learning sessions',
+    parentName: 'Ms Swati Baijal',
+    childName: 'Swanika Baijal',
+    grade: 'Grade 1 (2024)',
   },
   {
     src: '/assets/video2.mp4',
     title: 'Outdoor Adventures',
     description: 'Exploring nature and building teamwork skills',
+    parentName: 'Ms Mumal Rathore',
+    childName: 'Sanyukta Jain',
+    grade: 'Grade 1 (2024)',
   },
   {
     src: '/assets/video3.mp4',
     title: 'Creative Expression',
     description: 'Art, music, and dance bring joy to every day',
+    parentName: 'Ms Arshna Sharma',
+    childName: 'Prince Sharma',
+    grade: 'Grade 1 (2024)',
   },
 ]
 
@@ -70,9 +79,12 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div
-        style={{ flex: 1, overflow: 'hidden', borderRadius: 'var(--radius-md)', cursor: 'pointer', marginBottom: '1rem' }}
-      >
+      <div className="gallery-parent-header">
+        <span className="gallery-parent-label">Parent Testimony</span>
+        <h4 className="gallery-parent-heading">{video.parentName}</h4>
+      </div>
+
+      <div className="gallery-video-wrap">
         <video
           ref={videoRef}
           src={video.src}
@@ -83,13 +95,6 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
           preload="metadata"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
-      </div>
-
-      <div className="gallery-card-footer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 0.5rem' }}>
-        <div>
-          <h4 className="gallery-card-title">{video.title}</h4>
-          <p className="gallery-card-desc" style={{ marginBottom: 0 }}>{video.description}</p>
-        </div>
         <div
           role="button"
           tabIndex={0}
@@ -105,22 +110,7 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
               setActiveAudioIndex((prev) => (prev === index ? null : index))
             }
           }}
-          style={{
-            width: '3rem',
-            height: '3rem',
-            borderRadius: '50%',
-            border: '2px solid var(--color-primary)',
-            background: isMuted ? 'transparent' : 'var(--color-primary)',
-            color: isMuted ? 'var(--color-primary)' : '#fff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-            marginLeft: '1rem',
-            transition: 'all 0.25s ease',
-            padding: 0,
-            cursor: 'pointer',
-          }}
+          className={`gallery-audio-toggle gallery-audio-toggle-overlay ${isMuted ? '' : 'is-active'}`}
         >
           {isMuted ? (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -136,6 +126,12 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
             </svg>
           )}
         </div>
+
+      </div>
+
+      <div className="gallery-person-row">
+        <span className="gallery-child-name">{video.childName}</span>
+        <span className="gallery-grade-pill">{video.grade}</span>
       </div>
     </motion.div>
   )
@@ -180,6 +176,7 @@ export default function Gallery() {
             />
           ))}
         </div>
+
       </div>
     </section>
   )

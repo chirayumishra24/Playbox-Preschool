@@ -38,7 +38,7 @@ export default function CTA() {
                             href={brochurePdf}
                             download="Playbox_Preschool_Brochure.pdf"
                             className="clay-btn cta-btn"
-                            style={{ backgrounsd: 'white', color: 'var(--color-primary)', width: '70%', maxWidth: '300px', whiteSpace: 'nowrap' }}
+                            style={{ background: 'white', color: 'var(--color-primary)', width: '70%', maxWidth: '300px', whiteSpace: 'nowrap' }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >

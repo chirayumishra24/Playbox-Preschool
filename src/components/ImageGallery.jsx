@@ -2,22 +2,29 @@ import { startTransition, useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
-/* ── Load optimized gallery images only ── */
-const imageModules = import.meta.glob('../../img/gm-optimized/*.{webp,WEBP}', {
+/* ── Load gallery images, preferring optimized assets when available ── */
+const optimizedImageModules = import.meta.glob('../../img/gm-optimized/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}', {
   eager: true,
   import: 'default',
 })
+
+const mediaImageModules = import.meta.glob('../../img/media/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}', {
+  eager: true,
+  import: 'default',
+})
+
+const imageModules = Object.keys(optimizedImageModules).length ? optimizedImageModules : mediaImageModules
 
 const galleryImages = Object.entries(imageModules)
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([path, src]) => ({
     src,
-    alt: path
+    alt: decodeURIComponent(path
       .split('/')
       .pop()
       .replace(/\.[^.]+$/, '')
       .replace(/[_-]/g, ' ')
-      .trim(),
+      .trim()),
   }))
 
 const NUM_COLS = 3
