@@ -130,7 +130,7 @@ function GoogleReviewBadge({ inView }) {
             </div>
 
             <a
-                href="https://www.google.com/maps/place/Playbox+Preschool/"
+                href="https://www.google.com/maps/place/Playbox+Preschool+(+Shyam+Nagar+)+%7C+Top+Best+Preschool+in+Jaipur/@26.8745862,75.7455215,14z/data=!4m12!1m2!2m1!1splaybox+preschool!3m8!1s0x396db5854355109f:0xe4c0e6e1581dc3ab!8m2!3d26.8929422!4d75.7731688!9m1!1b1!15sChFwbGF5Ym94IHByZXNjaG9vbJIBCXByZXNjaG9vbOABAA!16s%2Fg%2F11tnjx8w0j?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="google-review-link"

@@ -167,30 +167,134 @@ a {
   border: 4px solid rgba(255, 255, 255, 0.4);
 }
 
-.cta-blob {
-  padding: 4rem 2rem;
-  max-width: 800px;
-  width: 100%;
-  margin: 0 auto;
+/* ── CTA Section – Blob-Shaped Photo Cutout ── */
+.cta-section-blob {
+  position: relative;
+  background: #dce6f200;
+  padding: 5rem 0;
 }
 
-.cta-title {
-  font-size: clamp(1.8rem, 4vw + 1rem, 3rem);
-  margin-bottom: 1.5rem;
-  color: #a41632;
-  line-height: 1.2;
+/* Blob Card */
+.cta-blob-card {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  background: #8FAED4;
+  border-radius: 36px;
+  padding: 3.5rem 4rem;
+  position: relative;
+  z-index: 3;
+  overflow: visible;
+  box-shadow:
+    0 15px 45px rgba(100, 140, 190, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.2);
 }
 
-.cta-text {
-  font-size: 1.2rem;
-  margin-bottom: 2.5rem;
-  color: var(--text-dark);
+/* Left text column */
+.cta-blob-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.cta-blob-title {
+  font-size: clamp(1.8rem, 3.5vw + 0.5rem, 2.8rem);
+  color: white;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cta-blob-subtitle {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 380px;
 }
 
-.cta-btn {
-  font-size: 1.2rem;
-  padding: 1.2rem 3rem;
+/* Buttons */
+.cta-blob-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cta-blob-btn {
+  background: var(--clay-bg);
+  border-radius: var(--radius-pill);
+  box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.4), var(--shadow-in);
+  padding: 1rem 2rem;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.cta-blob-btn:hover {
+  box-shadow: 3px 3px 6px rgba(163, 177, 198, 0.4), var(--shadow-in);
+  transform: scale(0.98);
+}
+
+.cta-blob-btn-primary {
+  background: var(--color-primary);
+  color: #a41632;
+  box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.4), inset 2px 2px 5px rgba(255, 255, 255, 0.6), inset -3px -3px 7px rgba(255, 110, 140, 0.4);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.cta-blob-btn-outline {
+  background: var(--clay-bg);
+  color: var(--text-dark);
+  box-shadow: 6px 6px 12px rgba(163, 177, 198, 0.4), var(--shadow-in);
+  border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Right: Blob Photo */
+.cta-blob-photo {
+  position: relative;
+  flex-shrink: 0;
+  width: 320px;
+  height: 300px;
+}
+
+/* Decorative offset accent blob – teal/green border */
+.cta-blob-accent {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  background: rgba(43, 158, 143, 0.45);
+  border-radius: 62% 38% 46% 54% / 60% 44% 56% 40%;
+  z-index: 0;
+}
+
+/* Blob mask for the image */
+.cta-blob-mask {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 62% 38% 46% 54% / 60% 44% 56% 40%;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.cta-blob-mask img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.8s ease;
 }
 
 /* ================== NAVBAR ================== */
@@ -1184,7 +1288,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 95px;
+  height: 130px;
   padding: 0;
   transition: transform 0.3s ease;
 }
@@ -3069,8 +3173,13 @@ a {
     column-gap: 0.4rem;
   }
 
+  .media-logos-track {
+    gap: 2.8rem;
+  }
+
   .media-logo-item {
-    width: 240px;
+    width: auto;
+    height: 75px;
   }
 
   .modern-gallery-stage {
@@ -3219,28 +3328,60 @@ a {
     min-height: 200px;
   }
 
-  /* CTA */
-  .cta-blob {
-    padding: 3rem 1.5rem !important;
+  /* Media Coverage - mobile logo gap fix */
+  .media-logos-track {
+    gap: 2rem;
   }
 
-  .cta-title {
-    font-size: 2rem !important;
+  .media-logo-item {
+    height: 60px;
   }
 
-  .cta-text {
-    font-size: 1rem !important;
-    margin-bottom: 1.5rem;
+  /* CTA Blob */
+  .cta-section-blob {
+    padding: 4rem 0;
   }
 
-  .cta-btn {
-    font-size: 1rem !important;
-    padding: 0.9rem 2rem !important;
-    width: 150px;
-    margin: 0 auto;
+  .cta-blob-card {
+    flex-direction: column-reverse;
+    padding: 2rem 1.5rem;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .cta-blob-text {
+    align-items: center;
     display: flex;
+    flex-direction: column;
+  }
+
+  .cta-blob-title {
+    font-size: 1.6rem !important;
+  }
+
+  .cta-blob-subtitle {
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+
+  .cta-blob-buttons {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .cta-blob-btn {
+    width: 100%;
+    max-width: 240px;
     justify-content: center;
   }
+
+  .cta-blob-photo {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+  }
+
 
   /* Grids */
   .features-grid,
