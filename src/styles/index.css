@@ -252,7 +252,7 @@ a {
 
 .navbar-links {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   align-items: center;
   transition: none;
   /* Prevent delayed responsive switching */
@@ -462,7 +462,7 @@ a {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding-top: 6rem;
+  padding-top: 7rem;
   overflow: hidden;
 }
 

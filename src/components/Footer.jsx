@@ -20,7 +20,7 @@ const quickLinks = [
     { label: 'Why Choose Us', href: '#features' },
     { label: 'Our Programs', href: '#programs' },
     { label: 'Testimonies', href: '#testimonies' },
-    { label: 'Difference', href: '#difference' },
+    { label: 'Impact', href: '#difference' },
     { label: 'Gallery', href: '#gallery' },
     { label: 'Mentors', href: '#mentors' },
     { label: 'Reviews', href: '#testimonials' },

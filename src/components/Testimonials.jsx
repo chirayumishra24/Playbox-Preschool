@@ -30,14 +30,14 @@ const testimonials = [
         text: "Thank You to Playbox, that even we have learnt to say 'Namaskar'. Even at home my twin children always greet me with 'Namaskar'. Character building and academics are taken care of here.",
         name: 'Glory Agarwal',
         role: 'Parent of Hrida, Nursery',
-        avatar: '/assets/parent_1.webp',
+        avatar: '/assets/parent_4.webp',
         rating: 5,
     },
     {
         text: "Playbox feels like my child's second home. He doesn't cry or miss me when he goes to school. His motor and cognitive skills are being developed creatively and engagingly.",
         name: 'Sandhya Godara',
         role: 'Parent of Kabir, Nursery',
-        avatar: '/assets/parent_3.webp',
+        avatar: '/assets/parent_5.webp',
         rating: 5,
     },
 ]
