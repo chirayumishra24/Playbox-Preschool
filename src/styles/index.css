@@ -2464,6 +2464,7 @@ a {
   background: var(--color-quinary);
   bottom: -5%;
   left: -5%;
+  z-index: -1;
   animation: blob-bounce 10s infinite alternate-reverse ease-in-out;
 }
 
