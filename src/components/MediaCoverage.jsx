@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 /* ── Load brand logos from img/media/logos ── */
 const logoModules = import.meta.glob('../../img/media/logos/*.webp', {
@@ -110,9 +110,10 @@ export default function MediaCoverage() {
               onClick={() => openLightbox(img)}
               whileHover={{ scale: 1.03, zIndex: 5 }}
             >
-              <img
+              <ImageWithSkeleton
                 src={img.src}
                 alt={img.alt}
+                wrapperClassName="media-grid-media"
                 loading="lazy"
                 decoding="async"
                 draggable={false}
