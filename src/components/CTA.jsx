@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useState, useEffect, useMemo } from 'react'
 import brochurePdf from '../../img/pdf/playboxpreschool.pdf'
+import ImageWithSkeleton from './ImageWithSkeleton'
 
 /* ── Load landscape images properly using normal glob (lazy) ── */
 const gmImgs = import.meta.glob('../../img/gm-optimized/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}')
