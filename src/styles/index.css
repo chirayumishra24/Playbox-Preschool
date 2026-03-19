@@ -58,7 +58,12 @@ html {
 }
 
 @media (hover: none) or (pointer: coarse) {
-  body, a, button, input, textarea {
+
+  body,
+  a,
+  button,
+  input,
+  textarea {
     cursor: auto !important;
   }
 }
@@ -1361,7 +1366,7 @@ a {
   opacity: 1;
   transition: opacity 0.28s ease;
   /* Ensure skeleton doesn't collapse */
-  min-height: 100px; 
+  min-height: 100px;
 }
 
 .image-skeleton-wrap.is-loaded .image-skeleton {
@@ -3615,7 +3620,7 @@ a {
   }
 
   .media-logo-item {
-    width: 200px;
+    width: 100px;
   }
 
   .modern-gallery-stage {
