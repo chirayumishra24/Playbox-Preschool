@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import SmartSkeleton from './SmartSkeleton'
 
 /* ── Load brand logos lazily ── */
 const logoModules = import.meta.glob('../../img/media/logos/*.webp')
@@ -114,7 +114,7 @@ export default function MediaCoverage() {
               style={{ cursor: 'pointer' }}
             >
               <div className="media-grid-media">
-                <ImageWithSkeleton
+                <SmartSkeleton
                   src={cut.src}
                   alt={cut.alt}
                   aspectRatio="4/3"

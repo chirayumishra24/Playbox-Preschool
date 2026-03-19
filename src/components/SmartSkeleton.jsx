@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export default function ImageWithSkeleton({
+export default function SmartSkeleton({
   src,
   alt,
   className = '',

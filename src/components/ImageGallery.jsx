@@ -1,7 +1,7 @@
 import { startTransition, useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import ImageWithSkeleton from './ImageWithSkeleton'
+import SmartSkeleton from './SmartSkeleton'
 
 /* ── Load gallery images lazily ── */
 const optimizedImageModules = import.meta.glob('../../img/gm-optimized/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}')
@@ -131,7 +131,7 @@ export default function ImageGallery() {
                   <div className={`gallery-scroll-track gallery-scroll-${dir}`}>
                     {doubled.map((img, i) => (
                       <div className="gallery-scroll-item" key={`${img.src}-${i}`}>
-                        <ImageWithSkeleton
+                        <SmartSkeleton
                           src={img.src}
                           alt={img.alt}
                           wrapperClassName="gallery-scroll-media"
