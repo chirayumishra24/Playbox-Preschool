@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import brochurePdf from '../../img/pdf/playboxpreschool.pdf'
 
 /* ── Load landscape images only (gm-optimized + build are landscape shots) ── */
-const gmImgs = import.meta.glob('../../img/gm-optimized/*.jpg', { eager: true, import: 'default' })
+const gmImgs = import.meta.glob('../../img/gm-optimized/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}', { eager: true, import: 'default' })
 const buildImgs = import.meta.glob('../../img/build/*.webp', { eager: true, import: 'default' })
 
 const allLandscapeImages = [
