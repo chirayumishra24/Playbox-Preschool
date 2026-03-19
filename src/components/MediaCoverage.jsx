@@ -1,45 +1,62 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ImageWithSkeleton from './ImageWithSkeleton'
 
-/* ── Load brand logos from img/media/logos ── */
-const logoModules = import.meta.glob('../../img/media/logos/*.webp', {
-  eager: true,
-  import: 'default',
-})
+/* ── Load brand logos lazily ── */
+const logoModules = import.meta.glob('../../img/media/logos/*.webp')
 
-const brandLogos = Object.entries(logoModules)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([path, src]) => ({
-    src,
-    alt: path
-      .split('/')
-      .pop()
-      .replace(/\.[^.]+$/, '')
-      .replace(/[-_]/g, ' ')
-      .trim(),
-  }))
+/* ── Load newspaper cuttings lazily ── */
+const mediaModules = import.meta.glob('../../img/media/*.webp')
 
-/* ── Load newspaper cuttings from img/media ── */
-const mediaModules = import.meta.glob('../../img/media/*.webp', {
-  eager: true,
-  import: 'default',
-})
+const getBrandLogos = async () => {
+  const entries = await Promise.all(
+    Object.entries(logoModules).map(async ([path, loader]) => {
+      const mod = await loader()
+      return [path, mod.default]
+    })
+  )
+  return entries
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([path, src]) => ({
+      src,
+      alt: path
+        .split('/')
+        .pop()
+        .replace(/\.[^.]+$/, '')
+        .replace(/[-_]/g, ' ')
+        .trim(),
+    }))
+}
 
-const mediaCuttings = Object.entries(mediaModules)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([path, src]) => ({
-    src,
-    alt: path
-      .split('/')
-      .pop()
-      .replace(/\.[^.]+$/, '')
-      .replace(/[_-]/g, ' ')
-      .trim(),
-  }))
+const getMediaCuttings = async () => {
+  const entries = await Promise.all(
+    Object.entries(mediaModules).map(async ([path, loader]) => {
+      const mod = await loader()
+      return [path, mod.default]
+    })
+  )
+  return entries
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([path, src]) => ({
+      src,
+      alt: path
+        .split('/')
+        .pop()
+        .replace(/\.[^.]+$/, '')
+        .replace(/[_-]/g, ' ')
+        .trim(),
+    }))
+}
 
 export default function MediaCoverage() {
+  const [logos, setLogos] = useState([])
+  const [cuttings, setCuttings] = useState([])
   const [lightbox, setLightbox] = useState(null)
+
+  useEffect(() => {
+    getBrandLogos().then(setLogos)
+    getMediaCuttings().then(setCuttings)
+  }, [])
 
   const openLightbox = useCallback((img) => {
     setLightbox(img)
@@ -50,7 +67,6 @@ export default function MediaCoverage() {
     setLightbox(null)
     document.body.style.overflow = ''
   }, [])
-
 
   return (
     <section className="section media-coverage-section" id="media-coverage">
@@ -78,10 +94,10 @@ export default function MediaCoverage() {
       </div>
 
       {/* ── Brand Logos Auto-Scrolling Carousel ── */}
-      {brandLogos.length > 0 && (
+      {logos.length > 0 && (
         <div className="media-logos-marquee">
           <div className="media-logos-track">
-            {Array(6).fill(brandLogos).flat().map((logo, i) => (
+            {Array(6).fill(logos).flat().map((logo, i) => (
               <div className="media-logo-item" key={`${logo.alt}-${i}`}>
                 <img src={logo.src} alt={logo.alt} decoding="async" draggable={false} />
               </div>
@@ -99,7 +115,7 @@ export default function MediaCoverage() {
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.6, staggerChildren: 0.08 }}
         >
-          {mediaCuttings.map((img, idx) => (
+          {cuttings.map((img, idx) => (
             <motion.div
               className="media-grid-item"
               key={img.src}

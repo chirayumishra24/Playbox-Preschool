@@ -35,6 +35,25 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
   const hasInteracted = useRef(false)
   const isMuted = activeAudioIndex !== index
 
+  // Lazy-load video: only set src when card is near viewport
+  const [cardInViewRef, cardInView] = useInView({
+    triggerOnce: true,
+    rootMargin: '600px 0px', // Start loading 600px before visible
+  })
+  const [videoLoaded, setVideoLoaded] = useState(false)
+
+  // Once card is near viewport, set the video src
+  useEffect(() => {
+    if (!cardInView || videoLoaded) return
+    const vid = videoRef.current
+    if (!vid) return
+    vid.src = video.src
+    vid.load()
+    // Attempt autoplay (must be muted for browser autoplay policy)
+    vid.play().catch(() => {})
+    setVideoLoaded(true)
+  }, [cardInView, video.src, videoLoaded])
+
   // Track first user interaction (click/tap) on the document
   useEffect(() => {
     const markInteracted = () => { hasInteracted.current = true }
@@ -70,7 +89,7 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
 
   return (
     <motion.div
-      ref={cardRef}
+      ref={(node) => { cardRef.current = node; cardInViewRef(node); }}
       className="clay-card gallery-item"
       initial={{ opacity: 0, scale: 0.8 }}
       animate={sectionInView ? { opacity: 1, scale: 1 } : {}}
@@ -85,16 +104,27 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
       </div>
 
       <div className="gallery-video-wrap">
+        {/* Video element: no src initially, loaded lazily via IntersectionObserver */}
         <video
           ref={videoRef}
-          src={video.src}
           muted
           autoPlay
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
+        {/* Loading skeleton until video is ready */}
+        {!videoLoaded && (
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(135deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            borderRadius: 'inherit', fontSize: '2rem',
+          }}>
+            🎬
+          </div>
+        )}
         <div
           role="button"
           tabIndex={0}
@@ -139,11 +169,10 @@ function VideoCard({ video, index, sectionInView, activeAudioIndex, setActiveAud
 
 export default function Gallery() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
-  const [preloadRef] = useInView({ triggerOnce: true, rootMargin: '2500px 0px' })
   const [activeAudioIndex, setActiveAudioIndex] = useState(null)
 
   return (
-    <section className="section" id="testimonies" ref={(node) => { ref(node); preloadRef(node); }}>
+    <section className="section" id="testimonies" ref={ref}>
       <div className="container">
         <div className="section-header">
           <motion.h2
@@ -181,5 +210,3 @@ export default function Gallery() {
     </section>
   )
 }
-
-

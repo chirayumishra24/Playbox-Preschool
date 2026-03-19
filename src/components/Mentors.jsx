@@ -69,7 +69,14 @@ export default function Mentors() {
             >
               <div className="mentor-bg-blob"></div>
               <div className="mentor-img-wrapper">
-                <img src={mentor.image} alt={mentor.name} />
+                <img 
+                  src={mentor.image} 
+                  alt={mentor.name} 
+                  loading="lazy" 
+                  decoding="async" 
+                  width="300" 
+                  height="400" 
+                />
               </div>
               <h3 className="text-gradient">{mentor.name}</h3>
               <p>{mentor.role}</p>

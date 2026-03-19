@@ -87,6 +87,9 @@ export default function Features() {
                     <motion.img
                       src={feature.icon}
                       alt={feature.title}
+                      width="64"
+                      height="64"
+                      loading="lazy"
                       initial={{ scale: 1.15 }}
                       whileHover={{ scale: 1.35, rotate: [0, -10, 10, 0] }}
                       transition={{ duration: 0.5 }}

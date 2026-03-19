@@ -148,7 +148,7 @@ export default function Footer() {
 
                 <div className="footer-bottom">
                     <p>
-                        © {new Date().getFullYear()} Playbox Preschool by Cambridge Court Group of Schools. All rights reserved.
+                        © {new Date().getFullYear()} Playbox Preschool. All rights reserved.
                     </p>
                     <p className="footer-made-with">
                         Made with <FiHeart size={14} color="var(--color-primary)" /> for little learners

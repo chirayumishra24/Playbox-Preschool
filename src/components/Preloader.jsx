@@ -24,9 +24,9 @@ export default function Preloader({ onComplete }) {
         }
 
         if (document.readyState === 'complete') {
-            setTimeout(handleReady, 1000)
+            handleReady()
         } else {
-            window.addEventListener('load', () => setTimeout(handleReady, 1000))
+            window.addEventListener('load', handleReady, { once: true })
         }
 
         return () => {
@@ -40,7 +40,7 @@ export default function Preloader({ onComplete }) {
             const timer = setTimeout(() => {
                 setLoading(false)
                 onComplete && onComplete()
-            }, 800)
+            }, 400)
             return () => clearTimeout(timer)
         }
     }, [progress, onComplete])

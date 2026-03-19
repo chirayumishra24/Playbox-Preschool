@@ -43,6 +43,12 @@ function ParallaxBackground() {
   )
 }
 
+const ComponentPlaceholder = ({ height = '100vh' }) => (
+  <div style={{ minHeight: height, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.1)' }}>
+    <div className="loader-dots">Loading...</div>
+  </div>
+)
+
 function App() {
   const [preloaderDone, setPreloaderDone] = useState(false)
 
@@ -59,17 +65,47 @@ function App() {
         <Hero />
         <Marquee />
         
-        <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>}>
+        <Suspense fallback={<ComponentPlaceholder height="600px" />}>
           <Features />
+        </Suspense>
+        
+        <Suspense fallback={<ComponentPlaceholder height="800px" />}>
           <Programs />
+        </Suspense>
+        
+        <Suspense fallback={<ComponentPlaceholder height="600px" />}>
           <Testimonies />
+        </Suspense>
+        
+        <Suspense fallback={<ComponentPlaceholder height="500px" />}>
           <ImageGallery />
+        </Suspense>
+        
+        <Suspense fallback={<ComponentPlaceholder height="800px" />}>
           <Difference />
+        </Suspense>
+        
+        <Suspense fallback={<ComponentPlaceholder height="600px" />}>
           <Mentors />
+        </Suspense>
+        
+        <Suspense fallback={<ComponentPlaceholder height="600px" />}>
           <MediaCoverage />
+        </Suspense>
+        
+        <Suspense fallback={<ComponentPlaceholder height="600px" />}>
           <Testimonials />
+        </Suspense>
+        
+        <Suspense fallback={<ComponentPlaceholder height="800px" />}>
           <Locations />
+        </Suspense>
+        
+        <Suspense fallback={<ComponentPlaceholder height="500px" />}>
           <CTA />
+        </Suspense>
+        
+        <Suspense fallback={<div style={{ minHeight: '300px' }} />}>
           <Footer />
         </Suspense>
       </div>

@@ -22,21 +22,13 @@ export default function Hero() {
   const [activeSlide, setActiveSlide] = useState(0)
   const [isBlobHovered, setIsBlobHovered] = useState(false)
 
-  // Preload all images on mount so transitions are instant
-  useEffect(() => {
-    heroSlides.forEach((slide) => {
-      const img = new Image()
-      img.src = slide.src
-    })
-  }, [])
-
+  // No longer preloading all images eagerly on mount to save bandwidth.
+  // The first image is preloaded in index.html for LCP.
   useEffect(() => {
     if (isBlobHovered) return
-
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % heroSlides.length)
-    }, 3000)
-
+    }, 4000) // Increased slightly for better UX
     return () => clearInterval(interval)
   }, [isBlobHovered])
 
@@ -127,10 +119,16 @@ export default function Hero() {
                 src={slide.src}
                 alt={slide.alt}
                 className="hero-main-img hero-carousel-img"
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchpriority={index === 0 ? "high" : "low"}
+                decoding="async"
+                width="800"
+                height="600"
                 style={{
                   opacity: index === activeSlide ? 1 : 0,
                   transition: 'opacity 0.8s ease-in-out',
                   zIndex: index === activeSlide ? 2 : 1,
+                  objectFit: 'cover'
                 }}
               />
             ))}

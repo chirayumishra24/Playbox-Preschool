@@ -155,16 +155,22 @@ export default function Locations() {
 
                                 {/* Map */}
                                 <div className="loc-map-container clay-card">
-                                    <iframe
-                                        src={activeLoc.mapSrc}
-                                        width="100%"
-                                        height="100%"
-                                        style={{ border: 0 }}
-                                        allowFullScreen=""
-                                        loading="lazy"
-                                        referrerPolicy="no-referrer-when-downgrade"
-                                        title={`Map of ${activeLoc.name}`}
-                                    ></iframe>
+                                    {inView ? (
+                                        <iframe
+                                            src={activeLoc.mapSrc}
+                                            width="100%"
+                                            height="100%"
+                                            style={{ border: 0 }}
+                                            allowFullScreen=""
+                                            loading="lazy"
+                                            referrerPolicy="no-referrer-when-downgrade"
+                                            title={`Map of ${activeLoc.name}`}
+                                        ></iframe>
+                                    ) : (
+                                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8fafc' }}>
+                                            <span style={{ color: 'var(--text-muted)' }}>Loading Map...</span>
+                                        </div>
+                                    )}
                                     <a
                                         href={activeMapLink}
                                         target="_blank"

@@ -3,23 +3,17 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import ImageWithSkeleton from './ImageWithSkeleton'
 
-/* ── Load gallery images, preferring optimized assets when available ── */
-const optimizedImageModules = import.meta.glob('../../img/gm-optimized/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}', {
-  eager: true,
-  import: 'default',
-})
+/* ── Load gallery images lazily ── */
+const optimizedImageModules = import.meta.glob('../../img/gm-optimized/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}')
 
-const mediaImageModules = import.meta.glob('../../img/media/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}', {
-  eager: true,
-  import: 'default',
-})
+const mediaImageModules = import.meta.glob('../../img/media/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}')
 
 const imageModules = Object.keys(optimizedImageModules).length ? optimizedImageModules : mediaImageModules
 
-const galleryImages = Object.entries(imageModules)
+const galleryLoaders = Object.entries(imageModules)
   .sort(([a], [b]) => a.localeCompare(b))
-  .map(([path, src]) => ({
-    src,
+  .map(([path, loader]) => ({
+    loader,
     alt: decodeURIComponent(path
       .split('/')
       .pop()
@@ -47,33 +41,53 @@ export default function ImageGallery() {
   const [sectionRef, inView] = useInView({ triggerOnce: true, rootMargin: '320px 0px', threshold: 0.05 })
   const [preloadRef, preloadInView] = useInView({ triggerOnce: true, rootMargin: '2500px 0px' })
   const [shouldRenderStage, setShouldRenderStage] = useState(false)
-  const columns = useMemo(() => distributeImages(galleryImages), [])
+  
+  // State for loaded images
+  const [galleryImages, setGalleryImages] = useState([]);
+  
+  const columns = useMemo(() => distributeImages(galleryImages), [galleryImages])
   const placeholderColumns = useMemo(
-    () => columns.map((colImages) => Math.min(Math.max(colImages.length, 1), PLACEHOLDER_ROWS)),
-    [columns],
+    () => {
+        // use dummy array if not loaded yet
+        return distributeImages(galleryLoaders).map((colItems) => Math.min(Math.max(colItems.length, 1), PLACEHOLDER_ROWS))
+    },
+    [],
   )
 
   // Preload images silently in the background when the user gets within 2500px of the section
   useEffect(() => {
-    if (!preloadInView) return
+    if (!preloadInView || galleryImages.length > 0) return
 
-    galleryImages.forEach((image) => {
-      const img = new Image()
-      img.src = image.src
-    })
-  }, [preloadInView])
+    let isMounted = true;
+    
+    // Load all images
+    Promise.all(galleryLoaders.map(async item => {
+        const mod = await item.loader();
+        return { src: mod.default || mod, alt: item.alt };
+    })).then(loadedImages => {
+        if (isMounted) {
+            setGalleryImages(loadedImages);
+            loadedImages.forEach((image) => {
+              const img = new Image()
+              img.src = image.src
+            })
+        }
+    }).catch(err => console.error("Failed to load gallery images", err));
+
+    return () => { isMounted = false };
+  }, [preloadInView, galleryImages.length])
 
   // Render the gallery when it comes into the actual viewport. Because we preloaded them above,
   // the browser will fetch them instantly from disk/memory cache.
   useEffect(() => {
-    if (!inView || shouldRenderStage) return
+    if (!inView || shouldRenderStage || galleryImages.length === 0) return
 
     startTransition(() => {
       setShouldRenderStage(true)
     })
-  }, [inView, shouldRenderStage])
+  }, [inView, shouldRenderStage, galleryImages.length])
 
-  if (!galleryImages.length) return null
+  if (!galleryLoaders.length) return null
 
   return (
     <section className="section" id="gallery" ref={(node) => { sectionRef(node); preloadRef(node); }}>

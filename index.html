@@ -7,9 +7,29 @@
     <meta name="description" content="Playbox Preschool - Where learning meets fun! A nurturing and creative preschool by Cambridge Court Group of Schools. Enroll your child today for a joyful early learning experience." />
     <meta name="keywords" content="preschool, play school, kids school, early learning, playbox, cambridge court, kindergarten, nursery" />
     <title>Playbox Preschool | Carefree Motherhood!</title>
+    
+    <!-- Preconnect to Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Preload first hero image for LCP improvement -->
+    <link rel="preload" as="image" href="/img/build/20230809_124004.webp" fetchpriority="high">
+
+    <!-- Non-blocking Google Fonts loading -->
+    <link 
+      rel="preload" 
+      as="style" 
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@400;500;600;700;800&display=swap"
+    >
+    <link 
+      rel="stylesheet" 
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@400;500;600;700;800&display=swap" 
+      media="print" 
+      onload="this.media='all'"
+    >
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@400;500;600;700;800&display=swap">
+    </noscript>
   </head>
   <body>
     <div id="root"></div>
