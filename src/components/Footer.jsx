@@ -75,7 +75,6 @@ export default function Footer() {
                             <img src="/assets/logo.svg" alt="Playbox Preschool" />
                             <div>
                                 <h3>Playbox Preschool</h3>
-                                <p className="footer-brand-sub">by Cambridge Court</p>
                             </div>
                         </div>
                         <p className="footer-desc">
