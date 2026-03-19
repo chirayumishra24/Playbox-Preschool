@@ -138,6 +138,7 @@ export default function ImageGallery() {
                           draggable={false}
                           loading="lazy"
                           decoding="async"
+                          aspectRatio="1/1"
                         />
                       </div>
                     ))}

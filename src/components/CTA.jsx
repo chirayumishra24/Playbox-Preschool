@@ -122,16 +122,13 @@ export default function CTA() {
                         <div className="cta-blob-accent" aria-hidden="true"></div>
 
                         <div className="cta-blob-mask">
-                            {currentImageSrc ? (
-                                <img
-                                    src={currentImageSrc}
-                                    alt="Happy child at Playbox Preschool"
-                                    loading="lazy"
-                                    key={imgIdx}
-                                />
-                            ) : (
-                                <div style={{ width: '100%', height: '100%', background: '#f3f4f6', minHeight: '300px' }} />
-                            )}
+                            <ImageWithSkeleton
+                                key={imgIdx}
+                                src={currentImageSrc}
+                                alt="Happy child at Playbox Preschool"
+                                loading="lazy"
+                                aspectRatio="1.06/1" // Estimated from 320/300
+                            />
                         </div>
                     </motion.div>
                 </motion.div>

@@ -6,6 +6,7 @@ export default function ImageWithSkeleton({
   className = '',
   wrapperClassName = '',
   skeletonClassName = '',
+  aspectRatio = '4/3', // Default to common photo ratio
   onLoad,
   onError,
   ...props
@@ -32,7 +33,10 @@ export default function ImageWithSkeleton({
   }
 
   return (
-    <div className={`image-skeleton-wrap ${wrapperClassName} ${isLoaded ? 'is-loaded' : ''}`.trim()}>
+    <div 
+      className={`image-skeleton-wrap ${wrapperClassName} ${isLoaded ? 'is-loaded' : ''}`.trim()}
+      style={{ aspectRatio }}
+    >
       <div className={`image-skeleton ${skeletonClassName}`.trim()} aria-hidden="true" />
       <img
         ref={imageRef}

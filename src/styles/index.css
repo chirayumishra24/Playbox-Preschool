@@ -42,21 +42,37 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ================== CURSOR (Only for Mouse Users) ================== */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  [role="button"] {
+    cursor: none !important;
+  }
+}
+
+@media (hover: none) or (pointer: coarse) {
+  body, a, button, input, textarea {
+    cursor: auto !important;
+  }
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--bg-body);
   color: var(--text-dark);
   position: relative;
   -webkit-font-smoothing: antialiased;
-  cursor: none;
 }
 
-a,
-button,
-input,
-textarea {
-  cursor: none !important;
-}
+/* Removed cursor: none; from here */
+/* Removed cursor: none !important; from here */
 
 /* ================== CUSTOM CURSOR ================== */
 .custom-cursor {
@@ -126,8 +142,18 @@ a {
   border: 4px solid rgba(255, 255, 255, 0.4);
 }
 
-.clay-card:hover {
-  transform: translateY(-5px) scale(1.02);
+@media (hover: hover) {
+  .clay-card:hover {
+    transform: translateY(-5px) scale(1.02);
+  }
+}
+
+/* Touch-friendly hover/active state */
+@media (hover: none) {
+  .clay-card:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
 }
 
 .clay-btn {
@@ -1334,6 +1360,8 @@ a {
   pointer-events: none;
   opacity: 1;
   transition: opacity 0.28s ease;
+  /* Ensure skeleton doesn't collapse */
+  min-height: 100px; 
 }
 
 .image-skeleton-wrap.is-loaded .image-skeleton {
@@ -1349,7 +1377,8 @@ a {
 }
 
 .media-grid-media {
-  min-height: 180px;
+  min-height: clamp(140px, 25vw, 200px);
+  aspect-ratio: 4/3;
 }
 
 .media-grid-media img {

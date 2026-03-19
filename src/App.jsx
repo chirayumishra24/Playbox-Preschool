@@ -25,6 +25,11 @@ function ParallaxBackground() {
   const y2 = useTransform(scrollY, [0, 3000], [0, 400]);
   const y3 = useTransform(scrollY, [0, 5000], [0, -600]);
 
+  // Disable heavy parallax blobs on mobile for better scroll performance
+  if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    return null;
+  }
+
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: -1, pointerEvents: 'none', overflow: 'hidden' }}>
       <motion.div

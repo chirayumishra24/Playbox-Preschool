@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
 import ImageWithSkeleton from './ImageWithSkeleton'
 
 /* ── Load brand logos lazily ── */
@@ -49,126 +50,107 @@ const getMediaCuttings = async () => {
 }
 
 export default function MediaCoverage() {
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
   const [logos, setLogos] = useState([])
   const [cuttings, setCuttings] = useState([])
-  const [lightbox, setLightbox] = useState(null)
+  const [selectedImg, setSelectedImg] = useState(null)
 
   useEffect(() => {
-    getBrandLogos().then(setLogos)
-    getMediaCuttings().then(setCuttings)
-  }, [])
+    if (inView) {
+      getBrandLogos().then(setLogos)
+      getMediaCuttings().then(setCuttings)
+    }
+  }, [inView])
 
-  const openLightbox = useCallback((img) => {
-    setLightbox(img)
-    document.body.style.overflow = 'hidden'
-  }, [])
-
-  const closeLightbox = useCallback(() => {
-    setLightbox(null)
-    document.body.style.overflow = ''
-  }, [])
+  const openLightbox = useCallback((img) => setSelectedImg(img), [])
+  const closeLightbox = useCallback(() => setSelectedImg(null), [])
 
   return (
-    <section className="section media-coverage-section" id="media-coverage">
-      <div className="container">
+    <section className="section" id="media" ref={ref}>
+      <div className="container" style={{ position: 'relative', zIndex: 10 }}>
         <div className="section-header">
           <motion.h2
             className="section-title text-gradient"
             initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ type: 'spring', bounce: 0.5 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
           >
             Media Coverage
           </motion.h2>
           <motion.p
             className="section-subtitle"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ delay: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.1 }}
           >
-            Proudly featured in leading national publications and media outlets.
+            Spreading the joy and excellence of Playbox Preschool across the nation.
           </motion.p>
         </div>
-      </div>
 
-      {/* ── Brand Logos Auto-Scrolling Carousel ── */}
-      {logos.length > 0 && (
-        <div className="media-logos-marquee">
-          <div className="media-logos-track">
-            {Array(6).fill(logos).flat().map((logo, i) => (
-              <div className="media-logo-item" key={`${logo.alt}-${i}`}>
-                <img src={logo.src} alt={logo.alt} decoding="async" draggable={false} />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* ── Newspaper Cuttings Grid ── */}
-      <div className="container">
-        <motion.div
-          className="media-grid"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.6, staggerChildren: 0.08 }}
-        >
-          {cuttings.map((img, idx) => (
+        {/* Brand Logos */}
+        <div className="media-logos-container">
+          {logos.map((logo, index) => (
             <motion.div
-              className="media-grid-item"
-              key={img.src}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ delay: idx * 0.06, duration: 0.5 }}
-              onClick={() => openLightbox(img)}
-              whileHover={{ scale: 1.03, zIndex: 5 }}
+              key={index}
+              className="media-logo-item"
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.2 + index * 0.05 }}
             >
-              <ImageWithSkeleton
-                src={img.src}
-                alt={img.alt}
-                wrapperClassName="media-grid-media"
-                loading="lazy"
-                decoding="async"
-                draggable={false}
-              />
-              <div className="media-grid-overlay">
-                <span>🔍 View</span>
+              <img src={logo.src} alt={logo.alt} loading="lazy" />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* News Grid */}
+        <div className="media-grid">
+          {cuttings.map((cut, index) => (
+            <motion.div
+              key={index}
+              className="clay-card media-card"
+              initial={{ opacity: 0, y: 30 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.3 + index * 0.1 }}
+              onClick={() => openLightbox(cut)}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className="media-grid-media">
+                <ImageWithSkeleton
+                  src={cut.src}
+                  alt={cut.alt}
+                  aspectRatio="4/3"
+                  className="media-img"
+                  loading="lazy"
+                />
+              </div>
+              <div className="media-card-info">
+                <h3 className="media-title">{cut.alt}</h3>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
-      {/* ── Lightbox ── */}
+      {/* Lightbox */}
       <AnimatePresence>
-        {lightbox && (
+        {selectedImg && (
           <motion.div
             className="media-lightbox"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
             onClick={closeLightbox}
           >
             <motion.div
               className="media-lightbox-content"
-              initial={{ scale: 0.85, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.85, opacity: 0 }}
-              transition={{ type: 'spring', bounce: 0.3 }}
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <button
-                className="media-lightbox-close"
-                onClick={closeLightbox}
-                aria-label="Close lightbox"
-              >
-                ✕
+              <img src={selectedImg.src} alt={selectedImg.alt} />
+              <button className="media-lightbox-close" onClick={closeLightbox}>
+                &times;
               </button>
-              <img src={lightbox.src} alt={lightbox.alt} />
             </motion.div>
           </motion.div>
         )}
