@@ -1,156 +1,157 @@
 import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import SmartSkeleton from './SmartSkeleton'
 
-/* ── Load brand logos lazily ── */
-const logoModules = import.meta.glob('../../img/media/logos/*.webp')
+/* ── Load brand logos from img/media/logos ── */
+const logoModules = import.meta.glob('../../img/media/logos/*.webp', {
+  eager: true,
+  import: 'default',
+})
 
-/* ── Load newspaper cuttings lazily ── */
-const mediaModules = import.meta.glob('../../img/media/*.webp')
+const brandLogos = Object.entries(logoModules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([path, src]) => ({
+    src,
+    alt: path
+      .split('/')
+      .pop()
+      .replace(/\.[^.]+$/, '')
+      .replace(/[-_]/g, ' ')
+      .trim(),
+  }))
 
-const getBrandLogos = async () => {
-  const entries = await Promise.all(
-    Object.entries(logoModules).map(async ([path, loader]) => {
-      const mod = await loader()
-      return [path, mod.default]
-    })
-  )
-  return entries
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([path, src]) => ({
-      src,
-      alt: path
-        .split('/')
-        .pop()
-        .replace(/\.[^.]+$/, '')
-        .replace(/[-_]/g, ' ')
-        .trim(),
-    }))
-}
+/* ── Load newspaper cuttings from img/media ── */
+const mediaModules = import.meta.glob('../../img/media/*.webp', {
+  eager: true,
+  import: 'default',
+})
 
-const getMediaCuttings = async () => {
-  const entries = await Promise.all(
-    Object.entries(mediaModules).map(async ([path, loader]) => {
-      const mod = await loader()
-      return [path, mod.default]
-    })
-  )
-  return entries
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([path, src]) => ({
-      src,
-      alt: path
-        .split('/')
-        .pop()
-        .replace(/\.[^.]+$/, '')
-        .replace(/[_-]/g, ' ')
-        .trim(),
-    }))
-}
+const mediaCuttings = Object.entries(mediaModules)
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([path, src]) => ({
+    src,
+    alt: path
+      .split('/')
+      .pop()
+      .replace(/\.[^.]+$/, '')
+      .replace(/[_-]/g, ' ')
+      .trim(),
+  }))
 
 export default function MediaCoverage() {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
-  const [logos, setLogos] = useState([])
-  const [cuttings, setCuttings] = useState([])
-  const [selectedImg, setSelectedImg] = useState(null)
+  const [lightbox, setLightbox] = useState(null)
 
-  useEffect(() => {
-    if (inView) {
-      getBrandLogos().then(setLogos)
-      getMediaCuttings().then(setCuttings)
-    }
-  }, [inView])
+  const openLightbox = useCallback((img) => {
+    setLightbox(img)
+    document.body.style.overflow = 'hidden'
+  }, [])
 
-  const openLightbox = useCallback((img) => setSelectedImg(img), [])
-  const closeLightbox = useCallback(() => setSelectedImg(null), [])
+  const closeLightbox = useCallback(() => {
+    setLightbox(null)
+    document.body.style.overflow = ''
+  }, [])
+
 
   return (
-    <section className="section" id="media" ref={ref}>
-      <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+    <section className="section media-coverage-section" id="media-coverage">
+      <div className="container">
         <div className="section-header">
           <motion.h2
             className="section-title text-gradient"
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ type: 'spring', bounce: 0.5 }}
           >
             Media Coverage
           </motion.h2>
           <motion.p
             className="section-subtitle"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.1 }}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ delay: 0.2 }}
           >
-            Spreading the joy and excellence of Playbox Preschool across the nation.
+            Proudly featured in leading national publications and media outlets.
           </motion.p>
-        </div>
-
-        {/* Brand Logos */}
-        <div className="media-logos-container">
-          {logos.map((logo, index) => (
-            <motion.div
-              key={index}
-              className="media-logo-item"
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 + index * 0.05 }}
-            >
-              <img src={logo.src} alt={logo.alt} loading="lazy" />
-            </motion.div>
-          ))}
-        </div>
-
-        {/* News Grid */}
-        <div className="media-grid">
-          {cuttings.map((cut, index) => (
-            <motion.div
-              key={index}
-              className="clay-card media-card"
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 + index * 0.1 }}
-              onClick={() => openLightbox(cut)}
-              style={{ cursor: 'pointer' }}
-            >
-              <div className="media-grid-media">
-                <SmartSkeleton
-                  src={cut.src}
-                  alt={cut.alt}
-                  aspectRatio="4/3"
-                  className="media-img"
-                  loading="lazy"
-                />
-              </div>
-              <div className="media-card-info">
-                <h3 className="media-title">{cut.alt}</h3>
-              </div>
-            </motion.div>
-          ))}
         </div>
       </div>
 
-      {/* Lightbox */}
+      {/* ── Brand Logos Auto-Scrolling Carousel ── */}
+      {brandLogos.length > 0 && (
+        <div className="media-logos-marquee">
+          <div className="media-logos-track">
+            {Array(6).fill(brandLogos).flat().map((logo, i) => (
+              <div className="media-logo-item" key={`${logo.alt}-${i}`}>
+                <img src={logo.src} alt={logo.alt} decoding="async" draggable={false} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Newspaper Cuttings Grid ── */}
+      <div className="container">
+        <motion.div
+          className="media-grid"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, staggerChildren: 0.08 }}
+        >
+          {mediaCuttings.map((img, idx) => (
+            <motion.div
+              className="media-grid-item"
+              key={img.src}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ delay: idx * 0.06, duration: 0.5 }}
+              onClick={() => openLightbox(img)}
+              whileHover={{ scale: 1.03, zIndex: 5 }}
+            >
+              <img
+                src={img.src}
+                alt={img.alt}
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+              />
+              <div className="media-grid-overlay">
+                <span>🔍 View</span>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* ── Lightbox ── */}
       <AnimatePresence>
-        {selectedImg && (
+        {lightbox && (
           <motion.div
             className="media-lightbox"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
             onClick={closeLightbox}
           >
             <motion.div
               className="media-lightbox-content"
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ type: 'spring', bounce: 0.3 }}
               onClick={(e) => e.stopPropagation()}
             >
-              <img src={selectedImg.src} alt={selectedImg.alt} />
-              <button className="media-lightbox-close" onClick={closeLightbox}>
-                &times;
+              <button
+                className="media-lightbox-close"
+                onClick={closeLightbox}
+                aria-label="Close lightbox"
+              >
+                ✕
               </button>
+              <img src={lightbox.src} alt={lightbox.alt} />
             </motion.div>
           </motion.div>
         )}

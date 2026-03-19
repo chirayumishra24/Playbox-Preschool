@@ -2,25 +2,24 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useState, useEffect, useMemo } from 'react'
 import brochurePdf from '../../img/pdf/playboxpreschool.pdf'
-import SmartSkeleton from './SmartSkeleton'
 
-/* ── Load landscape images properly using normal glob (lazy) ── */
-const gmImgs = import.meta.glob('../../img/gm-optimized/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}')
-const buildImgs = import.meta.glob('../../img/build/*.webp')
+/* ── Load landscape images only (gm-optimized + build are landscape shots) ── */
+const gmImgs = import.meta.glob('../../img/gm-optimized/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}', { eager: true, import: 'default' })
+const buildImgs = import.meta.glob('../../img/build/*.webp', { eager: true, import: 'default' })
 
-const allLandscapeImageLoaders = [
+const allLandscapeImages = [
     ...Object.entries(gmImgs)
         .filter(([p]) => !p.includes('222'))
-        .map(([, loader]) => loader),
+        .map(([, src]) => src),
     ...Object.values(buildImgs),
 ]
 
 export default function CTA() {
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 })
 
-    /* Shuffle image loaders and cycle through them */
-    const imageLoaders = useMemo(() => {
-        const arr = [...allLandscapeImageLoaders]
+    /* Shuffle images and cycle through them */
+    const images = useMemo(() => {
+        const arr = [...allLandscapeImages]
         for (let i = arr.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [arr[i], arr[j]] = [arr[j], arr[i]]
@@ -29,31 +28,14 @@ export default function CTA() {
     }, [])
 
     const [imgIdx, setImgIdx] = useState(0)
-    const [currentImageSrc, setCurrentImageSrc] = useState(null)
-
-    // Load the current image
-    useEffect(() => {
-        if (!inView || imageLoaders.length === 0) return
-        
-        let isMounted = true;
-        const loader = imageLoaders[imgIdx];
-        
-        loader().then((mod) => {
-            if (isMounted) {
-                setCurrentImageSrc(mod.default);
-            }
-        }).catch(err => console.error("Failed to load CTA image", err));
-
-        return () => { isMounted = false };
-    }, [imgIdx, inView, imageLoaders])
 
     useEffect(() => {
-        if (!inView || imageLoaders.length <= 1) return
+        if (!inView || images.length <= 1) return
         const timer = setInterval(() => {
-            setImgIdx(prev => (prev + 1) % imageLoaders.length)
+            setImgIdx(prev => (prev + 1) % images.length)
         }, 4000)
         return () => clearInterval(timer)
-    }, [inView, imageLoaders])
+    }, [inView, images])
 
     return (
         <section className="section cta-section-blob" id="cta" ref={ref}>
@@ -123,12 +105,11 @@ export default function CTA() {
                         <div className="cta-blob-accent" aria-hidden="true"></div>
 
                         <div className="cta-blob-mask">
-                            <SmartSkeleton
-                                key={imgIdx}
-                                src={currentImageSrc}
+                            <img
+                                src={images[imgIdx]}
                                 alt="Happy child at Playbox Preschool"
                                 loading="lazy"
-                                aspectRatio="1.06/1" // Estimated from 320/300
+                                key={imgIdx}
                             />
                         </div>
                     </motion.div>
