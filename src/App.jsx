@@ -15,6 +15,7 @@ const Mentors = lazy(() => import('./components/Mentors'))
 const MediaCoverage = lazy(() => import('./components/MediaCoverage'))
 const Testimonials = lazy(() => import('./components/Testimonials'))
 const Locations = lazy(() => import('./components/Locations'))
+const SocialWall = lazy(() => import('./components/SocialWall'))
 const CTA = lazy(() => import('./components/CTA'))
 const Footer = lazy(() => import('./components/Footer'))
 import CustomCursor from './components/CustomCursor'
@@ -104,6 +105,10 @@ function App() {
         
         <Suspense fallback={<ComponentPlaceholder height="800px" />}>
           <Locations />
+        </Suspense>
+        
+        <Suspense fallback={<ComponentPlaceholder height="500px" />}>
+          <SocialWall />
         </Suspense>
         
         <Suspense fallback={<ComponentPlaceholder height="500px" />}>

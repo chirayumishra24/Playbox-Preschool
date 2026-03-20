@@ -82,7 +82,9 @@ export default function Footer() {
                             early learning experience. We believe every child is unique and
                             deserves the best start in life.
                         </p>
-                        <div className="footer-socials">
+                        <div style={{ marginTop: '2rem' }}>
+                            <h4 style={{ marginBottom: '1rem' }}>Connect With Us</h4>
+                            <div className="footer-socials">
                             {socialLinks.map((social) => (
                                 <a
                                     key={social.label}
@@ -94,6 +96,7 @@ export default function Footer() {
                                     <social.icon size={18} />
                                 </a>
                             ))}
+                        </div>
                         </div>
                     </div>
 
