@@ -56,7 +56,7 @@ export default function SocialWall() {
                   allowtransparency="true" 
                   allowFullScreen={true} 
                   frameBorder="0" 
-                  height="720" 
+                  height="500" 
                   scrolling="no" 
                   style={{ background: 'white', maxWidth: '100%', width: 'calc(100% - 2px)', borderRadius: '3px', border: '1px solid rgb(219, 219, 219)', boxShadow: 'none', display: 'block', margin: '0px', minWidth: '326px', padding: '0px' }}
                 ></iframe>
@@ -90,7 +90,7 @@ export default function SocialWall() {
                   allowtransparency="true" 
                   allowFullScreen={true} 
                   frameBorder="0" 
-                  height="720" 
+                  height="500" 
                   scrolling="no" 
                   style={{ background: 'white', maxWidth: '100%', width: 'calc(100% - 2px)', borderRadius: '3px', border: '1px solid rgb(219, 219, 219)', boxShadow: 'none', display: 'block', margin: '0px', minWidth: '326px', padding: '0px' }}
                 ></iframe>
