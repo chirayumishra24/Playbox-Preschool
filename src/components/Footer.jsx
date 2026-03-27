@@ -85,18 +85,18 @@ export default function Footer() {
                         <div style={{ marginTop: '2rem' }}>
                             <h4 style={{ marginBottom: '1rem' }}>Connect With Us</h4>
                             <div className="footer-socials">
-                            {socialLinks.map((social) => (
-                                <a
-                                    key={social.label}
-                                    href={social.href}
-                                    className="social-icon"
-                                    aria-label={social.label}
-                                    style={{ '--social-hover-color': social.color }}
-                                >
-                                    <social.icon size={18} />
-                                </a>
-                            ))}
-                        </div>
+                                {socialLinks.map((social) => (
+                                    <a
+                                        key={social.label}
+                                        href={social.href}
+                                        className="social-icon"
+                                        aria-label={social.label}
+                                        style={{ '--social-hover-color': social.color }}
+                                    >
+                                        <social.icon size={18} />
+                                    </a>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
@@ -141,7 +141,7 @@ export default function Footer() {
                             ].map((branch) => (
                                 <a key={branch.name} href={`tel:+91${branch.phone}`} className="footer-contact-item">
                                     <FiPhone size={14} />
-                                    <span><strong>{branch.name}</strong> — {branch.phone}</span>
+                                    <span><strong>{branch.name}</strong> - {branch.phone}</span>
                                 </a>
                             ))}
                             <a href="mailto:info@playboxpreschool.com" className="footer-contact-item">
