@@ -133,17 +133,20 @@ export default function Footer() {
                     <div className="footer-column">
                         <h4>Contact Us</h4>
                         <div className="footer-links-list">
-                            <a href="tel:+919876543210" className="footer-contact-item">
-                                <FiPhone size={16} />
-                                <span>+91 9216946252</span>
-                            </a>
+                            {[
+                                { name: 'Sanghi', phone: '9610110616' },
+                                { name: 'Mansarovar', phone: '9216856252' },
+                                { name: 'Shyamnagar', phone: '9216810616' },
+                                { name: 'Dwarka Das', phone: '9773309358' },
+                            ].map((branch) => (
+                                <a key={branch.name} href={`tel:+91${branch.phone}`} className="footer-contact-item">
+                                    <FiPhone size={14} />
+                                    <span><strong>{branch.name}</strong> — {branch.phone}</span>
+                                </a>
+                            ))}
                             <a href="mailto:info@playboxpreschool.com" className="footer-contact-item">
-                                <FiMail size={16} />
+                                <FiMail size={14} />
                                 <span>info@playboxpreschool.com</span>
-                            </a>
-                            <a href="#locations" className="footer-contact-item" onClick={(e) => smoothScroll(e, '#locations')}>
-                                <FiMapPin size={16} />
-                                <span>Multiple locations in Jaipur</span>
                             </a>
                         </div>
                     </div>
