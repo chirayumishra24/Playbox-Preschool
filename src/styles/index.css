@@ -2319,7 +2319,7 @@ a {
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 3rem;
+  gap: 0.99rem;
   margin-bottom: 3rem;
 }
 
@@ -3783,6 +3783,7 @@ a {
     transform: none;
   }
 }
+
 /* ================== INSTAGRAM FEED ================== */
 .ig-header-card {
   display: flex;
@@ -3842,7 +3843,7 @@ a {
 .ig-follow-btn {
   background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%) !important;
   color: white !important;
-  border-color: rgba(255,255,255,0.4) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
   box-shadow: 4px 4px 8px rgba(204, 35, 102, 0.3), inset 2px 2px 5px rgba(255, 255, 255, 0.6) !important;
 }
 
@@ -3903,7 +3904,7 @@ a {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .ig-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
@@ -4014,7 +4015,7 @@ a {
   background: white;
   border-radius: var(--radius-sm);
   overflow: hidden;
-  box-shadow: inset 0px 4px 10px rgba(0,0,0,0.05);
+  box-shadow: inset 0px 4px 10px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: center;
   padding: 10px;
@@ -4031,7 +4032,8 @@ a {
 }
 
 /* Decorative background blobs */
-.social-bg-blob-1, .social-bg-blob-2 {
+.social-bg-blob-1,
+.social-bg-blob-2 {
   position: absolute;
   filter: blur(40px);
   border-radius: 50%;
@@ -4062,6 +4064,7 @@ a {
     flex-direction: column;
     align-items: center;
   }
+
   .social-card-wrapper {
     width: 100%;
     max-width: 100%;
