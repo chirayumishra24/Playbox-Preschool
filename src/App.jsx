@@ -19,6 +19,7 @@ const SocialWall = lazy(() => import('./components/SocialWall'))
 const CTA = lazy(() => import('./components/CTA'))
 const Footer = lazy(() => import('./components/Footer'))
 import CustomCursor from './components/CustomCursor'
+import GhostElements from './components/GhostElements'
 
 function ParallaxBackground() {
   const { scrollY } = useScroll();
@@ -64,8 +65,9 @@ function App() {
       <Preloader onComplete={() => setPreloaderDone(true)} />
 
       {/* All content renders from the start so CSS media queries compute instantly */}
-      <div style={{ visibility: preloaderDone ? 'visible' : 'hidden' }}>
+      <div style={{ visibility: preloaderDone ? 'visible' : 'hidden', position: 'relative' }}>
         <CustomCursor />
+        <GhostElements />
         <ParallaxBackground />
         <Navbar />
         <Hero />
