@@ -2994,92 +2994,25 @@ a {
 
 .ghost-element {
   position: absolute;
-  opacity: 0.3;
+  opacity: 0;       /* GSAP fades in on scroll */
   pointer-events: none;
   user-select: none;
   filter: saturate(0.7);
-  transition: opacity 0.6s ease, filter 0.6s ease;
-  will-change: transform;
+  will-change: transform, opacity;
   z-index: 1;
 }
 
-/* ── Worm elements (horizontal dividers) ── */
 .ghost-worm {
   transform: translateX(-50%);
-  opacity: 0.3;
 }
 
-/* ── Float Animations ── */
-.ghost-element.float-slow {
-  animation: ghost-float-slow 8s ease-in-out infinite;
-}
-
-.ghost-element.float-medium {
-  animation: ghost-float-medium 6s ease-in-out infinite;
-}
-
-.ghost-element.float-fast {
-  animation: ghost-float-fast 4.5s ease-in-out infinite;
-}
-
-.ghost-element.float-worm {
-  animation: ghost-float-worm 10s ease-in-out infinite;
-}
-
-@keyframes ghost-float-slow {
-
-  0%,
-  100% {
-    transform: translateY(0) rotate(var(--ghost-rotate, 0deg));
-  }
-
-  50% {
-    transform: translateY(-18px) rotate(var(--ghost-rotate, 0deg));
-  }
-}
-
-@keyframes ghost-float-medium {
-
-  0%,
-  100% {
-    transform: translateY(0) rotate(var(--ghost-rotate, 0deg));
-  }
-
-  50% {
-    transform: translateY(-14px) rotate(var(--ghost-rotate, 0deg));
-  }
-}
-
-@keyframes ghost-float-fast {
-
-  0%,
-  100% {
-    transform: translateY(0) rotate(var(--ghost-rotate, 0deg));
-  }
-
-  50% {
-    transform: translateY(-10px) rotate(var(--ghost-rotate, 0deg));
-  }
-}
-
-@keyframes ghost-float-worm {
-
-  0%,
-  100% {
-    transform: translateX(-50%) translateY(0);
-  }
-
-  50% {
-    transform: translateX(-50%) translateY(-8px);
-  }
-}
-
-/* ── Hide ghost elements on mobile for performance ── */
+/* Hide on mobile for performance */
 @media (max-width: 768px) {
   .ghost-elements-container {
     display: none;
   }
 }
+
 
 /* ================== ANIMATIONS ================== */
 @keyframes float {
