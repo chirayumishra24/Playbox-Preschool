@@ -4104,3 +4104,183 @@ a {
     max-width: 100%;
   }
 }
+
+/* --- CTA Child Mascot Element --- */
+.cta-mascot-child {
+  position: absolute;
+  top: -65px;
+  left: -40px;
+  width: 120px;
+  z-index: 10;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: bottom center;
+  filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.15));
+}
+
+.cta-blob-card {
+  position: relative; /* ensure absolute positioning context */
+}
+
+/* The card needs to overflow if we want the child to pop out */
+.cta-blob-card {
+  overflow: visible !important;
+}
+
+.cta-blob-card:hover .cta-mascot-child {
+  transform: rotate(18deg) scale(1.1) translateY(-10px);
+}
+
+@media (max-width: 768px) {
+  .cta-mascot-child {
+    top: -45px;
+    left: -20px;
+    width: 90px;
+  }
+}
+
+/* --- Social Wall Scrapbook --- */
+.social-wall-section {
+  position: relative;
+  padding: 6rem 0;
+  overflow: hidden;
+}
+
+.scrapbook-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-top: 4rem;
+  padding: 4rem;
+  background-color: rgba(255, 255, 255, 0.4);
+  background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+  background-size: 30px 30px;
+  border: 3px dashed #e2e8f0;
+  border-radius: 30px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+}
+
+@media (max-width: 768px) {
+  .scrapbook-container {
+    grid-template-columns: 1fr;
+    padding: 2rem;
+  }
+}
+
+.scrapbook-polaroid {
+  background: #fdfdfd;
+  padding: 1rem 1rem 3rem 1rem;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1), inset 0 0 10px rgba(0,0,0,0.02);
+  width: 100%;
+  position: relative;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* --- Features Mascot Elements --- */
+.feature-mascot-left,
+.feature-mascot-right {
+  position: absolute;
+  width: 70px;
+  z-index: 10;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.15));
+}
+
+.feature-mascot-left {
+  top: -30px;
+  left: -20px;
+  transform-origin: bottom left;
+}
+
+.feature-mascot-right {
+  top: -30px;
+  right: -20px;
+  transform-origin: bottom right;
+}
+
+.timeline-content.clay-blob:hover .feature-mascot-left {
+  transform: rotate(-15deg) scale(1.15) translateY(-5px);
+}
+
+.timeline-content.clay-blob:hover .feature-mascot-right {
+  transform: rotate(15deg) scale(1.15) translateY(-5px);
+}
+
+@media (max-width: 768px) {
+  .feature-mascot-left,
+  .feature-mascot-right {
+    width: 55px;
+    top: -25px;
+  }
+  .feature-mascot-left { left: -10px; }
+  .feature-mascot-right { right: -10px; }
+}
+
+.scrapbook-polaroid:hover {
+  transform: translateY(-10px) scale(1.02) !important;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15), inset 0 0 10px rgba(0,0,0,0.02);
+  z-index: 10;
+}
+
+.scrapbook-tape {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  backdrop-filter: blur(2px);
+  z-index: 5;
+}
+
+.scrapbook-image-wrapper {
+  background: #000;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.scrapbook-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.scrapbook-polaroid:hover .scrapbook-img {
+  transform: scale(1.03);
+}
+
+.scrapbook-body {
+  padding: 1.5rem 0.5rem 0 0.5rem;
+}
+
+.scrapbook-body h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+}
+
+.scrapbook-body p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+.scrapbook-footer-marks {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #888;
+  border-top: 1px dashed #ccc;
+  padding-top: 0.8rem;
+}
+
+.scrapbook-emoji {
+  font-size: 1.3rem;
+}

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useState, useEffect, useMemo } from 'react'
 import brochurePdf from '../../img/pdf/playboxpreschool.pdf'
+import childMascot from '../../img/elements/child5.png'
 
 /* ── Load landscape images only (gm-optimized + build are landscape shots) ── */
 const gmImgs = import.meta.glob('../../img/gm-optimized/*.{webp,WEBP,jpg,JPG,jpeg,JPEG,png,PNG}', { eager: true, import: 'default' })
@@ -46,6 +47,13 @@ export default function CTA() {
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ type: 'spring', bounce: 0.3 }}
                 >
+                    {/* Floating mascot child peeking over the top left corner */}
+                    <img 
+                        src={childMascot} 
+                        alt="" 
+                        className="cta-mascot-child" 
+                        aria-hidden="true" 
+                    />
                     {/* Left: Text Content */}
                     <div className="cta-blob-text">
                         <motion.h2

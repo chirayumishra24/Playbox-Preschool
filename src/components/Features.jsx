@@ -1,42 +1,55 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
+import child1 from '../../img/elements/child1.png'
+import cat1 from '../../img/elements/cat1.png'
+import dog1 from '../../img/elements/dog1.png'
+import child2 from '../../img/elements/child2.png'
+import dog2 from '../../img/elements/dog2.png'
+import fruit1 from '../../img/elements/fruit.png'
+
 const features = [
   {
     icon: '/assets/feature_play_learning.webp',
     title: 'Play-Based Learning',
     description: 'Children learn best through play. Our curriculum blends structured activities with free exploration to build foundational skills naturally.',
-    color: 'var(--color-primary)'
+    color: 'var(--color-primary)',
+    mascot: child1
   },
   {
     icon: '/assets/feature_safety.webp',
     title: 'Safe & Secure',
     description: 'CCTV monitored campus, trained staff, hygienic environment, and child-safe infrastructure ensuring complete peace of mind.',
-    color: 'var(--color-secondary)'
+    color: 'var(--color-secondary)',
+    mascot: dog1
   },
   {
     icon: '/assets/feature_holistic.webp',
     title: 'Holistic Development',
     description: 'We focus on cognitive, social, emotional, and physical development through music, art, language, math, and creative play.',
-    color: 'var(--color-tertiary)'
+    color: 'var(--color-tertiary)',
+    mascot: cat1
   },
   {
     icon: '/assets/feature_teachers.webp',
     title: 'Expert Educators',
     description: 'Our passionate teachers are trained in early childhood education with international methodologies to nurture every child.',
-    color: 'var(--color-quaternary)'
+    color: 'var(--color-quaternary)',
+    mascot: child2
   },
   {
     icon: '/assets/feature_transport.webp',
     title: 'Outsourced Transport Facility',
     description: 'Transport is managed by a trusted outsourced provider, with AC buses, GPS tracking, and dedicated attendants for a safe and comfortable commute.',
-    color: 'var(--color-quinary)'
+    color: 'var(--color-quinary)',
+    mascot: dog2
   },
   {
     icon: '/assets/feature_nutrition.webp',
     title: 'Diet Chart Guidance',
     description: 'We share nutritious diet charts and meal guidance with parents to help children build healthy eating habits at home.',
-    color: 'var(--color-primary)'
+    color: 'var(--color-primary)',
+    mascot: fruit1
   },
 ]
 
@@ -77,7 +90,14 @@ export default function Features() {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, type: 'spring', bounce: 0.4 }}
               >
-                <div className="timeline-content clay-blob" style={{ borderColor: feature.color }}>
+                <div className="timeline-content clay-blob" style={{ borderColor: feature.color, position: 'relative', overflow: 'visible' }}>
+                  {feature.mascot && (
+                    <img 
+                      src={feature.mascot} 
+                      alt="mascot" 
+                      className={isEven ? "feature-mascot-left" : "feature-mascot-right"}
+                    />
+                  )}
                   <h3 style={{ color: 'var(--text-dark)', marginBottom: '0.5rem', fontSize: '1.6rem' }}>{feature.title}</h3>
                   <p style={{ color: 'var(--text-muted)' }}>{feature.description}</p>
                 </div>

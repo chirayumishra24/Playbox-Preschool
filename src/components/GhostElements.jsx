@@ -224,7 +224,7 @@ export default function GhostElements() {
           el,
           { opacity: 0, scale: 0.6 },
           {
-            opacity: parseFloat(el.dataset.opacity) || 0.12,
+            opacity: parseFloat(el.dataset.opacity) || 0.20,
             scale: 1,
             duration: 1,
             ease: 'power2.out',
@@ -263,7 +263,7 @@ export default function GhostElements() {
             className={`ghost-element ${ghost.isWorm ? 'ghost-worm' : ''}`}
             data-anim={ghost.anim}
             data-speed={0.5 + (i % 5) * 0.3}
-            data-opacity={ghost.isWorm ? 0.08 : 0.12}
+            data-opacity={ghost.isWorm ? 0.15 : 0.25}
             style={style}
           />
         )
