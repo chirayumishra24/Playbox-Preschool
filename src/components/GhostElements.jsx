@@ -47,7 +47,7 @@ const ghosts = [
   { src: worm1,   top: '19%',  left: '50%',   size: 220, rotate: 0,   anim: 'drift', isWorm: true },
 
   // ── Programs ──
-  { src: dog1,    top: '21%',  right: '1%',   size: 90,  rotate: -10, anim: 'parallax', flip: true },
+  { src: dog1,    top: '21%',  right: '1%',   size: 90,  rotate: -10, anim: 'parallax' },
   { src: rocket,  top: '23%',  left: '2%',    size: 80,  rotate: 20,  anim: 'float' },
   { src: child3,  top: '25%',  right: '3%',   size: 75,  rotate: 5,   anim: 'wobble' },
   { src: tree2,   top: '27%',  left: '1%',    size: 90,  rotate: -3,  anim: 'scale-pulse' },
@@ -58,7 +58,7 @@ const ghosts = [
   { src: child5,  top: '33%',  right: '4%',   size: 70,  rotate: -5,  anim: 'wobble' },
   { src: fruit,   top: '35%',  left: '3%',    size: 55,  rotate: 18,  anim: 'drift' },
   { src: tree1,   top: '37%',  right: '1%',   size: 100, rotate: 3,   anim: 'parallax' },
-  { src: dog2,    top: '39%',  left: '1%',    size: 85,  rotate: -8,  anim: 'float', flip: true },
+  { src: dog2,    top: '39%',  left: '1%',    size: 85,  rotate: -8,  anim: 'float' },
 
   // ── ImageGallery (Gallery Moments) ──
   { src: child1,  top: '41%',  right: '2%',   size: 80,  rotate: -12, anim: 'wobble' },
@@ -75,13 +75,13 @@ const ghosts = [
   { src: tree2,   top: '54%',  left: '1%',    size: 95,  rotate: -5,  anim: 'parallax' },
   { src: child3,  top: '56%',  right: '2%',   size: 80,  rotate: 10,  anim: 'float' },
   { src: cat1,    top: '58%',  left: '3%',    size: 75,  rotate: -12, anim: 'wobble' },
-  { src: dog2,    top: '60%',  right: '1%',   size: 85,  rotate: 6,   anim: 'scale-pulse', flip: true },
+  { src: dog2,    top: '60%',  right: '1%',   size: 85,  rotate: 6,   anim: 'scale-pulse' },
   { src: rocket,  top: '62%',  left: '2%',    size: 80,  rotate: 18,  anim: 'drift' },
   { src: child4,  top: '64%',  right: '3%',   size: 70,  rotate: -8,  anim: 'parallax' },
 
   // ── Mentors ──
   { src: tree1,   top: '66%',  left: '1%',    size: 110, rotate: 3,   anim: 'float' },
-  { src: dog1,    top: '68%',  right: '2%',   size: 85,  rotate: -10, anim: 'wobble', flip: true },
+  { src: dog1,    top: '68%',  right: '2%',   size: 85,  rotate: -10, anim: 'wobble' },
   { src: fruit,   top: '69%',  left: '4%',    size: 55,  rotate: 15,  anim: 'scale-pulse' },
 
   // ── Media Coverage ──
@@ -96,7 +96,7 @@ const ghosts = [
   // ── Testimonials (Google Reviews) ──
   { src: child2,  top: '79%',  left: '1%',    size: 80,  rotate: 10,  anim: 'parallax' },
   { src: tree2,   top: '81%',  right: '2%',   size: 90,  rotate: -5,  anim: 'float' },
-  { src: dog2,    top: '83%',  left: '3%',    size: 80,  rotate: 8,   anim: 'scale-pulse', flip: true },
+  { src: dog2,    top: '83%',  left: '3%',    size: 80,  rotate: 8,   anim: 'scale-pulse' },
   { src: rocket,  top: '84%',  right: '1%',   size: 75,  rotate: 15,  anim: 'wobble' },
 
   // ── Locations ──
@@ -106,11 +106,11 @@ const ghosts = [
   { src: dog1,    top: '91%',  right: '3%',   size: 80,  rotate: 6,   anim: 'wobble' },
 
   // ── Social / CTA / Footer ──
-  { src: bus,     top: '93%',  right: '2%',   size: 95,  rotate: -5,  anim: 'parallax', flip: true },
+  { src: bus,     top: '93%',  right: '2%',   size: 95,  rotate: -5,  anim: 'parallax' },
   { src: child3,  top: '94%',  left: '2%',    size: 75,  rotate: 12,  anim: 'float' },
   { src: fruit,   top: '95%',  right: '4%',   size: 55,  rotate: 20,  anim: 'scale-pulse' },
   { src: rocket,  top: '96%',  left: '1%',    size: 80,  rotate: -15, anim: 'drift' },
-  { src: dog2,    top: '97%',  right: '2%',   size: 80,  rotate: 8,   anim: 'wobble', flip: true },
+  { src: dog2,    top: '97%',  right: '2%',   size: 80,  rotate: 8,   anim: 'wobble' },
   { src: tree2,   top: '98%',  left: '3%',    size: 90,  rotate: -3,  anim: 'parallax' },
 ]
 
@@ -250,7 +250,7 @@ export default function GhostElements() {
           ...(ghost.right ? { right: ghost.right } : {}),
           width: ghost.isWorm ? ghost.size * 1.5 : ghost.size,
           height: 'auto',
-          transform: `rotate(${ghost.rotate}deg)${ghost.flip ? ' scaleX(-1)' : ''}`,
+          transform: `rotate(${ghost.rotate}deg)`,
         }
 
         return (

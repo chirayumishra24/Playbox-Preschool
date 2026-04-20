@@ -95,7 +95,7 @@ export default function Features() {
                     <img 
                       src={feature.mascot} 
                       alt="mascot" 
-                      className={isEven ? "feature-mascot-left" : "feature-mascot-right"}
+                      className={isEven ? "feature-mascot-right" : "feature-mascot-left"}
                     />
                   )}
                   <h3 style={{ color: 'var(--text-dark)', marginBottom: '0.5rem', fontSize: '1.6rem' }}>{feature.title}</h3>

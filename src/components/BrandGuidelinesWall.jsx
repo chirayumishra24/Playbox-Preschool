@@ -13,7 +13,7 @@ export default function BrandGuidelinesWall() {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ type: 'spring', bounce: 0.5 }}
           >
-            Brand Guidelines Showcase
+            The Brand Playbook
           </motion.h2>
           <motion.p
             className="section-subtitle"
@@ -22,7 +22,7 @@ export default function BrandGuidelinesWall() {
             viewport={{ once: true, amount: 0.5 }}
             transition={{ delay: 0.2 }}
           >
-            These are mockups demonstrating how future social media posts visually align with our new web brand guidelines.
+            These are mockups demonstrating how future social media posts visually align with our playful new identity and Brand Playbook.
           </motion.p>
         </div>
 
