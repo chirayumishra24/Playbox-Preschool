@@ -135,6 +135,7 @@ a {
 .section {
   padding: 6rem 0;
   position: relative;
+  z-index: 2; /* Content sits above ghost elements */
 }
 
 /* ================== CLAY UTILITIES ================== */
@@ -145,6 +146,8 @@ a {
   padding: 2rem;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border: 4px solid rgba(255, 255, 255, 0.4);
+  position: relative;
+  z-index: 10; /* Cards always on top of ghost elements */
 }
 
 @media (hover: hover) {
@@ -2609,6 +2612,8 @@ a {
   width: 100%;
   max-width: 410px;
   justify-self: center;
+  position: relative;
+  z-index: 10;
 }
 
 .diff2-card:hover {
@@ -2985,19 +2990,21 @@ a {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
+  min-height: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 1; /* Sit just above the background, but behind content */
   overflow: hidden;
 }
 
 .ghost-element {
   position: absolute;
-  opacity: 0;       /* GSAP fades in on scroll */
+  opacity: 0;
+  /* GSAP fades in on scroll */
   pointer-events: none;
   user-select: none;
-  filter: saturate(0.7);
+  filter: saturate(1.5) drop-shadow(0 4px 8px rgba(0,0,0,0.1));
   will-change: transform, opacity;
   z-index: 1;
 }
@@ -3008,8 +3015,12 @@ a {
 
 /* Hide on mobile for performance */
 @media (max-width: 768px) {
-  .ghost-elements-container {
-    display: none;
+  /* Reduced size for mobile */
+  .ghost-element {
+    width: 45px !important; /* Force smaller size on mobile */
+  }
+  .ghost-worm {
+    width: 120px !important;
   }
 }
 
@@ -3213,7 +3224,8 @@ a {
   }
 
   .section-title {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 6vw, 2.2rem);
+    line-height: 1.2;
   }
 
   .section-subtitle {
@@ -3395,6 +3407,8 @@ a {
     height: 68px;
   }
 
+
+
   .modern-gallery-stage {
     height: 520px;
     max-width: 640px;
@@ -3426,10 +3440,10 @@ a {
     height: 140px;
   }
 
-  /* Difference V2 – Mobile */
+  /* Difference Section – Mobile */
   .diff2-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .diff2-card {
@@ -3447,12 +3461,50 @@ a {
   }
 
   .diff2-label-text {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
+    white-space: normal;
+    line-height: 1.2;
+    max-width: 140px;
+    margin: 0 auto;
+  }
+
+  .diff2-info {
+    padding: 0.5rem;
+    gap: 0.2rem;
+    flex-wrap: wrap; /* Allow wrapping of the before/after labels */
+  }
+
+  .diff2-label-text {
+    font-size: clamp(0.55rem, 2.8vw, 0.75rem);
+    line-height: 1.1;
+    max-width: 100%;
+    white-space: normal;
+    word-break: break-word;
+    display: block;
+  }
+
+  .diff2-emoji {
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
   }
 
   .diff2-badge {
-    font-size: 0.55rem;
-    padding: 0.15rem 0.5rem;
+    font-size: clamp(0.5rem, 2.5vw, 0.65rem);
+    padding: 0.15rem 0.4rem;
+    top: 6px;
+  }
+
+  .diff2-pill {
+    font-size: clamp(0.75rem, 3.5vw, 0.9rem);
+    padding: 0.35rem 1rem;
+  }
+
+  .diff2-highlight {
+    font-size: 1.1em;
+  }
+
+  .diff2-arrow-divider {
+    font-size: 0.7rem;
+    opacity: 0.4;
   }
 
   .diff2-stats-row {
@@ -4114,11 +4166,12 @@ a {
   z-index: 10;
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   transform-origin: bottom center;
-  filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.15));
+  filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.15));
 }
 
 .cta-blob-card {
-  position: relative; /* ensure absolute positioning context */
+  position: relative;
+  /* ensure absolute positioning context */
 }
 
 /* The card needs to overflow if we want the child to pop out */
@@ -4156,7 +4209,7 @@ a {
   background-size: 30px 30px;
   border: 3px dashed #e2e8f0;
   border-radius: 30px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 768px) {
@@ -4170,7 +4223,7 @@ a {
   background: #fdfdfd;
   padding: 1rem 1rem 3rem 1rem;
   border-radius: 4px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1), inset 0 0 10px rgba(0,0,0,0.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.02);
   width: 100%;
   position: relative;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -4183,7 +4236,7 @@ a {
   width: 70px;
   z-index: 10;
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  filter: drop-shadow(0px 8px 12px rgba(0,0,0,0.15));
+  filter: drop-shadow(0px 8px 12px rgba(0, 0, 0, 0.15));
 }
 
 .feature-mascot-left {
@@ -4207,18 +4260,25 @@ a {
 }
 
 @media (max-width: 768px) {
+
   .feature-mascot-left,
   .feature-mascot-right {
     width: 55px;
     top: -25px;
   }
-  .feature-mascot-left { left: -10px; }
-  .feature-mascot-right { right: -10px; }
+
+  .feature-mascot-left {
+    left: -10px;
+  }
+
+  .feature-mascot-right {
+    right: -10px;
+  }
 }
 
 .scrapbook-polaroid:hover {
   transform: translateY(-10px) scale(1.02) !important;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15), inset 0 0 10px rgba(0,0,0,0.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), inset 0 0 10px rgba(0, 0, 0, 0.02);
   z-index: 10;
 }
 
@@ -4230,7 +4290,7 @@ a {
   width: 120px;
   height: 35px;
   background: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(2px);
   z-index: 5;
 }

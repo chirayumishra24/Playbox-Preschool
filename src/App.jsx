@@ -68,8 +68,8 @@ function App() {
       {/* All content renders from the start so CSS media queries compute instantly */}
       <div style={{ visibility: preloaderDone ? 'visible' : 'hidden', position: 'relative' }}>
         <CustomCursor />
-        <GhostElements />
         <ParallaxBackground />
+        <GhostElements />
         <Navbar />
         <Hero />
         <Marquee />
@@ -113,7 +113,7 @@ function App() {
         <Suspense fallback={<ComponentPlaceholder height="500px" />}>
           <SocialWall />
         </Suspense>
-
+ 
         <Suspense fallback={<ComponentPlaceholder height="500px" />}>
           <BrandGuidelinesWall />
         </Suspense>

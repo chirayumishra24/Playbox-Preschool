@@ -117,23 +117,34 @@ const ghosts = [
 export default function GhostElements() {
   const containerRef = useRef(null)
 
-  // Disable on mobile for performance
-  if (typeof window !== 'undefined' && window.innerWidth < 768) {
-    return null
-  }
+
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
+    let mm = gsap.matchMedia()
+
+    mm.add({
+      isMobile: "(max-width: 768px)",
+      isDesktop: "(min-width: 769px)"
+    }, (context) => {
+      let { isMobile } = context.conditions
       const elements = containerRef.current?.querySelectorAll('.ghost-element')
       if (!elements) return
 
-      elements.forEach((el) => {
+      elements.forEach((el, i) => {
         const anim = el.dataset.anim
         const speed = parseFloat(el.dataset.speed) || 1
+        
+        // Mobile specific tweaks
+        if (isMobile) {
+          gsap.set(el, {
+            x: i % 2 === 0 ? '-15%' : '15%', // Shift positions for mobile
+            scale: 0.6
+          })
+        }
 
-        // ── Scroll-linked parallax (all elements get some parallax) ──
+        // ── Scroll-linked parallax ──
         gsap.to(el, {
-          y: () => -120 * speed,
+          y: () => (isMobile ? -60 : -120) * speed,
           ease: 'none',
           scrollTrigger: {
             trigger: el,
@@ -144,10 +155,13 @@ export default function GhostElements() {
         })
 
         // ── Animation-specific GSAP tweens ──
+        // (Reduced movement for mobile)
+        const moveMult = isMobile ? 0.5 : 1
+
         switch (anim) {
           case 'float':
             gsap.to(el, {
-              y: '-=20',
+              y: `-=${20 * moveMult}`,
               duration: 3 + Math.random() * 2,
               ease: 'sine.inOut',
               yoyo: true,
@@ -157,14 +171,14 @@ export default function GhostElements() {
 
           case 'wobble':
             gsap.to(el, {
-              rotation: '+=12',
+              rotation: `+=${12 * moveMult}`,
               duration: 2.5 + Math.random() * 2,
               ease: 'sine.inOut',
               yoyo: true,
               repeat: -1,
             })
             gsap.to(el, {
-              y: '-=14',
+              y: `-=${14 * moveMult}`,
               duration: 3.5 + Math.random(),
               ease: 'sine.inOut',
               yoyo: true,
@@ -174,15 +188,8 @@ export default function GhostElements() {
 
           case 'scale-pulse':
             gsap.to(el, {
-              scale: 1.15,
+              scale: isMobile ? 0.75 : 1.15,
               duration: 2.8 + Math.random() * 1.5,
-              ease: 'sine.inOut',
-              yoyo: true,
-              repeat: -1,
-            })
-            gsap.to(el, {
-              y: '-=10',
-              duration: 4 + Math.random(),
               ease: 'sine.inOut',
               yoyo: true,
               repeat: -1,
@@ -191,15 +198,8 @@ export default function GhostElements() {
 
           case 'drift':
             gsap.to(el, {
-              x: '+=25',
+              x: `+=${25 * moveMult}`,
               duration: 5 + Math.random() * 3,
-              ease: 'sine.inOut',
-              yoyo: true,
-              repeat: -1,
-            })
-            gsap.to(el, {
-              y: '-=12',
-              duration: 3.5 + Math.random() * 2,
               ease: 'sine.inOut',
               yoyo: true,
               repeat: -1,
@@ -208,9 +208,8 @@ export default function GhostElements() {
 
           case 'parallax':
           default:
-            // Pure parallax only — the scroll-linked tween above handles it
             gsap.to(el, {
-              y: '-=16',
+              y: `-=${16 * moveMult}`,
               duration: 4 + Math.random() * 2,
               ease: 'sine.inOut',
               yoyo: true,
@@ -222,10 +221,10 @@ export default function GhostElements() {
         // ── Fade-in on scroll reveal ──
         gsap.fromTo(
           el,
-          { opacity: 0, scale: 0.6 },
+          { opacity: 0, scale: isMobile ? 0.4 : 0.9 },
           {
-            opacity: parseFloat(el.dataset.opacity) || 0.20,
-            scale: 1,
+            opacity: parseFloat(el.dataset.opacity) || 0.60,
+            scale: isMobile ? 0.6 : 1.15,
             duration: 1,
             ease: 'power2.out',
             scrollTrigger: {
@@ -236,9 +235,15 @@ export default function GhostElements() {
           }
         )
       })
-    }, containerRef)
 
-    return () => ctx.revert()
+      // Periodically refresh ScrollTrigger for the first 5 seconds to handle lazy loading
+      const refreshInterval = setInterval(() => {
+        ScrollTrigger.refresh()
+      }, 1000)
+      setTimeout(() => clearInterval(refreshInterval), 5000)
+    })
+
+    return () => mm.revert()
   }, [])
 
   return (
@@ -263,7 +268,7 @@ export default function GhostElements() {
             className={`ghost-element ${ghost.isWorm ? 'ghost-worm' : ''}`}
             data-anim={ghost.anim}
             data-speed={0.5 + (i % 5) * 0.3}
-            data-opacity={ghost.isWorm ? 0.15 : 0.25}
+            data-opacity={ghost.isWorm ? 0.65 : 0.85}
             style={style}
           />
         )
